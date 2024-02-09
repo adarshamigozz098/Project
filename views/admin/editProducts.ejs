@@ -1,375 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/admin/imgs/theme/favicon.svg"
-    />
-    <!-- Template CSS -->
-    <link href="/admin/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
-  </head>
 
-  <body>
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-      <div class="aside-top">
-        <a href="index.html" class="brand-wrap">
-          <img src="/admin/css/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
-        </a>
-        <div>
-          <button class="btn btn-icon btn-aside-minimize">
-            <i class="text-muted material-icons md-menu_open"></i>
-          </button>
+<head>
+  <meta charset="utf-8" />
+  <title>RAZO.Store</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/admin/imgs/theme/favicon.svg" />
+  <!-- Template CSS -->
+  <link href="/admin/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+
+
+<body>
+
+  <style>
+    .btn.btn-secondary {
+      margin-inline: 120px;
+    }
+  </style>
+
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a href="/admin/dash" class="brand-wrap">
+        <img src="" class="logo" alt="RAZO.store" />
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize">
+          <i class="text-muted material-icons md-menu_open"></i>
+        </button>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/users">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Users</span>
+          </a>
+        </li>
+
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/category">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Catgeory</span>
+          </a>
+        </li>
+        <li class="menu-item active">
+          <a class="menu-link" href="/admin/products">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Products</span>
+          </a>
+        </li>
+        <li class="menu-item active">
+          <a class="menu-link" href="/admin/order">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Orders</span>
+          </a>
+        </li>
+      </ul>
+      <hr />
+
+      <br />
+      <br />
+    </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+        <form class="searchform">
+          <div class="input-group">
+            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+            <button class="btn btn-light bg" type="button">
+              <i class="material-icons md-search"></i>
+            </button>
+          </div>
+          <datalist id="search_terms">
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+          </datalist>
+        </form>
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+          <i class="material-icons md-apps"></i>
+        </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon" href="#">
+              <i class="material-icons md-notifications animation-shake"></i>
+              <span class="badge rounded-pill">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#">
+              <i class="material-icons md-nights_stay"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i
+                class="material-icons md-public"></i></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+              <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
+              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
+              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+            </div>
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="/admin/logout">
+                <i class="material-icons md-exit_to_app"></i>Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <section class="content-main">
+      <div class="row">
+        <div class="col-9">
+          <div class="content-header">
+            <h2 class="content-title">Edit Product</h2>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="card">
+            <div class="card-body">
+              <div class="row gx-5">
+                <div class="col-lg-9">
+                  <section class="content-body p-xl-4">
+
+                    <form class="forms-sample" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                      <!-- Product Name -->
+                      <div class="row mb-4">
+                          <label class="col-lg-3 col-form-label">Product name*</label>
+                          <div class="col-lg-9">
+                            <input name="productName" id="productName" type="text" class="form-control" placeholder="Product Name" value="" >
+                              <span id="productNameError" class="text-danger"></span>
+                          </div>
+                      </div>
+                  
+                      <!-- Description -->
+                      <div class="row mb-4">
+                          <label class="col-lg-3 col-form-label">Description*</label>
+                          <div class="col-lg-9">
+                              <input name="description" id="description" type="text" class="form-control" placeholder="Description" value="<%=products.description %>" >
+                              <span id="descriptionError" class="text-danger"></span>
+                          </div>
+                      </div>
+                  
+                      <!-- Quantity -->
+                      <div class="row mb-4">
+                          <label class="col-lg-3 col-form-label">Quantity</label>
+                          <div class="col-lg-9">
+                              <input name="quantity" id="quantity" type="number" class="form-control" placeholder="" value="<%=products.quantity %>" >
+                              <span id="quantityError" class="text-danger"></span>
+                          </div>
+                      </div>
+                  
+                      <!-- Price -->
+                      <div class="row mb-4">
+                          <label class="col-lg-3 col-form-label">Price</label>
+                          <div class="col-lg-4">
+                              <input name="price" id="price" type="text" class="form-control" placeholder="Price" value="<%=products.price %>" >
+                              <span id="priceError" class="text-danger"></span>
+                          </div>
+                      </div>
+                  
+                      <!-- File Upload -->
+                      <div class="row mb-4">
+                          <label class="col-lg-3 col-form-label">File upload</label>
+                          <div class="col-lg-4">
+                              <div class="input-group">
+                                  <input name="image" id="image" type="file" class="form-control" multiple>
+                              </div>
+                              <div id="imageError" class="text-danger"></div> <!-- Error message placeholder -->
+                          </div>
+                      </div>
+                  
+                      <!-- Existing Images -->
+                      <div id="imagePreviewContainer" class="mt-3">
+                          <% if (products && products.image && products.image.length > 0) { %>
+                              <% products.image.forEach((image, index) => { %>
+                                  <div class="image-container d-inline-block position-relative" id="imageContainer<%= index + 1 %>">
+                                      <img src="<%= `/images/${image}` %>" alt="Existing Image" class="img-thumbnail" style="max-width: 100px; max-height: 80px;">
+                                      <button type="button" class="btn btn-danger btn-sm delete-button rounded-circle" onclick="deleteImage(event, '<%= image %>', '<%= products.id %>')">X</button>
+                                  </div>
+                              <% }); %>
+                          <% } %>
+                      </div>
+                  
+                      <!-- Category -->
+                      <div class="row mb-4">
+                          <label class="col-lg-3 col-form-label">Category</label>
+                          <div class="col-lg-4">
+                              <select class="form-control" name="category" id="exampleInputCity1" >
+                                  <% category.forEach(category => { %>
+                                      <option>
+                                          <%= category.name %>
+                                      </option>
+                                  <% }) %>
+                              </select>
+                              <span id="categoryError" class="text-danger"></span>
+                          </div>
+                      </div>
+                  
+                      <!-- Brand -->
+                      <div class="row mb-4">
+                          <label class="col-lg-3 col-form-label">Brand</label>
+                          <div class="col-lg-4">
+                              <input name="brand" id="brand" type="text" class="form-control" placeholder="Brand Name" value="<%=products.brand %>">
+                              <span id="brandError" class="text-danger"></span>
+                          </div>
+                      </div>
+                  
+                      <div class="row mb-4">
+                          <div class="col-lg-3"></div>
+                          <div class="col-lg-4">
+                              <button type="submit" class="btn btn-success">Submit</button>
+                          </div>
+                      </div>
+                  </form>
+
+                    <a href="/admin/products" class="btn btn-secondary">Cancel</a>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <nav>
-        <ul class="menu-aside">
-          <li class="menu-item">
-            <a class="menu-link" href="index.html">
-              <i class="icon material-icons md-home"></i>
-              <span class="text">Dashboard</span>
-            </a>
-          </li>
-          <li class="menu-item has-submenu">
-            <a class="menu-link" href="page-products-list.html">
-              <i class="icon material-icons md-shopping_bag"></i>
-              <span class="text">Products</span>
-            </a>
-            <div class="submenu">
-              <a href="page-products-list.html">Product List</a>
-              <a href="page-products-grid.html">Product grid</a>
-              <a href="page-products-grid-2.html">Product grid 2</a>
-              <a href="page-categories.html">Categories</a>
-            </div>
-          </li>
-          <
-        
-          <li class="menu-item has-submenu active">
-            <a class="menu-link" href="page-form-product-1.html">
-              <i class="icon material-icons md-add_box"></i>
-              <span class="text">Edit Products</span>
-            </a>
-           
-          </li>
-          <li class="menu-item has-submenu">
-            <a class="menu-link" href="page-transactions-1.html">
-              <i class="icon material-icons md-monetization_on"></i>
-              <span class="text">Transactions</span>
-            </a>
-            <div class="submenu">
-              <a href="page-transactions-1.html">Transaction 1</a>
-              <a href="page-transactions-2.html">Transaction 2</a>
-            </div>
-          </li>
-          <li class="menu-item has-submenu">
-            <a class="menu-link" href="#">
-              <i class="icon material-icons md-person"></i>
-              <span class="text">Account</span>
-            </a>
-            <div class="submenu">
-              <a href="page-account-login.html">User login</a>
-              <a href="page-account-register.html">User registration</a>
-              <a href="page-error-404.html">Error 404</a>
-            </div>
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" href="page-reviews.html">
-              <i class="icon material-icons md-comment"></i>
-              <span class="text">Reviews</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" href="page-brands.html">
-              <i class="icon material-icons md-stars"></i>
-              <span class="text">Brands</span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" disabled href="#">
-              <i class="icon material-icons md-pie_chart"></i>
-              <span class="text">Statistics</span>
-            </a>
-          </li>
-        </ul>
-        <hr />
-        <ul class="menu-aside">
-          <li class="menu-item has-submenu">
-            <a class="menu-link" href="#">
-              <i class="icon material-icons md-settings"></i>
-              <span class="text">Settings</span>
-            </a>
-            <div class="submenu">
-              <a href="page-settings-1.html">Setting sample 1</a>
-              <a href="page-settings-2.html">Setting sample 2</a>
-            </div>
-          </li>
-          <li class="menu-item">
-            <a class="menu-link" href="page-blank.html">
-              <i class="icon material-icons md-local_offer"></i>
-              <span class="text"> Starter page </span>
-            </a>
-          </li>
-        </ul>
-        <br />
-        <br />
-      </nav>
-    </aside>
-    <main class="main-wrap">
-      <header class="main-header navbar">
-        <div class="col-search">
-          <form class="searchform">
-            <div class="input-group">
-              <input
-                list="search_terms"
-                type="text"
-                class="form-control"
-                placeholder="Search term"
-              />
-              <button class="btn btn-light bg" type="button">
-                <i class="material-icons md-search"></i>
-              </button>
-            </div>
-            <datalist id="search_terms">
-              <option value="Products"></option>
-              <option value="New orders"></option>
-              <option value="Apple iphone"></option>
-              <option value="Ahmed Hassan"></option>
-            </datalist>
-          </form>
-        </div>
-        <div class="col-nav">
-          <button
-            class="btn btn-icon btn-mobile me-auto"
-            data-trigger="#offcanvas_aside"
-          >
-            <i class="material-icons md-apps"></i>
-          </button>
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link btn-icon" href="#">
-                <i class="material-icons md-notifications animation-shake"></i>
-                <span class="badge rounded-pill">3</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link btn-icon darkmode" href="#">
-                <i class="material-icons md-nights_stay"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="requestfullscreen nav-link btn-icon"
-                ><i class="material-icons md-cast"></i
-              ></a>
-            </li>
-            <li class="dropdown nav-item">
-              <a
-                class="dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                id="dropdownLanguage"
-                aria-expanded="false"
-                ><i class="material-icons md-public"></i
-              ></a>
-              <div
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownLanguage"
-              >
-                <a class="dropdown-item text-brand" href="#"
-                  ><img src="imgs/theme/flag-us.png" alt="English" />English</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><img
-                    src="imgs/theme/flag-fr.png"
-                    alt="Français"
-                  />Français</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><img src="imgs/theme/flag-jp.png" alt="Français" />日本語</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><img src="imgs/theme/flag-cn.png" alt="Français" />中国人</a
-                >
-              </div>
-            </li>
-            <li class="dropdown nav-item">
-              <a
-                class="dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                id="dropdownAccount"
-                aria-expanded="false"
-              >
-                <img
-                  class="img-xs rounded-circle"
-                  src="assets/imgs/people/avatar-2.png"
-                  alt="User"
-              /></a>
-              <div
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownAccount"
-              >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-perm_identity"></i>Edit
-                  Profile</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-settings"></i>Account Settings</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-account_balance_wallet"></i
-                  >Wallet</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-receipt"></i>Billing</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-help_outline"></i>Help center</a
-                >
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#"
-                  ><i class="material-icons md-exit_to_app"></i>Logout</a
-                >
-              </div>
-            </li>
-          </ul>
-        </div>
-      </header>
-      <section class="content-main">
-        <div class="row">
-            <div class="col-9">
-                <div class="content-header">
-                    <h2 class="content-title">Edit Product</h2>
-                    <div>
-                        <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">
-                            Save to draft
-                        </button>
-                        <button class="btn btn-md rounded font-sm hover-up">
-                            Publish
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-9">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row gx-5">
-                            <div class="col-lg-9">
-                                <section class="content-body p-xl-4">
-                                    <form class="forms-sample" method="post" enctype="multipart/form-data">
-                                        <!-- Product Name -->
-                                        <div class="row mb-4">
-                                            <label class="col-lg-3 col-form-label">Product name*</label>
-                                            <div class="col-lg-9">
-                                                <input name="productName" type="text" class="form-control" placeholder="Product Name" value="<%=products.name %>">
-                                            </div>
-                                        </div>
-                                        <!-- Description -->
-                                        <div class="row mb-4">
-                                            <label class="col-lg-3 col-form-label">Description*</label>
-                                            <div class="col-lg-9">
-                                              <input name="description" type="text" class="form-control" placeholder="Description"   value="<%=products.discription %>">
-                                            </div>
-                                        </div>
-                                        <!-- Quantity -->
-                                        <div class="row mb-4">
-                                            <label class="col-lg-3 col-form-label">Quantity</label>
-                                            <div class="col-lg-9">
-                                                <input  name="quantity"   type="number" class="form-control" placeholder=""  value="<%=products.quantity %>">
-                                            </div>
-                                        </div>
-                                        <!-- Price -->
-                                        <div class="row mb-4">
-                                            <label class="col-lg-3 col-form-label">Price</label>
-                                            <div class="col-lg-4">
-                                                <input name="price" type="text" class="form-control" placeholder="Price"  value="<%=products.price %>">
-                                            </div>
-                                        </div>
-                                        <!-- File Upload -->
-                                        <!-- File Upload -->
-                                     <div class="row mb-4">
-                                       <label class="col-lg-3 col-form-label">File upload</label>
-                                       <div class="col-lg-4">
-                                           <div class="input-group">
-                                               <input name="image" type="file" class="form-control" name="image" multiple required >
-                                               <span class="input-group-text"><i class="fas fa-image"></i></span>
-                                           </div>
-                                       </div>
-                                     </div>
 
-                                       <!-- Category -->
-                                       <div class="row mb-4">
-                                        <label class="col-lg-3 col-form-label">Category</label>
-                                        <div class="col-lg-4">
-                                          
-                                            <select class="form-control" name="category" id="exampleInputCity1" required>
-                                              <% category.forEach(category=>{ %>
-                                                  <option>
-                                                      <%= category.name %>
-                                                  </option>
-                                                  <% }) %>
-                                          </select>
-                                        </div>
-                                    </div>
-                       
-                                        <!-- Brand -->
-                                        <div class="row mb-4">
-                                            <label class="col-lg-3 col-form-label">Brand</label>
-                                            <div class="col-lg-4">
-                                                <input name="brand" type="text" class="form-control" placeholder="Brand Name" value="<%products.brand%>"/>
-                                            </div>
-                                        </div>
-                                        <!-- Submit and Cancel Buttons -->
-                                        <div class="row mb-4">
-                                            <div class="col-lg-3"></div> <!-- Empty column for spacing -->
-                                            <div class="col-lg-4">
-                                                <button  class="btn btn-success">Submit</button>
-                                               
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                    <a href="/admin/products" class="btn btn-secondary">Cancel</a>
-
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
-    
-      <footer class="main-footer font-xs">
-        <div class="row pb-30 pt-15">
-          <div class="col-sm-6">
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            &copy; Nest - HTML Ecommerce Template .
-          </div>
-          <div class="col-sm-6">
-            <div class="text-sm-end">All rights reserved</div>
-          </div>
+    </head>
+    <footer class="main-footer font-xs">
+      <div class="row pb-30 pt-15">
+        <div class="col-sm-6">
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          &copy;
         </div>
-      </footer>
-    </main>
-    <script src="js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="js/vendors/select2.min.js"></script>
-    <script src="js/vendors/perfect-scrollbar.js"></script>
-    <script src="js/vendors/jquery.fullscreen.min.js"></script>
-    <!-- Main Script -->
-    <script src="js/main.js?v=1.1" type="text/javascript"></script>
-  </body>
+        <div class="col-sm-6">
+          <div class="text-sm-end">All rights reserved</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <script src="js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="js/vendors/select2.min.js"></script>
+  <script src="js/vendors/perfect-scrollbar.js"></script>
+  <script src="js/vendors/jquery.fullscreen.min.js"></script>
+  <script src="js/main.js?v=1.1" type="text/javascript"></script>
+  <style>
+    .btn.btn-primary {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 10px 40px;
+      color: #ffffff;
+      border: none;
+      background-color: #3BB77E;
+      border-radius: 4px;
+    }
+  </style>
+
+
+  <!-- <script>
+
+    function previewImages() {
+      const input = document.getElementById('image');
+      const previewContainer = document.getElementById('imagePreviewContainer');
+      previewContainer.innerHTML = '';
+      if (input.files) {
+        for (const file of input.files) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'New Image';
+            img.style.maxWidth = '100px';
+            img.style.marginRight = '10px';
+            previewContainer.appendChild(img);
+          };
+
+          reader.readAsDataURL(file);
+        }
+      }
+    }
+  </script> -->
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+  <script>
+    async function deleteImage(event, image, productId) {
+      event.preventDefault();
+
+      try {
+        await fetch("/admin/deleteImage", {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image, productId }),
+        });
+
+        window.location.reload();
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  </script>
+
+
+
+<script>
+  function validateForm() {
+    
+      var productName = document.getElementById("productName").value;
+      var description = document.getElementById("description").value;
+      var quantity = document.getElementById("quantity").value;
+      var price = document.getElementById("price").value;
+      var category = document.getElementById("exampleInputCity1").value;
+      var brand = document.getElementById("brand").value;
+
+    
+      if (productName.trim() === "") {
+          document.getElementById("productNameError").innerText = "Product name is required.";
+      }
+
+      if (description.trim() === "") {
+          document.getElementById("descriptionError").innerText = "Description is required.";
+      }
+
+      if (quantity.trim() === "") {
+          document.getElementById("quantityError").innerText = "Quantity is required.";
+      }
+
+      if (price.trim() === "") {
+          document.getElementById("priceError").innerText = "Price is required.";
+      }
+
+      if (category.trim() === "") {
+          document.getElementById("categoryError").innerText = "Category is required.";
+      }
+
+      if (brand.trim() === "") {
+          document.getElementById("brandError").innerText = "Brand is required.";
+      }
+      if (
+          productName.trim() === "" ||
+          description.trim() === "" ||
+          quantity.trim() === "" ||
+          price.trim() === "" ||
+          image.trim() === "" ||
+          category.trim() === "" ||
+          brand.trim() === ""
+      ) {
+          return false; 
+      }
+
+      return true; 
+  }
+</script>
+
+
+
+
+
+
+
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+
+<!-- <script>
+
+async function editProducts(event) {
+  event.preventDefault();
+  const formData = new FormData(document.querySelector('form')); 
+  const imageFiles = formData.getAll('image');
+
+  if (imageFiles.length > 4) {
+      swal("Error", "Maximum 4 images allowed", "error");
+      return;
+  }
+
+  try {
+      const response = await fetch("/admin/editProducts", {
+          method: "POST",
+          body: formData
+      });
+
+      if (response.ok) {
+          swal("Success", "Product updated successfully", "success");
+      } else {
+          swal("Error", "Failed to update product", "error");
+      }
+  } catch (error) {
+      console.error("Error:", error);
+      swal("Error", "Internal Server Error", "error");
+  }
+}
+</script> -->
+
+
+
+
+<!-- Validation -->
+
+
+</body>
+
 </html>

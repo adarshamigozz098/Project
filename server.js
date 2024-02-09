@@ -30,6 +30,8 @@ app.use(
 
 app.use(express.static(path.resolve(__dirname, "public")));
 
+
+
 app.use(flash())
 
 
@@ -39,7 +41,7 @@ app.use("/",userRouter);
 const adminRouter = require("./routes/adminRouter");
 app.use("/admin", adminRouter);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 
 app.listen(PORT, () => {
   console.log(`server started running on http://localhost:${PORT}`);
@@ -47,6 +49,8 @@ app.listen(PORT, () => {
 
 
 
+
+ 
 
 
 

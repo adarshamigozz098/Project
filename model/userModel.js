@@ -3,9 +3,9 @@ const mongoose=require('mongoose')
 const userSchema=new mongoose.Schema({
     username:{
         type:String,
-        required:true
-    },
-    
+        required:true,
+        unique: true,
+    },  
     email:{
         type:String,
         required:true,
@@ -31,12 +31,37 @@ const userSchema=new mongoose.Schema({
     },
     isBlocked:{
         type:Boolean,
-        required:false,
+        // required:false,
         default:false
     },
     createdAt: {
         type: Date,
         default: Date.now
+    }, address: [
+        {
+            name: {
+                type: String,
+            },
+            housename: {
+                type: String,
+            },
+            city: {
+                type: String,
+            },
+            state: {
+                type: String,
+            },
+            phone: {
+                type: String, 
+            },
+            pincode: {
+                type: Number,
+            },
+        },
+    ],
+    token:{
+        type:String,
+        default:''
     }
 })
 

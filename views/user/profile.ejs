@@ -1,0 +1,180 @@
+<%- include('../user/layout/header') %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/user/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/user/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Razo.com</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" /> 
+    <link href="/user/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/user/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+    <link href="/user/css/demo.css" rel="stylesheet" />
+</head>
+
+<body>
+    <style>
+        .bg-dark {
+    background-color: #343a40!important;
+    margin-top: -21px;
+}
+    </style>
+   
+    <div class="wrapper">
+        <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+           
+            
+            <div class="sidebar-wrapper" style="background-color: #000000;">
+                <div class="logo">
+                    <a href="http://www.creative-tim.com" class="simple-text">
+                        RAZO.com
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/profile">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>User Profile</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/profile/orders">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>Orders</p>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/profile/address">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>Address</p>
+                        </a>
+                    </li> 
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class="container-fluid">
+                    <a style="color: #00ff08;" href="/">Home</a>
+                    <a style="margin-left: 10px;color: rgb(36, 241, 0);" href="/shop">Shop</a>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item">
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">
+                                    <span class="no-icon">Log out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Content Here -->
+        </div>
+    </div>
+</body>
+</html>
+
+            <div class="card fade-in">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">User Profile</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form method="get" action="/editProfile" id="updateProfileForm">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Username</label>
+                                                        <input type="text" name="username" class="form-control" value="<%= username %>" required>                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Email address</label>
+                                                        <input  type="text" name="email" class="form-control"
+                                                            value="<%=email%>" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Phone Number</label>
+                                                        <input type="text" name="phone" class="form-control"
+                                                            value="<%=phone%>" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                       </div>
+                                    <span id="errorMessage" style="color: red;text-align: center;" hidden>Please fill in
+                                        all required fields.</span>
+                                    <button><a href="/editProfile"></a>Edit Profile</button>
+                                       <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav>
+                    <p class="copyright text-center">
+                        ©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>                 
+                    </p>
+                </nav>
+            </div>
+        </footer>
+    </div>
+    </div>
+  
+</body>
+
+<script src="../assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+
+<script src="../assets/js/plugins/bootstrap-switch.js"></script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
+<script src="../assets/js/plugins/chartist.min.js"></script>
+
+<script src="../assets/js/plugins/bootstrap-notify.js"></script>
+<script src="../assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
+
+<script src="../assets/js/demo.js"></script>
+
+
+</html>
+<%- include('../user/layout/footer') %>

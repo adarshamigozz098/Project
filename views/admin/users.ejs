@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>RAZO.Store</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,13 +10,12 @@
     <meta property="og:type" content="" />
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
-    <!-- Favicon -->
+  
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="imgs/theme/favicon.svg"
-    />
-    <!-- Template CSS -->
+      href="imgs/theme/favicon.svg"/>
+  
     <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
   </head>
 
@@ -25,7 +24,7 @@
     <aside class="navbar-aside" id="offcanvas_aside">
       <div class="aside-top">
         <a href="/" class="brand-wrap">
-          <img src="imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+          <img src="" class="logo" alt="RAZO.Store" />
         </a>
         <div>
           <button class="btn btn-icon btn-aside-minimize">
@@ -60,6 +59,12 @@
               <span class="text">Products</span>
             </a>
           </li>
+          <li class="menu-item">
+            <a class="menu-link" href="/admin/order">
+              <i class="icon material-icons md-shopping_cart"></i>
+              <span class="text">Orders</span>
+            </a>
+          </li>
         </ul>
 
         <br />
@@ -82,10 +87,10 @@
               </button>
             </div>
             <datalist id="search_terms">
-              <option value="Products"></option>
-              <option value="New orders"></option>
-              <option value="Apple iphone"></option>
-              <option value="Ahmed Hassan"></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
             </datalist>
           </form>
         </div>
@@ -153,34 +158,18 @@
               >
                 <img
                   class="img-xs rounded-circle"
-                  src="assets/imgs/people/avatar-2.png"
+                  src="imgs/people/avatar-2.png"
                   alt="User"
               /></a>
               <div
                 class="dropdown-menu dropdown-menu-end"
                 aria-labelledby="dropdownAccount"
               >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-perm_identity"></i>Edit
-                  Profile</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-settings"></i>Account Settings</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-account_balance_wallet"></i
-                  >Wallet</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-receipt"></i>Billing</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-help_outline"></i>Help center</a
-                >
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#"
-                  ><i class="material-icons md-exit_to_app"></i>Logout</a
-                >
+           
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="/admin/logout">
+                <i class="material-icons md-exit_to_app"></i>Logout
+              </a>
               </div>
             </li>
           </ul>
@@ -189,8 +178,8 @@
       <section class="content-main">
         <div class="content-header">
           <div>
-            <h2 class="content-title card-title">Reviews</h2>
-            <p>Lorem ipsum dolor sit amet.</p>
+            <h2 class="content-title card-title">USERS</h2>
+            <p></p>
           </div>
           <div>
             <input
@@ -315,14 +304,6 @@
       <footer class="main-footer font-xs">
         <div class="row pb-30 pt-15">
           <div class="col-sm-6">
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            &copy; Nest - HTML Ecommerce Template .
-          </div>
-          <div class="col-sm-6">
-            <div class="text-sm-end">All rights reserved</div>
-          </div>
         </div>
       </footer>
     </main>

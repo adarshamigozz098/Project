@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Nest Dashboard</title>
+        <title>RAZO.Store</title>
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,8 +20,8 @@
         <div class="screen-overlay"></div>
         <aside class="navbar-aside" id="offcanvas_aside">
             <div class="aside-top">
-                <a href="index.html" class="brand-wrap">
-                    <img src="imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                <a href="" class="brand-wrap">
+                    <img src="imgs/theme/logo.svg" class="logo" alt="RAZO.store" />
                 </a>
                 <div>
                     <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
@@ -30,43 +30,37 @@
             <nav>
                 <ul class="menu-aside">
                     <li class="menu-item">
-                        <a class="menu-link" href="index.html">
+                        <a class="menu-link" href="/admin/dash">
                             <i class="icon material-icons md-home"></i>
                             <span class="text">Dashboard</span>
                         </a>
                     </li>
-                   
-                    <li class="menu-item">
-                        <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i> <span class="text">Brands</span> </a>
-                    </li>
-                    <li class="menu-item">
-                        <a class="menu-link" disabled href="#">
-                            <i class="icon material-icons md-pie_chart"></i>
-                            <span class="text">Statistics</span>
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/users">
+                          <i class="icon material-icons md-shopping_bag"></i>
+                          <span class="text">Users</span>
                         </a>
-                    </li>
+                      </li>
+            
+                      <li class="menu-item active">
+                        <a class="menu-link" href="/admin/category">
+                          <i class="icon material-icons md-shopping_cart"></i>
+                          <span class="text">Catgeory</span>
+                        </a>
+                      </li>
+                      <li class="menu-item">
+                        <a class="menu-link" href="/admin/products">
+                          <i class="icon material-icons md-shopping_cart"></i>
+                          <span class="text">Products</span>
+                        </a>
+                      </li>
+                      <li class="menu-item">
+                        <a class="menu-link" href="/admin/order">
+                          <i class="icon material-icons md-shopping_cart"></i>
+                          <span class="text">Orders</span>
+                        </a>
+                      </li>
                 </ul>
-                <hr />
-                <ul class="menu-aside">
-                    <li class="menu-item has-submenu">
-                        <a class="menu-link" href="#">
-                            <i class="icon material-icons md-settings"></i>
-                            <span class="text">Settings</span>
-                        </a>
-                        <div class="submenu">
-                            <a href="page-settings-1.html">Setting sample 1</a>
-                            <a href="page-settings-2.html">Setting sample 2</a>
-                        </div>
-                    </li>
-                    <li class="menu-item">
-                        <a class="menu-link" href="page-blank.html">
-                            <i class="icon material-icons md-local_offer"></i>
-                            <span class="text"> Starter page </span>
-                        </a>
-                    </li>
-                </ul>
-                <br/>
-                <br/>
             </nav>
         </aside>
         <main class="main-wrap">
@@ -78,9 +72,9 @@
                             <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
                         </div>
                         <datalist id="search_terms">
-                            <option value="Products"></option>
-                            <option value="New orders"></option>
-                            <option value="Nike"></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
                             <option value=""></option>
                         </datalist>
                     </form>
@@ -105,21 +99,18 @@
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
                                 <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
                                 <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
-                                <a class="dropdown-item" href="#"><img src="imgs/theme/flag-jp.png" alt="Français" />日本語</a>
-                                <a class="dropdown-item" href="#"><img src="/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                              
                             </div>
                         </li>
                         <li class="dropdown nav-item">
                             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
-                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
-                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
-                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
-                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
-                            </div>
+                           
+                               
+                      <div class="dropdown-divider"></div>
+                  <a class="dropdown-item text-danger" href="/admin/logout">
+                   <i class="material-icons md-exit_to_app"></i>Logout
+                  </a>
+                  </div>
                         </li>
                     </ul>
                 </div>
@@ -172,7 +163,7 @@
                         <script>
                             document.write(new Date().getFullYear());
                         </script>
-                        &copy; Nest - HTML Ecommerce Template .
+                        &copy;
                     </div>
                     <div class="col-sm-6">
                         <div class="text-sm-end">All rights reserved</div>

@@ -1,18 +1,18 @@
 const User = require('../model/userModel');
 
+
 const isLogin = async (req, res, next) => {
     try {
-        if (req.session.userId) {
-            // Assuming you have a User model
+        if (req.session.userId) {      
             const user = await User.findById(req.session.userId);
 
             if (user) {
-                req.user = user; // Set the user information in the request object
+                req.user = user; 
                 return next();
             }
         }
 
-        // Store the original URL to redirect after login
+       
         req.session.returnTo = req.originalUrl;
 
         res.redirect('/login');
@@ -22,6 +22,7 @@ const isLogin = async (req, res, next) => {
     }
 };
 
+
 const isLogout = async (req, res, next) => {
     try {
         if (req.session.userId) {
@@ -30,7 +31,6 @@ const isLogout = async (req, res, next) => {
                 if (err) {
                     console.error('Error destroying session:', err);
                 }
-
                 res.redirect('/');
             });
         } else {
@@ -41,6 +41,9 @@ const isLogout = async (req, res, next) => {
         res.redirect('/');
     }
 };
+
+
+
 
 const checkBlocked = async (req, res, next) => {
     const userId = req.session.userId;

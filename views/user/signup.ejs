@@ -98,19 +98,31 @@
       }
 
       .card-body {
-        padding: 20px;
-      }
+    padding: 49px;
+    margin-top: 19px;
+    border-block-color: black;
+    border-block-start-color: green;
+}
 
       .btn-custom {
         background-color: #007bff;
         color: #fff;
-        font-weight: bold;
+         font-weight: bold;
         margin-top: 15px;
       }
 
       .btn-custom:hover {
         background-color: #0056b3;
       }
+    </style>
+
+    <style>
+      .btn.btn-primary {
+    background: #dbcc8f;
+    border: 1px solid #dbcc8f;
+    color: #fff;
+    margin-top: 30px;
+}
     </style>
   </head>
   <body class="goto-here">
@@ -177,9 +189,6 @@
             <li class="nav-item">
               <a href="/contact" class="nav-link">Contact</a>
             </li>
-            <li class="nav-item">
-              <a href="/checkout" class="nav-link">Checkout</a>
-            </li>
             <li class="nav-item cta cta-colored">
               <a href="/cart" class="nav-link"
                 ><span class="icon-shopping_cart"></span>[0]</a
@@ -239,9 +248,7 @@
                     name="phone"
                     class="form-control"
                     id="phone"
-                    placeholder="Enter your phone number"
-                    
-                  />
+                    placeholder="Enter your phone number" />
                   <span id="phoneError" style="color: red;"></span>
                 </div>
                 <div class="mb-3">
@@ -251,9 +258,7 @@
                     name="password"
                     class="form-control"
                     id="password"
-                    placeholder="Enter your password"
-                    
-                  />
+                    placeholder="Enter your password" />
                   <span id="passwordError" style="color: red;"></span>
                 </div>
                 <div class="mb-3">
@@ -283,14 +288,7 @@
       </div>
     </div>
     
-    
-    
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <section class="ftco-gallery" style="margin-top: 200px">
       <div class="container">
@@ -489,7 +487,7 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            
               Copyright &copy;
               <script>
                 document.write(new Date().getFullYear());
@@ -497,14 +495,14 @@
               All rights reserved | This template is made with
               <i class="icon-heart color-danger" aria-hidden="true"></i> by
               <a href="https://colorlib.com" target="_blank">Colorlib</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+             
             </p>
           </div>
         </div>
       </div>
     </footer>
 
-    <!-- loader -->
+   
     <div id="ftco-loader" class="show fullscreen">
       <svg class="circular" width="48px" height="48px">
         <circle
@@ -524,8 +522,7 @@
           fill="none"
           stroke-width="4"
           stroke-miterlimit="10"
-          stroke="#F96D00"
-        />
+          stroke="#F96D00"/>
       </svg>
     </div>
 
@@ -546,9 +543,10 @@
     <script src="/user/js/google-map.js"></script>
     <script src="/user/js/main.js"></script>
 
- <!-- Place this script tag in the head or at the end of your HTML body -->
+
  <script>
   function validateForm() {
+    
     var username = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var phone = document.getElementById("phone").value;
@@ -563,34 +561,33 @@
 
     var isValid = true;
 
-    // Username validation
+    
     if (username.trim().length < 5) {
       document.getElementById("nameError").textContent = "Username must have at least 5 characters";
       isValid = false;
     }
 
-    // Email validation
+    
     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       document.getElementById("emailError").textContent = "Valid email is required";
       isValid = false;
     }
 
-    // Phone number validation
     var phonePattern = /^\d{10}$/;
     if (!phonePattern.test(phone)) {
       document.getElementById("phoneError").textContent = "Phone Number must have 10 digits";
       isValid = false;
     }
 
-    // Password validation
+    
     var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordPattern.test(password)) {
       document.getElementById("passwordError").textContent = "Password must have at least 8 characters, one uppercase, one lowercase, one number, and one special character";
       isValid = false;
     }
 
-    // Confirm password validation
+    
     if (confirmPassword.trim() === "" || confirmPassword !== password) {
       document.getElementById("confirm").textContent = "Passwords must match";
       isValid = false;
@@ -598,11 +595,6 @@
 
     return isValid;
   }
-</script>
-
-
-
-  
-    
+</script>  
   </body>
 </html>

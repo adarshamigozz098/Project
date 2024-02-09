@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
+
 <html lang="en">
   <head>
-    <title>Minishop - Free Bootstrap 4 Template by Colorlib</title>
+    <title>RAZO.Store</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -36,58 +38,8 @@
     <link rel="stylesheet" href="/user/css/flaticon.css" />
     <link rel="stylesheet" href="/user/css/icomoon.css" />
     <link rel="stylesheet" href="/user/css/style.css" />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-      }
-
-      .nav-item {
-        position: relative;
-      }
-
-      .nav-item a {
-        text-decoration: none;
-        color: black;
-        padding: 15px;
-        display: block;
-      }
-
-      .nav-item:hover .dropdown {
-        display: block;
-      }
-
-      .dropdown {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: #fff;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
-
-      .dropdown a {
-        color: black;
-        padding: 12px 16px;
-        display: block;
-        text-decoration: none;
-      }
-
-      .fa-user {
-        margin-top: 22px;
-        color: black;
-      }
-    </style>
   </head>
+  
   <body class="goto-here">
     <div class="py-1 bg-black">
       <div class="container">
@@ -116,8 +68,7 @@
                 class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right"
               >
                 <span class="text"
-                  >3-5 Business days delivery &amp; Free Returns</span
-                >
+                  >3-5 Business days delivery &amp; Free Returns</span>
               </div>
             </div>
           </div>
@@ -152,21 +103,38 @@
             <li class="nav-item">
               <a href="/contact" class="nav-link">Contact</a>
             </li>
-            <li class="nav-item">
-              <a href="/checkout" class="nav-link">Checkout</a>
-            </li>
+           
             <li class="nav-item cta cta-colored">
-              <a href="/cart" class="nav-link"
-                ><span class="icon-shopping_cart"></span>[0]</a
+              <a href="/cart" class="nav-link">
+                <span class="icon-shopping_cart"></span>[0]</a
               >
             </li>
-            <ul>
+            <ul class="nav">
               <li class="nav-item">
-                <i class="fa-solid fa-user"></i>
-                <a href="#" class=""> </a>
-                <div style="margin-bottom: 50px" class="dropdown">
-                  <a href="/login">Login</a>
-                  <a href="/logout">Logout</a>
+                <i class="fa-solid"></i>
+                <a href="#" class="">
+                  <% if (currentUser) { %>
+                    <div class="username-display  custom-username">
+                      <%= currentUser.username %> 
+                    </div>
+                  <% } else { %>
+                    Guest 
+                  <% } %>
+                </a>
+                <div class="dropdown">
+                  <ul class="dropdown-content ">
+                    <li class="nav-item cta cta-colored ">
+                      <a href="/profile" style="color: black;"  class="nav-link">Profile</a>
+                    </li>
+                    <% if (currentUser) { %>
+                      <li><a href="/logout">Logout</a></li>
+                    <% } else { %>
+                      <li><a href="/login">Login</a></li>
+                    <% } %>
+                  </ul>
+                </div>
+              </li>
+            </ul>         
                 </div>
               </li>
             </ul>
@@ -902,11 +870,9 @@
                 <div class="testimony-wrap">
                   <div
                     class="user-img mb-4"
-                    style="background-image: url(/user/images/person_3.jpg)"
-                  >
+                    style="background-image: url(/user/images/person_3.jpg)">
                     <span
-                      class="quote d-flex align-items-center justify-content-center"
-                    >
+                      class="quote d-flex align-items-center justify-content-center"  >
                       <i class="icon-quote-left"></i>
                     </span>
                   </div>
@@ -948,11 +914,9 @@
                 <div class="testimony-wrap">
                   <div
                     class="user-img mb-4"
-                    style="background-image: url(/user/images/person_1.jpg)"
-                  >
+                    style="background-image: url(/user/images/person_1.jpg)">
                     <span
-                      class="quote d-flex align-items-center justify-content-center"
-                    >
+                      class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span>
                   </div>
@@ -1005,11 +969,9 @@
             <a
               href="/user/images/gallery-2.jpg"
               class="gallery image-popup img d-flex align-items-center"
-              style="background-image: url(images/gallery-2.jpg)"
-            >
+              style="background-image: url(images/gallery-2.jpg)">
               <div
-                class="icon mb-4 d-flex align-items-center justify-content-center"
-              >
+                class="icon mb-4 d-flex align-items-center justify-content-center">
                 <span class="icon-instagram"></span>
               </div>
             </a>
@@ -1018,11 +980,9 @@
             <a
               href="/user/images/gallery-3.jpg"
               class="gallery image-popup img d-flex align-items-center"
-              style="background-image: url(images/gallery-3.jpg)"
-            >
+              style="background-image: url(images/gallery-3.jpg)">
               <div
-                class="icon mb-4 d-flex align-items-center justify-content-center"
-              >
+                class="icon mb-4 d-flex align-items-center justify-content-center" >
                 <span class="icon-instagram"></span>
               </div>
             </a>
@@ -1031,11 +991,9 @@
             <a
               href="/user/images/gallery-4.jpg"
               class="gallery image-popup img d-flex align-items-center"
-              style="background-image: url(images/gallery-4.jpg)"
-            >
+              style="background-image: url(images/gallery-4.jpg)">
               <div
-                class="icon mb-4 d-flex align-items-center justify-content-center"
-              >
+                class="icon mb-4 d-flex align-items-center justify-content-center" >
                 <span class="icon-instagram"></span>
               </div>
             </a>
@@ -1044,11 +1002,9 @@
             <a
               href="/user/images/gallery-5.jpg"
               class="gallery image-popup img d-flex align-items-center"
-              style="background-image: url(images/gallery-5.jpg)"
-            >
+              style="background-image: url(images/gallery-5.jpg)">
               <div
-                class="icon mb-4 d-flex align-items-center justify-content-center"
-              >
+                class="icon mb-4 d-flex align-items-center justify-content-center" >
                 <span class="icon-instagram"></span>
               </div>
             </a>
@@ -1057,11 +1013,9 @@
             <a
               href="/user/images/gallery-6.jpg"
               class="gallery image-popup img d-flex align-items-center"
-              style="background-image: url(images/gallery-6.jpg)"
-            >
+              style="background-image: url(images/gallery-6.jpg)">
               <div
-                class="icon mb-4 d-flex align-items-center justify-content-center"
-              >
+                class="icon mb-4 d-flex align-items-center justify-content-center" >
                 <span class="icon-instagram"></span>
               </div>
             </a>
@@ -1170,7 +1124,7 @@
         <div class="row">
           <div class="col-md-12 text-center">
             <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+         
               Copyright &copy;
               <script>
                 document.write(new Date().getFullYear());
@@ -1178,7 +1132,7 @@
               All rights reserved | This template is made with
               <i class="icon-heart color-danger" aria-hidden="true"></i> by
               <a href="https://colorlib.com" target="_blank">Colorlib</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+   
             </p>
           </div>
         </div>
@@ -1226,5 +1180,79 @@
     <script src="https//maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
     <script src="/user/js/google-map.js"></script>
     <script src="/user/js/main.js"></script>
+
+    <style>
+      .nav-item a {
+        text-decoration: none;
+        color: black;
+        padding: 0px;
+        display: block;
+      }
+      </style>
+      
+
+<style>
+  .custom-username {
+  /* Your custom styles here */
+  font-size: 16px;
+  font-weight: bold;
+  color: #333; /* Example color */
+  margin-inline: -23px
+}
+</style>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-item a {
+    text-decoration: none;
+    color: black;
+    padding: 15px;
+    display: block;
+  }
+
+  .nav-item:hover .dropdown {
+    display: block;
+  }
+
+  .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .dropdown a {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+  }
+
+  .fa-user {
+    margin-top: 22px;
+    color: black;
+  }
+</style>
+
+
   </body>
 </html>

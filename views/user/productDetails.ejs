@@ -4,7 +4,7 @@
   
 	<style>
 		.block-27 ul {
-	margin: 56px;
+	margin: 100px;
 	margin-left: -57PX;
 	}
 	</style>
@@ -66,20 +66,18 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
 	          <li class="nav-item dropdown active">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalog</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
-              	<a class="dropdown-item" href="shop.html">Shop</a>
-                <a class="dropdown-item" href="product-single.html">Single Product</a>
-                <a class="dropdown-item" href="cart.html">Cart</a>
+              	<a class="dropdown-item" href="/shop">Shop</a>
+             
+                <a class="dropdown-item" href="/cart">Cart</a>
                 <a class="dropdown-item" href="checkout.html">Checkout</a>
               </div>
             </li>
-	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="/shop" class="nav-link">Shop</a></li>
 	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 
 	        </ul>
 	      </div>
@@ -102,7 +100,7 @@
     	<div class="container">
     		<div class="row">
 				<div class="col-lg-6 mb-5 ftco-animate">
-					<a href="" class="image-popup prod-img-bg"><img src="images/<%= product.image[0] %>" class="img-fluid" alt="Colorlib Template"></a>
+					<a href="" class="image-popup prod-img-bg"><img src="images/<%= product.image?.[0] %>" class="img-fluid" alt="Colorlib Template"></a>
 				</div>
 				<div class="col-lg-6 product-details pl-md-5 ftco-animate">
 					<h3><%=product.name%></h3>
@@ -123,9 +121,7 @@
 						</p>
 					</div>
 					<p class="price"><span><%=product.price%></span></p>
-					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-					<p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.
-					</p>
+					
 					<div class="row mt-4">
 						<div class="col-md-6">
 							<div class="form-group d-flex">
@@ -147,7 +143,7 @@
 									<i class="ion-ios-remove"></i>
 								</button>
 							</span>
-							<input type="text" id="quantity" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
+							<input type="text" id="quantity" name="quantity" class="quantity form-control input-number" value="1" readonly>
 							<span class="input-group-btn ml-2">
 								<button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
 									<i class="ion-ios-add"></i>
@@ -159,15 +155,11 @@
 							<p style="color: #000;"><%=product.quantity%> piece available</p>
 						</div>
 					</div>
-					<form action="/addToCart/<%= product._id %>" method="POST">
-						<button type="submit" class="custom-add-to-cart">Add to Cart</button>
-					</form>
-					<a href="cart.html" class="btn btn-primary py-3 px-5">Buy now</a>
+				    <button class="custom-add-to-cart" data-productId="<%= product._id %>" id="addToCartBtn">Add to Cart</button>
+					<a href="/cart" class="btn btn-primary py-3 px-5">Buy now</a>
 				</div>
 			</div>
 	
-
-
     		<div class="row mt-5">
           <div class="col-md-12 nav-link-wrap">
             <div class="nav nav-pills d-flex text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -301,6 +293,7 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="/user/js/google-map.js"></script>
   <script src="/user/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <style>
 .btn.btn-primary {
@@ -314,40 +307,85 @@
 
 
 
+</script>
 
 
-  <script>
-		$(document).ready(function(){
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-		var quantitiy=0;
-		   $('.quantity-right-plus').click(function(e){
-		        
-		        
-		        e.preventDefault();
-		      
-		        var quantity = parseInt($('#quantity').val());
-		        
-		        
-		            
-		            $('#quantity').val(quantity + 1);
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		var quantityInput = $('#quantity');
 
-		          
-		            //
-		    });
+		$('.quantity-right-plus').click(function (e) {
+			e.preventDefault();
 
-		     $('.quantity-left-minus').click(function(e){
-		       
-		        e.preventDefault();
-		      
-		        var quantity = parseInt($('#quantity').val());
-		        
+			var quantity = parseInt(quantityInput.val());
+			var maxQuantity = parseInt("<%= product.quantity %>"); 
 
-		            if(quantity>0){
-		            $('#quantity').val(quantity - 1);
-		            }
-		    });
-		    
+			if (quantity < maxQuantity) {
+				$(this).prop('disabled', true);
+
+			
+				quantityInput.val(quantity + 1);
+
+			
+				setTimeout(function () {
+					$('.quantity-right-plus').prop('disabled', false);
+				}, 200);
+			} else {
+				Swal.fire({
+					icon: 'info',
+					title: 'Info',
+					text: 'You cannot add more than the available stock!',
+				});
+			}
 		});
-	</script>
+
+		$('.quantity-left-minus').click(function (e) {
+			e.preventDefault();
+
+			var quantity = parseInt(quantityInput.val());
+
+			if (quantity > 0) {
+				quantityInput.val(quantity - 1);
+			}
+		});
+
+		document.querySelectorAll('.custom-add-to-cart').forEach(button => {
+			button.addEventListener('click', async () => {
+				const productId = button.dataset.productid;
+				const quantity = quantityInput.val();
+				console.log("quantity", quantity);
+				console.log("productID", productId);
+				try {
+					const response = await axios.post(`/addToCart`, { productId, quantity });
+
+					if (response.status >= 200 && response.status < 300) {
+					
+						Swal.fire({
+							icon: 'success',
+							title: 'Product Added to Cart!',
+							showCancelButton: true,
+							confirmButtonText: 'Go to Cart',
+							cancelButtonText: 'Continue Shopping',
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.href = '/cart';
+							} else {
+								window.location.href = '/shop';
+							}
+						});
+					} else {
+						console.error('Failed to add to cart:', response.status);
+					}
+				} catch (error) {
+					console.error('Error adding to cart:', error);
+				}
+			});
+		});
+	});
+</script>
+
   </body>
 </html>

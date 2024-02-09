@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <title>RAZO.Store</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
+  <!-- Template CSS -->
+  <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+
+<body>
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a href="/" class="brand-wrap">
+        <img src="imgs/theme/logo.svg" class="logo" alt="RAZO.store" />
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/users">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Users</span>
+          </a>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/category">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Catgeory</span>
+          </a>
+
+        </li>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/products">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Products</span>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/order">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Orders</span>
+          </a>
+        </li>
+      </ul>
+      <br />
+      <br />
+    </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+        <form class="searchform">
+          <div class="input-group">
+            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+          </div>
+          <datalist id="search_terms">
+            <option value=""></option>
+            <option value=""></option>
+
+          </datalist>
+        </form>
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+            class="material-icons md-apps"></i></button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon" href="#">
+              <i class="material-icons md-notifications animation-shake"></i>
+              <span class="badge rounded-pill">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i
+                class="material-icons md-public"></i></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+              <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
+              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
+            </div>
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="/admin/logout">
+                <i class="material-icons md-exit_to_app"></i>Logout
+              </a>
+            </div>
+
+
+          </li>
+        </ul>
+      </div>
+
+      <style>
+        img {
+          max-width: 35%;
+          border-radius: 5px;
+        }
+      </style>
+       
+       <style>
+      .container {
+    max-width: 1249px;
+    margin: initial;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-right: 437px;
+}
+        h3 {
+            margin-top: 0;
+        }
+        .detail-item {
+            margin-bottom: 10px;
+        }
+        .detail-item label {
+            font-weight: bold;
+        }
+    </style>
+    </header>
+
+
+
+    <!-- Structure -->
+
+    <body>
+      <div class="container">
+        <h1>Order Details</h1><br>
+        <% Order.items.forEach((item, index) => { %>
+          <div class="order-detail-<%= index %>">
+            <h2># <%= index + 1 %></h2>
+            <div class="detail-item">
+              <label>Order Id: &nbsp</label><%= Order.order_id %>
+            </div><br>
+            <div class="detail-item">
+              <label>Product Image:</label>
+              <img src="/public/images/ item.product_id.image[0] %>" alt="Product Image">
+            </div><br>
+            <div class="detail-item">
+              <label>Total Price: &nbsp <%= item.total_price %></label>
+            </div><br>
+            <div class="detail-item">
+              <label>Ordered Date: &nbsp <%= Order.date%></label>
+            </div><br>
+            <div class="detail-item">
+              <label>Delivery Address:&nbsp<%= Order.delivery_address%></label>
+            </div><br>
+            <div class="detail-item">
+              <label>Expected Delivery: &nbsp<%= Order.expected_delivery%></label>
+            </div><br>
+            <div class="detail-item">
+            <label>Status: &nbsp<%=item.ordered_status%></label>
+          </div>
+          </div>
+          <hr>
+        <% }); %>
+      </div>
+    </body>
+    
+              
+  

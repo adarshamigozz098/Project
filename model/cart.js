@@ -18,10 +18,10 @@ const cartSchema=new mongoose.Schema({
             default:1
         },
         price:{
-            type:String,
+            type:Number,
             require:true
         },
-        totel_price:{
+        total_price:{
             type:Number,
             require:true
         }, 

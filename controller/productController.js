@@ -3,6 +3,8 @@ const Category = require("../model/category");
 const sharp = require("sharp");
 const path = require("path");
 const { log } = require("console");
+const mongoose = require('mongoose');
+const fs=require("fs")
 
 const loadProducts = async (req, res) => {
   try {
@@ -24,6 +26,7 @@ const loadAddProducts = async (req, res) => {
 };
 
 
+
 const addProducts = async (req, res) => {
   try {
     const existProduct = await product.findOne({ name: req.body.productName });
@@ -41,12 +44,8 @@ const addProducts = async (req, res) => {
       } = req.body;
       const filenames = [];
       console.log(req.body);
-
-      
+    
       const selectedCategory = await Category.findOne({ name: category });
-      const data = await Category.find({ is_listed: true });
-      //console.log(123);
-
 
       if (req.files.length !== 4) {
         return res.render("addProducts", {
@@ -54,8 +53,7 @@ const addProducts = async (req, res) => {
           category: data,
         });
       }
-      //console.log(req.body);
-      // resize and save each uploaded images
+    
       for (let i = 0; i < req.files.length; i++) {
         const imagesPath = path.join(
           __dirname,
@@ -68,7 +66,7 @@ const addProducts = async (req, res) => {
           .toFile(imagesPath);
         filenames.push(req.files[i].filename);
       }
-      //console.log('huuyi')
+     
       const newProduct = new product({
         name: productName,
         description,
@@ -79,12 +77,13 @@ const addProducts = async (req, res) => {
         brand: brand,
         date,
       });
-      const a = await newProduct.save();
-      console.log(a);
+      await newProduct.save();
+
       res.redirect("/admin/products");
     }
   } catch (error) {}
 };
+
 
 const loadEditProduct = async (req, res) => {
   try {
@@ -98,45 +97,94 @@ const loadEditProduct = async (req, res) => {
   }
 };
 
-
 const editProducts = async (req, res) => {
   try {
-    const id = req.query.productsId;
-    const { productName, description, quantity, price, brand, category } =
-      req.body;
-    console.log(id);
+      const id = req.query.productsId;
+      const {productName, description, quantity, price, brand, category} = req.body;
 
-    // Find the selected category by name
-    const selectedCategory = await Category.findOne({ name: category });
+      const selectedCategory = await Category.findOne({name: category});
 
-    // Check if the category is found
-    if (!selectedCategory) {
-      return res.status(404).send({ message: "Selected category not found" });
-    }
+      if (!selectedCategory) {
+          return res.status(404).send({message: "Selected category not found"});
+      }
 
-    // Update the product
-    const updatedProduct = await product.findByIdAndUpdate(
-      { _id: id },
-      {
-        name: productName,
-        description,
-        quantity,
-        price,
-        brand,
-        category: selectedCategory._id,
-      },
-      { new: true }
-    );
+      if (req.files && req.files.length > 4) {
+          return res.status(400).send({message: "Maximum 4 images allowed"});
+      }
 
-    console.log(updatedProduct);
-    req.flash("message", "Product updated successfully");
-    res.redirect("/admin/products");
+      let updatedProduct = await product.findByIdAndUpdate(
+          {_id: id},
+          {
+              name: productName,
+              description,
+              quantity,
+              price,
+              brand,
+              category: selectedCategory._id,
+          },
+          {new: true}
+      );
+
+      if (req.files && req.files.length > 0) {
+          for (const newImage of req.files) {
+              const processedImagePath = path.join(__dirname, "../public/images", `${newImage.filename}_processed`);
+
+              await sharp(newImage.path)
+                  .resize(800, 1200, {fit: "fill"})
+                  .toFile(processedImagePath);
+
+              updatedProduct.image.push(`${newImage.filename}_processed`);
+          }
+
+          updatedProduct = await updatedProduct.save();
+      }
+
+      req.flash("message", "Product updated successfully");
+      res.redirect("/admin/products");
   } catch (error) {
-    console.log(error);
-    // Handle the error appropriately
-    res.status(500).send({ message: "Internal Server Error" });
+      console.log(error);
+      res.status(500).send({message: "Internal Server Error"});
   }
 };
+
+
+const deleteImage = async (req, res) => {
+  try {
+    const { productId, image } = req.body; 
+    console.log(req.body);
+    if (!productId) {
+      return res
+        .status(400)
+        .send({ success: false, error: "Product id is required." });
+    }
+
+    const validProductId = mongoose.Types.ObjectId.isValid(productId);
+    if (!validProductId) {
+      return res
+        .status(400)
+        .send({ success: false, error: "Invalid product id." });
+    }
+
+    if (!image) {
+      return res
+        .status(400) 
+        .send({ success: false, error: "Image is required." });
+    }
+
+    
+    fs.unlink(path.join(__dirname, "../public/images", image), () => {});
+
+    const aw = await product.updateOne({ _id: productId }, { $pull: { image: image } });
+    console.log(aw);
+
+    res.send({ success: true });
+    console.log("The image has been deleted.");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ success: false, error: "Failed to delete image." });
+  }
+};
+
 
 const deleteProduct = async (req, res) => {
   try {
@@ -149,6 +197,9 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+
+
+
 module.exports = {
   loadProducts,
   loadAddProducts,
@@ -156,4 +207,5 @@ module.exports = {
   loadEditProduct,
   editProducts,
   deleteProduct,
+  deleteImage
 };

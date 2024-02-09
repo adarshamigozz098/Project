@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>RAZO.Store</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,7 +25,7 @@
     <aside class="navbar-aside" id="offcanvas_aside">
       <div class="aside-top">
         <a href="index.html" class="brand-wrap">
-          <img src="imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+          <img src="" class="logo" alt="RAZO.store" />
         </a>
         <div>
           <button class="btn btn-icon btn-aside-minimize">
@@ -60,6 +60,12 @@
               <span class="text">Products</span>
             </a>
           </li>
+          <li class="menu-item">
+            <a class="menu-link" href="/admin/order">
+              <i class="icon material-icons md-shopping_cart"></i>
+              <span class="text">Orders</span>
+            </a>
+          </li>
         </ul>
 
         <br />
@@ -82,10 +88,10 @@
               </button>
             </div>
             <datalist id="search_terms">
-              <option value="Products"></option>
-              <option value="New orders"></option>
-              <option value="Apple iphone"></option>
-              <option value="Ahmed Hassan"></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
             </datalist>
           </form>
         </div>
@@ -138,18 +144,6 @@
                     alt="Français"
                   />Français</a
                 >
-                <a class="dropdown-item" href="#"
-                  ><img
-                    src="assets/imgs/theme/flag-jp.png"
-                    alt="Français"
-                  />日本語</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><img
-                    src="assets/imgs/theme/flag-cn.png"
-                    alt="Français"
-                  />中国人</a
-                >
               </div>
             </li>
             <li class="dropdown nav-item">
@@ -162,34 +156,17 @@
               >
                 <img
                   class="img-xs rounded-circle"
-                  src="assets/imgs/people/avatar-2.png"
+                  src="imgs/people/avatar-2.png"
                   alt="User"
               /></a>
               <div
                 class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownAccount"
-              >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-perm_identity"></i>Edit
-                  Profile</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-settings"></i>Account Settings</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-account_balance_wallet"></i
-                  >Wallet</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-receipt"></i>Billing</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-help_outline"></i>Help center</a
-                >
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#"
-                  ><i class="material-icons md-exit_to_app"></i>Logout</a
-                >
+                aria-labelledby="dropdownAccount" >
+               
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="/admin/logout">
+                <i class="material-icons md-exit_to_app"></i>Logout
+              </a>
               </div>
             </li>
           </ul>
@@ -204,8 +181,7 @@
           <div>
             <a href="#" class="btn btn-primary"
               ><i class="text-muted material-icons md-post_add"></i>Create
-              report</a
-            >
+              report</a>
           </div>
         </div>
         <div class="row">
@@ -816,7 +792,7 @@
             <script>
               document.write(new Date().getFullYear());
             </script>
-            &copy; Nest - HTML Ecommerce Template .
+            &copy; 
           </div>
           <div class="col-sm-6">
             <div class="text-sm-end">All rights reserved</div>

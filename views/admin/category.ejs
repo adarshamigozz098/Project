@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Nest Dashboard</title>
+    <title>RAZO.Store</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,8 +24,8 @@
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
       <div class="aside-top">
-        <a href="index.html" class="brand-wrap">
-          <img src="imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+        <a href="/admin/dash" class="brand-wrap">
+          <img src="" class="logo" alt="RAZO.store" />
         </a>
         <div>
           <button class="btn btn-icon btn-aside-minimize">
@@ -48,22 +48,27 @@
             </a>
           </li>
 
-          <li class="menu-item active">
+          <li class="menu-item ">
             <a class="menu-link" href="/admin/category">
               <i class="icon material-icons md-shopping_cart"></i>
               <span class="text">Catgeory</span>
             </a>
           </li>
-          <li class="menu-item">
+          <li class="menu-item ">
             <a class="menu-link" href="/admin/products">
               <i class="icon material-icons md-shopping_cart"></i>
               <span class="text">Products</span>
             </a>
           </li>
+          <li class="menu-item ">
+            <a class="menu-link" href="/admin/order">
+              <i class="icon material-icons md-shopping_cart"></i>
+              <span class="text">Orders</span>
+            </a>
+          </li>
         </ul>
-
-        <br />
-        <br />
+        <br/>
+        <br/>
       </nav>
     </aside>
     <main class="main-wrap">
@@ -82,10 +87,10 @@
               </button>
             </div>
             <datalist id="search_terms">
-              <option value="Products"></option>
-              <option value="New orders"></option>
-              <option value="Apple iphone"></option>
-              <option value="Ahmed Hassan"></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
+              <option value=""></option>
             </datalist>
           </form>
         </div>
@@ -138,9 +143,6 @@
                 <a class="dropdown-item" href="#"
                   ><img src="imgs/theme/flag-jp.png" alt="Français" />日本語</a
                 >
-                <a class="dropdown-item" href="#"
-                  ><img src="imgs/theme/flag-cn.png" alt="Français" />中国人</a
-                >
               </div>
             </li>
             <li class="dropdown nav-item">
@@ -160,27 +162,12 @@
                 class="dropdown-menu dropdown-menu-end"
                 aria-labelledby="dropdownAccount"
               >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-perm_identity"></i>Edit
-                  Profile</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-settings"></i>Account Settings</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-account_balance_wallet"></i
-                  >Wallet</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-receipt"></i>Billing</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><i class="material-icons md-help_outline"></i>Help center</a
-                >
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#"
-                  ><i class="material-icons md-exit_to_app"></i>Logout</a
-                >
+                
+                 
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="/admin/logout">
+                <i class="material-icons md-exit_to_app"></i>Logout
+              </a>
               </div>
             </li>
           </ul>
@@ -226,6 +213,11 @@
                     />
                   </div>
                   <div class="d-grid">
+                    <% if (messages && messages.error) { %>
+                      <div class="alert alert-danger">
+                        <%= messages.error %>
+                      </div>
+                    <% } %>
                     <button type="submit" class="btn btn-primary btn-medium">
                       Create category
                     </button>
@@ -310,7 +302,7 @@
             <script>
               document.write(new Date().getFullYear());
             </script>
-            &copy; Nest - HTML Ecommerce Template .
+          
           </div>
           <div class="col-sm-6">
             <div class="text-sm-end">All rights reserved</div>
@@ -354,20 +346,42 @@
         });
       });
     </script>
-    <script>
-        const ListOrUnlist = document.querySelectorAll(".listBtn")
-        ListOrUnlist.forEach((button)=>{
-          button.addEventListener("click",function(){
-            const categoryId = this.dataset.categoryId
+<script>
+  const listOrUnlistButtons = document.querySelectorAll(".listBtn");
 
-            console.log(categoryId);
+  listOrUnlistButtons.forEach((button) => {
+    button.addEventListener("click", async function () {
+      const categoryId = this.dataset.categoryId;
 
+      try {
+        const response = await axios.post(`/admin/category/listOrUnlist?id=${categoryId}`);
+        
+      
+        const updatedCategoryData = response.data;
 
-            axios
-            .post(`/admin/category/listOrUnlist?id=${categoryId}`)
-          })
-        })
+       
+        if (updatedCategoryData.is_listed) {
+          this.textContent = "Unlist";
+          this.classList.remove("btn-success");
+          this.classList.add("btn-danger");
+        } else {
+          this.textContent = "List";
+          this.classList.remove("btn-danger");
+          this.classList.add("btn-success");
+        }
 
-    </script>
+       
+        const badge = this.closest("tr").querySelector(".badge");
+        badge.textContent = updatedCategoryData.is_listed ? "Listed" : "Unlisted";
+        badge.classList.remove(updatedCategoryData.is_listed ? "bg-danger" : "bg-success");
+        badge.classList.add(updatedCategoryData.is_listed ? "bg-success" : "bg-danger");
+
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+</script>
+
   </body>
 </html>
