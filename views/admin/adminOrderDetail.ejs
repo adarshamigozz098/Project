@@ -163,8 +163,11 @@
               <label>Order Id: &nbsp</label><%= Order.order_id %>
             </div><br>
             <div class="detail-item">
+            <label>Name: &nbsp</label><%= item.product_id.name %>
+          </div><br>
+            <div class="detail-item">
               <label>Product Image:</label>
-              <img src="/public/images/ item.product_id.image[0] %>" alt="Product Image">
+              <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
             </div><br>
             <div class="detail-item">
               <label>Total Price: &nbsp <%= item.total_price %></label>

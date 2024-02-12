@@ -36,7 +36,15 @@ userRouter.get('/profile/address',userController.laodUsersAddress)
 userRouter.get('/addAddress',userController.addAddress)
 userRouter.post('/profile/address', userController.saveAddress);
 userRouter.get('/profile/editAddress',userController.editAddress)
+userRouter.post("/cancel-order", userController.OrderCancel);
+userRouter.post('/EditAddress',userController.editADD)
+
 userRouter.post('/profile/address/delete/:addressId', userController.deleteAddress);
+
+userRouter.get('/changePass',userController.loadForget)
+userRouter.post('/cancelOrder',userController.cancelOrder);
+
+
 
 
 
@@ -48,6 +56,8 @@ userRouter.post('/otp',userController.verifyOtp)
 
 
 userRouter.get('/logout',auth.isLogin,userController.logout);
+
+
 
 
 //forget

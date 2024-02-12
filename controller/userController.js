@@ -1,7 +1,7 @@
 const User = require("../model/userModel");
 const product = require("../model/product");
 const Cart = require("../model/cart");
-const order = require("../model/order");
+
 const config = require("../config/config");
 
 
@@ -10,6 +10,8 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const userOTPverification = require("../model/userOTPverification");
 const randomstrings = require("randomstring");
+const order = require("../model/order");
+
 
 
 
@@ -429,7 +431,10 @@ const loadShop = async (req, res) => {
     if (req.query.search) {
       query = { name: { $regex: new RegExp(req.query.search, "i") } };
     }
-
+    let currentUser;
+    if (req.session.userId) {
+      currentUser = await User.findById(req.session.userId);
+    }
     let sortOption = {};
 
     if (req.query.sort === "lowToHigh") {
@@ -453,17 +458,35 @@ const loadShop = async (req, res) => {
       currentPage: page,
       totalPages: totalPages,
       sort: req.query.sort,
-      currentUser: req.session.user_id
+      currentUser
     });
   } catch (error) {
     console.log(error);
   }
 };
 
+
+
+const loadContact = async (req, res) => {
+  try {
+    let currentUser;
+    if (req.session.userId) {
+      currentUser = await User.findById(req.session.userId);
+      res.render("contact", { currentUser: req.session.user_id });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+
 const loadProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
     const userData = await User.findById(userId);
+    
 
     if (!userData) {
       req.flash("error", "User not found");
@@ -474,7 +497,8 @@ const loadProfile = async (req, res) => {
       username: userData.username,
       email: userData.email,
       phone: userData.phone,
-      currentUser :req.session.user_id
+      currentUser :req.session.user_id,
+   
     });
   } catch (error) {
     console.log(error);
@@ -536,7 +560,6 @@ const updateProfile = async (req, res) => {
     const userId = req.session.userId;
     const { username, email, phone } = req.body;
 
-    // Update user's information in the database
     await User.findByIdAndUpdate(userId, { username, email, phone });
 
     req.flash("success", "Profile updated successfully");
@@ -552,10 +575,14 @@ const updateProfile = async (req, res) => {
 const userOrders = async (req, res) => {
   try {
     const userData = req.session.userId;
+    if(userData){
     const Orders = await order.find({ user_id: userData }).populate("user_id");
+    console.log("jbshjdd",Orders)
   
     res.render("userOrders", { Orders ,currentUser: req.session.user_id});
-
+    }else{
+      res.redirect("/login")
+    }
   } catch (error) {
     console.log(error);
   }
@@ -613,6 +640,7 @@ const saveAddress = async (req, res) => {
 const editAddress = async (req, res) => {
   try {
     const addressId = req.query.addressId;
+    console.log("jsd",addressId)
     const userData = await User.findOne({ _id: req.session.userId });
     const addressToEdit = userData.address.find(
       (address) => address._id.toString() === addressId
@@ -626,6 +654,47 @@ const editAddress = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
+  }
+};
+
+const editADD = async (req, res) => {
+  try {
+    const { addressId } = req.query;
+    console.log("shbdh", addressId);
+    const { name, city, housename, state, phone, pincode } = req.body;
+    console.log("hii", req.body);
+    const id = req.session.userId;
+    const user = await User.findOne({ _id: id });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    console.log("sdj", id);
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: id }, 
+      {
+        $set: {
+          "address.$[address].name": name,
+          "address.$[address].phone": phone,
+          "address.$[address].pincode": pincode,
+          "address.$[address].city": city,
+          "address.$[address].housename": housename,
+          "address.$[address].state": state,
+        },
+      },
+      { 
+        arrayFilters: [ { "address._id": addressId } ], 
+        new: true 
+      }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "Address not found" });
+    }
+    res.redirect("/profile/address");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -736,7 +805,7 @@ const addToCart = async (req, res) => {
 
     res.render("cart", {
       cartProducts: userCart.items,
-      cartTotals,
+      totalPriceSum:cartTotals,
       currentUser: req.session.user_id
     });
   } catch (error) {
@@ -791,13 +860,6 @@ const loadAbout = async (req, res) => {
   }
 };
 
-const loadContact = async (req, res) => {
-  try {
-    res.render("contact",{currentUser:req.session.user_id});
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const loadCheckout = async (req, res) => {
   try {
@@ -971,6 +1033,56 @@ const viewDetails = async (req, res) => {
   }
 };
 
+const cancelOrder = async (req, res) => {
+  try {
+      const { id: order_id, product_id } = req.query;
+      console.log(req.query,"queryy gotee");
+      const updatedOrder = await order.findOneAndUpdate(
+          { _id: order_id, 'items.product_id': product_id },
+          { $set: { 'items.$.ordered_status': 'Cancelled' } },
+          { new: true }
+      );
+
+      if (!updatedOrder) {
+          return res.status(404).json({ message: "Order not found or product not in order" });
+      }
+
+      return res.status(200).json({ message: "Order cancelled successfully", updatedOrder });
+  } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+
+
+const OrderCancel = async (req, res) => {
+  try {
+      console.log(req.body);
+      const id = req.body.cancelId;
+      console.log("fi", id);
+      const Order = await order.findOne({ _id: id });
+
+      if (!Order) {
+          return res.status(404).json({ success: false, message: "Order not found" });
+      }
+
+      await Order.updateOne(
+        { _id: id, "items.0": { $exists: true } }, 
+        { $set: { "items.0.ordered_status": "cancelled" } } 
+    );
+
+      console.log("Order cancelled successfully");
+     
+
+      res.json({ success: true, message: "Order cancelled successfully" });
+
+  } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+}
+
 
 module.exports = {
   loadHome,
@@ -982,7 +1094,6 @@ module.exports = {
   loadCart,
   addToCart,
   removeProduct,
-
   viewDetails,
   loadData,
   logout,
@@ -997,8 +1108,10 @@ module.exports = {
   saveAddress,
   editAddress,
   deleteAddress,
-
+  cancelOrder,
   orderConfirmation,
+  OrderCancel,
+  editADD,
 
 // Login
   loadLogin,

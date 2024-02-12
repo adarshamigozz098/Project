@@ -156,8 +156,6 @@
                             </li>
                         </ul>
                         <ul class="navbar-nav ml-auto">
-
-
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">
                                     <span class="no-icon">Log out</span>
@@ -197,7 +195,6 @@
                     <button id="submitAddressBtn" type="submit">Add Address</button>
                 </form>
             </div>
-            <button id="addAddressBtn" onclick="toggleAddressForm()">Add Address</button>
 
             <footer style="margin-top: 45%;" class="footer">
                 <div class="container-fluid">
@@ -218,8 +215,6 @@
 </body>
 <!--   Core JS Files   -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
 <script src="/user/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
 <script src="/user/js/core/popper.min.js" type="text/javascript"></script>
@@ -268,18 +263,6 @@
 
 
 
-<script>
-   
-    function toggleAddressForm() {
-        var addAddressContainer = document.getElementById("addAddressContainer");
-        if (addAddressContainer.style.display === "none") {
-            addAddressContainer.style.display = "block";
-        } else {
-            addAddressContainer.style.display = "none";
-        }
-    }
-</script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
@@ -296,32 +279,41 @@
 
 
 <script>
-    $(document).ready(function() {
-        $('#addAddressForm').on('submit', function(event) {
-          event.preventDefault();
-          var formData = $(this).serialize();
-          
-          $.ajax({
-            url: '/profile/address',
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-              // Redirect to the address page
+$(document).ready(function() {
+    $('#addAddressForm').on('submit', function(event) {
+      event.preventDefault();
+      var formData = $(this).serialize();
+      
+      $.ajax({
+        url: '/profile/address',
+        method: 'POST',
+        data: formData,
+        success: function(response) {
+      
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: response.message
+          }).then((result) => {
+           
+            if (result.isConfirmed) {
               window.location.href = '/profile/address'; 
-            },
-            error: function(xhr, status, error) {
-              // Display SweetAlert with error message
-              Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: xhr.responseJSON.message || 'Internal Server Error'
-              });
             }
           });
-        });
+        },
+        error: function(xhr, status, error) {
+       
+            
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: xhr.responseJSON.message || 'Internal Server Error'
+          });
+        }
+      });
     });
-    </script>
-    
+  });
+</script>  
 
 
 </html>

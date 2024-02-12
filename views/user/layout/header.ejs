@@ -1,13 +1,5 @@
 
-
-
-
-
 <!DOCTYPE html>
-
-
-
-
 <html lang="en">
   <head>
     <title>RAZO.Store</title>
@@ -83,70 +75,24 @@
       </div>
     </div>
     <nav
-      class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
-      id="ftco-navbar"
+    class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
+    id="ftco-navbar"
     >
-      <div class="container">
-        <a class="navbar-brand" href="/">Minishop</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#ftco-nav"
-          aria-controls="ftco-nav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="oi oi-menu"></span> Menu
-        </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a href="/" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item dropdown"></li>
-            <li class="nav-item"><a href="/shop" class="nav-link">Shop</a></li>
-            <li class="nav-item">
-              <a href="/contact" class="nav-link">Contact</a>
-            </li>
-           
-            <li class="nav-item cta cta-colored">
-              <a href="/cart" class="nav-link">
-                <span class="icon-shopping_cart"></span>[0]</a
-              >
-            </li>
-            <ul class="nav">
-              <li class="nav-item">
-                <i class="fa-solid"></i>
-                <a href="#" class="">
-                  <% if (currentUser) { %>
-                    <div class="username-display  custom-username">
-                      <%= currentUser.username %> 
-                    </div>
-                  <% } else { %>
-                    Guest 
-                  <% } %>
-                </a>
-                <div class="dropdown">
-                  <ul class="dropdown-content ">
-                    <li class="nav-item cta cta-colored ">
-                      <a href="/profile" style="color: black;"  class="nav-link">Profile</a>
-                    </li>
-                    <% if (currentUser) { %>
-                      <li><a href="/logout">Logout</a></li>
-                    <% } else { %>
-                      <li><a href="/login">Login</a></li>
-                    <% } %>
-                  </ul>
-                </div>
-              </li>
-            </ul>         
-                </div>
-              </li>
-            </ul>
-          </ul>
-        </div>
-      </div>
+    <div class="container">
+      <a class="navbar-brand" href="/">Minishop</a>
+      <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#ftco-nav"
+      aria-controls="ftco-nav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      >
+      <span class="oi oi-menu"></span> Menu
+      </button>
+  
+      <div class="collapse navbar-collapse" id="ftco-nav">
+     </div>
     </nav>
     <!-- END nav -->

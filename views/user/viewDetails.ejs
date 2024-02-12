@@ -140,7 +140,8 @@
             </div>
             <div class="card-body">
               <% orders.items.forEach(function(item) { %>
-               
+                <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
+                <br>
               <span class="line">Item Name: <%= item.product_id.name %></span><br>
               <span class="line">Item Price: <%= item.price %></span><br> 
               <span class="line">Quantity: <%= item.quantity %></span><br>

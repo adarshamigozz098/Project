@@ -200,6 +200,7 @@ const deleteProduct = async (req, res) => {
 
 
 
+
 module.exports = {
   loadProducts,
   loadAddProducts,
@@ -207,5 +208,5 @@ module.exports = {
   loadEditProduct,
   editProducts,
   deleteProduct,
-  deleteImage
+  deleteImage,
 };

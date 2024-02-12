@@ -219,7 +219,7 @@ const loadOrder = async (req, res) => {
       order.username = user.username;
 
       for (const item of order.items) {
-        console.log("Product name:", item.product_id.name);
+        
       }
     }
 

@@ -156,7 +156,7 @@
                       <div class="row mb-4">
                           <label class="col-lg-3 col-form-label">Product name*</label>
                           <div class="col-lg-9">
-                            <input name="productName" id="productName" type="text" class="form-control" placeholder="Product Name" value="" >
+                            <input name="productName" id="productName" type="text" class="form-control" placeholder="Product Name" value="<%=products.name %>" >
                               <span id="productNameError" class="text-danger"></span>
                           </div>
                       </div>
@@ -190,26 +190,26 @@
                   
                       <!-- File Upload -->
                       <div class="row mb-4">
-                          <label class="col-lg-3 col-form-label">File upload</label>
-                          <div class="col-lg-4">
-                              <div class="input-group">
-                                  <input name="image" id="image" type="file" class="form-control" multiple>
-                              </div>
-                              <div id="imageError" class="text-danger"></div> <!-- Error message placeholder -->
-                          </div>
-                      </div>
-                  
-                      <!-- Existing Images -->
-                      <div id="imagePreviewContainer" class="mt-3">
-                          <% if (products && products.image && products.image.length > 0) { %>
-                              <% products.image.forEach((image, index) => { %>
-                                  <div class="image-container d-inline-block position-relative" id="imageContainer<%= index + 1 %>">
-                                      <img src="<%= `/images/${image}` %>" alt="Existing Image" class="img-thumbnail" style="max-width: 100px; max-height: 80px;">
-                                      <button type="button" class="btn btn-danger btn-sm delete-button rounded-circle" onclick="deleteImage(event, '<%= image %>', '<%= products.id %>')">X</button>
-                                  </div>
-                              <% }); %>
-                          <% } %>
-                      </div>
+                        <label class="col-lg-3 col-form-label">File upload</label>
+                        <div class="col-lg-4">
+                            <div class="input-group">
+                                <input name="image" id="image" type="file" class="form-control" required>
+                            </div>
+                            <div id="imageError" class="text-danger"></div> <!-- Error message placeholder -->
+                        </div>
+                    </div>
+                    
+                    <!-- Existing Images -->
+                    <div id="imagePreviewContainer" class="mt-3">
+                        <% if (products && products.image && products.image.length > 0) { %>
+                            <% products.image.forEach((image, index) => { %>
+                                <div class="image-container d-inline-block position-relative" id="imageContainer<%= index + 1 %>">
+                                    <img src="<%= `/images/${image}` %>" alt="Existing Image" class="img-thumbnail" style="max-width: 100px; max-height: 80px;">
+                                    <button type="button" class="btn btn-danger btn-sm delete-button rounded-circle" onclick="deleteImage(event, '<%= image %>', '<%= products.id %>')">X</button>
+                                </div>
+                            <% }); %>
+                        <% } %>
+                    </div>
                   
                       <!-- Category -->
                       <div class="row mb-4">
@@ -315,6 +315,7 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
   <script>
@@ -387,13 +388,52 @@
   }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
+
+<script>
+ 
+  function countImages() {
+      return document.querySelectorAll('.image-container').length;
+  }
+
+ 
+  function showSweetAlert(message) {
+      Swal.fire({
+          title: 'Validation Error',
+          text: message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+      });
+  }
+
+ 
+  document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    
+      const numImages = countImages();
+
+     
+      if (numImages < 4 || numImages > 4) {
+        
+          event.preventDefault();
+
+     
+          showSweetAlert('You can only upload exactly 4 images');
+
+         
+          window.scrollTo(0, 0);
+      }
+  });
+</script>
 
 
 
 
 
 
-<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+
 
 <!-- <script>
 

@@ -88,7 +88,7 @@
 	          <li class="nav-item"><a href="/shop" class="nav-link">Shop</a></li>
 	          <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
 	
-	          <li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span></a></li>
 	      </div>
 	    </div>
 	  </nav>
@@ -338,20 +338,19 @@
                                     </footer>
     
   
-
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
 
  <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 	  <div class="modal-content">
 		<div class="modal-header">
-		  <h5 class="modal-title" id="addAddressModalLabel">Add Address</h5>
+		  <h5 class="modal-title" id="addAddressModalLabel"></h5>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
 		<div class="modal-body">
-		
 		  <form id="addressForm">
 			<div class="form-group">
 			  <label for="name">Name:</label>
@@ -377,8 +376,7 @@
 			  <label for="pincode">Pincode</label>
 			  <input type="text" class="form-control" id="pincode" name="pincode" required>
 			</div>
-			<button type="submit" class="btn btn-primary">Add Address</button>
-		  </form>
+      <button id="addAddressBtn">Sumbit</button>
 		</div>
 	  </div>
 	</div>
@@ -399,56 +397,25 @@
   <script src="/user/js/jquery.animateNumber.min.js"></script>
   <script src="/user/js/bootstrap-datepicker.js"></script>
   <script src="/user/js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="/user/js/google-map.js"></script>
   <script src="/user/js/main.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
 
-  <!-- <script>
-		$(document).ready(function(){
-
-		var quantitiy=0;
-		   $('.quantity-right-plus').click(function(e){
-		        
-		        e.preventDefault();
-		
-		        var quantity = parseInt($('#quantity').val());
-		            
-		            $('#quantity').val(quantity + 1);          	            
-		    });
-
-		     $('.quantity-left-minus').click(function(e){
-		        
-		        e.preventDefault();
-		      
-		        var quantity = parseInt($('#quantity').val());
-		        
-		            if(quantity>0){
-		            $('#quantity').val(quantity - 1);
-		         }
-		    });	    
-		});
-	</script> -->
 
 
   <script>
-    // Function to display the add address modal
     function displayAddAddressModal() {
-        $('#addAddressModal').modal('show'); // Assuming you're using Bootstrap modal
+        $('#addAddressModal').modal('show'); 
     }
-
-    // Event listener for the "Add Address" button
     document.getElementById('addAddressBtn').addEventListener('click', function() {
         displayAddAddressModal();
     });
 </script>
-
 <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel" aria-hidden="true">
-
 </div>
-<button id="addAddressBtn">Add Address</button>
+<button id="addAddressBtn">Sumbit</button>
 
 
 
@@ -464,8 +431,6 @@
         if (selectedMessage) {
             selectedMessage.style.display = 'block';
         }
-
-      
         document.getElementById('selectedAddressId').value = addressId;
     }
 </script>
@@ -485,17 +450,13 @@
       swal("Error", "Please select an address", "error");
       return;
     }
-
     const addressValue = selectedAddress.value;
-
     const selectedPaymentMethod = document.querySelector('input[name="optradio"]:checked');
     if (!selectedPaymentMethod) {
       swal("Error", "Please select a payment method", "error");
       return;
     }
-
     const paymentMethod = selectedPaymentMethod.value;
-
     try {
       const response = await fetch('/orderPlaced', {
         method: 'POST',
@@ -507,7 +468,6 @@
           paymentMethod: paymentMethod,
         }),
       });
-
       const data = await response.json();
 
       if (data.success) { 
@@ -529,8 +489,8 @@
       swal("Error", "Internal server error. Please try again later.", "error");
     }
   });
-  
 </script>
 
-  </body>
+
+</body>
 </html>
