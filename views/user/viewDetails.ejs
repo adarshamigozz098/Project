@@ -142,11 +142,13 @@
               <% orders.items.forEach(function(item) { %>
                 <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
                 <br>
-              <span class="line">Item Name: <%= item.product_id.name %></span><br>
-              <span class="line">Item Price: <%= item.price %></span><br> 
-              <span class="line">Quantity: <%= item.quantity %></span><br>
-              <span class="line">Status: <%= item.ordered_status %></span><br><br>
+                <input type="hidden" class="product-id" value="<%=item.product_id._id%>">
+                <span class="line">Item Name: <%= item.product_id.name %></span><br>
+                <span class="line">Item Price: <%= item.price %></span><br> 
+                <span class="line">Quantity: <%= item.quantity %></span><br>
+                <span class="line">Status: <%= item.ordered_status %></span><br><br>
               <% }); %>
+              <button type="button" onclick="cancel()" class="btn btn-danger">Cancel</button>
             </div>
           </div>
           <br>
@@ -284,5 +286,44 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="/user/js/google-map.js"></script>
   <script src="/user/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    function cancel() {
+      // Use SweetAlert to confirm cancellation
+      Swal.fire({
+        title: 'Are you sure you want to cancel?',
+        text: 'This action cannot be undone.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, cancel it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const productIds = document.querySelectorAll('.product-id');
+          const productIdsArray = Array.from(productIds).map(input => input.value);
+  
+          // Send the product IDs to the backend using Axios
+          axios.post('/cancel-order', { productIds: productIdsArray })
+            .then(response => {
+              // Handle response if needed
+              console.log(response.data);
+              Swal.fire(
+                'Cancelled!',
+                'Your order has been cancelled.',
+                'success'
+              );
+              location.reload()
+            })
+            .catch(error => {
+              // Handle error if needed
+              console.error(error);
+            });
+        }
+      });
+    }
+  </script>
+  
 
 </html>

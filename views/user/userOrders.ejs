@@ -188,18 +188,14 @@ function CancelOrder(cancelId) {
     }).then((result) => {
      
         if (result.isConfirmed) {
-            // Send Axios request
             axios.post('/cancel-order', { cancelId })
                 .then(response => {
-                   
                     console.log(response.data);
-                   
                     setTimeout(function () {
                         location.reload();
                     }, 1000);
                 })
                 .catch(error => {
-                    // Handle error
                     console.error('Error cancelling order:', error);
                 });
         }

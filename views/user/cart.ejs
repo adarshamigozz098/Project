@@ -331,158 +331,95 @@
   <script src="/user/js/main.js"></script>
 
 
-  
-
- <script>
- 
-  document.addEventListener("DOMContentLoaded", function () {
-	const removeButtons = document.querySelectorAll(".remove-product");
-	const quantityLeftButtons = document.querySelectorAll(".quantity-left-minus");
-	const quantityRightButtons = document.querySelectorAll(".quantity-right-plus");
-  
-	removeButtons.forEach((button) => {
-	  button.addEventListener("click", async function () {
-		const productId = button.getAttribute("data-product-id");
-  
-		try {
-		  const response = await fetch("/cart/remove", {
-			method: "DELETE",
-			headers: {
-			  "Content-Type": "application/json",
-			},
-			body: JSON.stringify({ productId }),
-		  });
-  
-		  console.log("Response:", response);
-  
-		  if (response.ok) {
-			console.log("Product deleted successfully");
-			button.closest("tr").remove();
-			updateCartTotals(); 
-		  } else {
-			console.error("Failed to delete product");
-		  }
-		} catch (error) {
-		  console.error("Error:", error);
-		}
-	  });
-	});
-  
-	quantityLeftButtons.forEach((button) => {
-	  button.addEventListener("click", function () {
-		const input = button.closest(".input-group").querySelector("input");
-		updateQuantity(input, -1);
-	  });
-	});
-  
-	quantityRightButtons.forEach((button) => {
-	  button.addEventListener("click", function () {
-		const input = button.closest(".input-group").querySelector("input");
-		updateQuantity(input, 1);
-	  });
-	});
-  
-	function updateQuantity(input, change) {
-	  var oldValue = parseFloat(input.value);
-	  var maxValue = parseFloat(input.getAttribute("max"));
-  
-	  if (!isNaN(oldValue)) {
-		var newValue = oldValue + change;
-  
-		if (newValue >= 1 && (isNaN(maxValue) || newValue <= maxValue)) {
-		  input.value = newValue;
-		  updateTotalPrice(input);
-		  const productId = input.closest("tr").querySelector(".remove-product").getAttribute("data-product-id");
-		  const newQuantity = newValue;
-  
-		  fetch("/updateQuantity", {
-			method: "POST",
-			headers: {
-			  "Content-Type": "application/json",
-			},
-			body: JSON.stringify({ productId, quantity: newQuantity }),
-		  })
-		  .then(response => {
-			if (!response.ok) {
-			  console.error("Error updating quantity in the database:", response.statusText);
+  <script>
+	document.addEventListener("DOMContentLoaded", function () {
+	  const removeButtons = document.querySelectorAll(".remove-product");
+	  const quantityLeftButtons = document.querySelectorAll(".quantity-left-minus");
+	  const quantityRightButtons = document.querySelectorAll(".quantity-right-plus");
+	
+	  removeButtons.forEach((button) => {
+		button.addEventListener("click", async function () {
+		  const productId = button.getAttribute("data-product-id");
+		  try {
+			const response = await fetch("/cart/remove", {
+			  method: "DELETE",
+			  headers: {
+				"Content-Type": "application/json",
+			  },
+			  body: JSON.stringify({ productId }),
+			});
+	
+			console.log("Response:", response);
+	
+			if (response.ok) {
+			  console.log("Product deleted successfully");
+			  button.closest("tr").remove();
+			  updateCartTotals(); 
 			} else {
-			  console.log("Quantity updated successfully in the database.");
+			  console.error("Failed to delete product");
 			}
-		  })
-		  .catch(error => {
-			console.error("Error updating quantity in the database:", error);
-		  });
-		} else {
-		  console.log("Cannot exceed the maximum quantity limit.");
-		}
-	  } else {
-		console.log("Invalid quantity value.");
-	  }
-	}
-  
-	function updateCartTotals() {
-	  // Implement updateCartTotals function as needed
-	}
-  });
-  
-</script>
-
-<script>
-
-
-function updateQuantity(input, change) {
-	var oldValue = parseFloat(input.value);
-	var maxValue = parseFloat(input.getAttribute("max"));
-  
-	if (!isNaN(oldValue)) {
-	  var newValue = oldValue + change;
-  
-	  if (newValue >= 1 && (isNaN(maxValue) || newValue <= maxValue)) {
-		input.value = newValue;
-		updateTotalPrice(input);
-		const productId = input.closest("tr").querySelector(".remove-product").getAttribute("data-product-id");
-		const newQuantity = newValue;
-  
-		fetch("/updateQuantity", {
-		  method: "POST",
-		  headers: {
-			"Content-Type": "application/json",
-		  },
-		  body: JSON.stringify({ productId, quantity: newQuantity }),
-		})
-		.then(response => {
-		  if (!response.ok) {
-			console.error("Error updating quantity in the database:", response.statusText);
-		  } else {
-			console.log("Quantity updated successfully in the database.");
+		  } catch (error) {
+			console.error("Error:", error);
 		  }
-		})
-		.catch(error => {
-		  console.error("Error updating quantity in the database:", error);
 		});
-	  } else {
-		if (newValue < 1) {
-		  // Show SweetAlert for quantity below 1
-		  Swal.fire({
-			icon: 'error',
-			title: 'Error',
-			text: 'Quantity cannot be less than 1',
-		  });
+	  });
+
+	  quantityLeftButtons.forEach((button) => {
+		button.addEventListener("click", function () {
+		  const input = button.closest(".input-group").querySelector("input");
+		  updateQuantity(input, -1);
+		});
+	  });
+	
+	  quantityRightButtons.forEach((button) => {
+		button.addEventListener("click", function () {
+		  const input = button.closest(".input-group").querySelector("input");
+		  updateQuantity(input, 1);
+		});
+	  });
+	  
+	  function updateQuantity(input, change) {
+		var oldValue = parseFloat(input.value);
+		var maxValue = parseFloat(input.getAttribute("max"));
+	
+		if (!isNaN(oldValue)) {
+		  var newValue = oldValue + change;
+	
+		  if (newValue >= 1 && (isNaN(maxValue) || newValue <= maxValue)) {
+			input.value = newValue;
+			updateTotalPrice(input);
+			const productId = input.closest("tr").querySelector(".remove-product").getAttribute("data-product-id");
+			const newQuantity = newValue;
+	
+			fetch("/updateQuantity", {
+			  method: "POST",
+			  headers: {
+				"Content-Type": "application/json",
+			  },
+			  body: JSON.stringify({ productId, quantity: newQuantity }),
+			})
+			.then(response => {
+			  if (!response.ok) {
+				console.error("Error updating quantity in the database:", response.statusText);
+			  } else {
+				console.log("Quantity updated successfully in the database.");
+			  }
+			})
+			.catch(error => {
+			  console.error("Error updating quantity in the database:", error);
+			});
+		  } else {
+			console.log("Cannot exceed the maximum quantity limit.");
+		  }
 		} else {
-		  // Show SweetAlert for reaching maximum quantity
-		  Swal.fire({
-			icon: 'error',
-			title: 'Error',
-			text: 'Maximum quantity reached',
-		  });
+		  console.log("Invalid quantity value.");
 		}
 	  }
-	} else {
-	  console.log("Invalid quantity value.");
-	}
-  }
+	  function updateCartTotals() {
+	  }
+	});	
+  </script>
   
-</script>
   
   </body>
 </html>

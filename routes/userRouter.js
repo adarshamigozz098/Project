@@ -31,21 +31,20 @@ userRouter.get('/editProfile',userController.editProfile)
 userRouter.post('/updateProfile', userController.updateProfile);
 
 
+
 userRouter.get("/profile/orders",userController.userOrders)
 userRouter.get('/profile/address',userController.laodUsersAddress)
 userRouter.get('/addAddress',userController.addAddress)
 userRouter.post('/profile/address', userController.saveAddress);
-userRouter.get('/profile/editAddress',userController.editAddress)
-userRouter.post("/cancel-order", userController.OrderCancel);
-userRouter.post('/EditAddress',userController.editADD)
+// userRouter.get('/profile/editAddress',userController.editAddress)
+// userRouter.post('/EditAddress',userController.editADD)
+userRouter.get('/checkAdd',userController.loadCheckAdd)
+userRouter.post('/checkAdd',userController.saveAddress)
 
 userRouter.post('/profile/address/delete/:addressId', userController.deleteAddress);
 
 userRouter.get('/changePass',userController.loadForget)
-userRouter.post('/cancelOrder',userController.cancelOrder);
-
-
-
+userRouter.post('/cancel-order',userController.cancelOrder);
 
 
 userRouter.get('/login',auth.isLogout,userController.loadLogin)

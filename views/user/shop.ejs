@@ -80,8 +80,7 @@
 			<a href="/cart" class="nav-link">
 			  <span class="icon-shopping_cart"></span></a
 			>
-		  </li>
-		       
+		  </li>  
 			  </div>
 			</li>
 		  </ul>
@@ -368,32 +367,27 @@
         <div class="row">
           <div class="col-md-12 text-center">
 
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-						  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						</p>
+            <p>
+			  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+				</p>
           </div>
         </div>
       </div>
     </footer>
     
-  
-
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-
-
- 
 
   <script>
 	document.addEventListener('DOMContentLoaded', function() {
 	  document.querySelectorAll('.add-to-cart').forEach(button => {
-		button.addEventListener('click', async () => {
+		button.addEventListener('click', async (event) => {
+		  event.preventDefault();
 		  const productId = button.getAttribute('data-product-id');
 		  const quantity = 1;
   
 		  try {
-			const response = await fetch(`/addToCart`, {
+			const response = await fetch('/addToCart', {
 			  method: 'POST',
 			  headers: {
 				'Content-Type': 'application/json',
@@ -402,37 +396,41 @@
 			});
   
 			if (response.ok) {
-			  swal.fire({
-				title: "Success!",
-				text: "Product added to cart successfully",
-				icon: "success",
-				buttons: {
-				  continueShopping: {
-					text: "Continue Shopping",
-					value: "continueShopping",
-				  },
-				  goToCart: {
-					text: "Go to Cart",
-					value: "goToCart",
-				  },
-				},
-			  }).then((value) => {
-				if (value === "goToCart") {
+			  Swal.fire({
+				title: 'Success!',
+				text: 'Product added to cart successfully',
+				icon: 'success',
+				showCancelButton: true,
+				confirmButtonText: 'Go to Cart',
+				cancelButtonText: 'Continue Shopping'
+			  }).then((result) => {
+				if (result.isConfirmed) {
 				  window.location.href = '/cart';
 				}
-				
 			  });
 			} else {
 			  console.error('Failed to add to cart:', response.status);
+			  Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Failed to add product to cart. Please try again later.'
+			  });
 			}
 		  } catch (error) {
 			console.error('Error adding to cart:', error);
+			Swal.fire({
+			  icon: 'error',
+			  title: 'Oops...',
+			  text: 'An error occurred while adding the product to cart. Please try again later.'
+			});
 		  }
 		});
 	  });
 	});
   </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <script src="/user/js/jquery.min.js"></script>
 <script src="/user/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="/user/js/popper.min.js"></script>

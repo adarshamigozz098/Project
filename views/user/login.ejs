@@ -278,9 +278,15 @@
               <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-custom">Login</button>
+
             <% if (messages.error && messages.error.length > 0) { %>
               <span class="error-message"><%= messages.error %></span>
             <% } %>
+            
+            <% if (messages.success && messages.success.length > 0) { %>
+              <span class="success-message"><%= messages.success %></span>
+            <% } %>
+            
           </form>
           <p class="mt-3 text-center">
             Don't have an account? 
@@ -539,9 +545,17 @@
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
       <script src="/user/js/google-map.js"></script>
       <script src="/user/js/main.js"></script>
+   
 
-
-
+      <style>
+ .success-message {
+        color: green;
+        margin-left: 141px;
+        font-family: inherit;
+    }
+      </style>
+     
+      
    
 
     </body>

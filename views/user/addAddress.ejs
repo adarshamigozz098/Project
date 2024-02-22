@@ -97,6 +97,7 @@
             display: none;
         }
     </style>
+    
     <style>
         .hero-wrap.hero-bread {
             padding: 5em 0;
@@ -256,7 +257,6 @@
         stateError.style.display = (state === '') ? 'block' : 'none';
         phoneError.style.display = (phone === '' || isNaN(phone) || phone.length !== 10) ? 'block' : 'none';
         pincodeError.style.display = (pincode === '' || isNaN(pincode) || pincode.length !== 6) ? 'block' : 'none';
-
         return (name !== '' && housename !== '' && city !== '' && state !== '' && phone !== '' && !isNaN(phone) && phone.length === 10 && pincode !== '' && !isNaN(pincode) && pincode.length === 6);
     }
 </script>
@@ -265,17 +265,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    // Function to display the add address modal
-    function displayAddAddressModal() {
-        $('#addAddressModal').modal('show'); // Assuming you're using Bootstrap modal
-    }
-
-    // Event listener for the "Add Address" button
-    document.getElementById('addAddressBtn').addEventListener('click', function() {
-        displayAddAddressModal();
-    });
-</script>
+<!--  -->
 
 
 <script>

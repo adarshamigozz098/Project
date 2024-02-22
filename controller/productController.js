@@ -6,6 +6,7 @@ const { log } = require("console");
 const mongoose = require('mongoose');
 const fs=require("fs")
 
+
 const loadProducts = async (req, res) => {
   try {
     const productData = await product.find({});

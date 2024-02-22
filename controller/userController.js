@@ -3,7 +3,7 @@ const product = require("../model/product");
 const Cart = require("../model/cart");
 
 const config = require("../config/config");
-
+const razorpay = require("razorpay");
 
 const sharp = require("sharp");
 const bcrypt = require("bcrypt");
@@ -11,47 +11,21 @@ const nodemailer = require("nodemailer");
 const userOTPverification = require("../model/userOTPverification");
 const randomstrings = require("randomstring");
 const order = require("../model/order");
+const { connections } = require("mongoose");
 
-
-
+var instance = new razorpay({
+  key_id: "rzp_test_eUnQ885ah336VG",
+  key_secret: "2iLbGXeXJmvQGPb4dMOPlrST",
+});
 
 const verifySignup = async (req, res) => {
   try {
     const { username, email, phone, password, confirmPassword } = req.body;
-
-    // Your client-side validation logic
-    if (username.length < 3) {
-      req.flash('message', 'Username must be at least 3 characters long');
-      return res.redirect('/signup');
-    }
-
-    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      req.flash('message', 'Invalid email address');
-      return res.redirect('/signup');
-    }
-
-    if (phone.length !== 10) {
-      req.flash('message', 'Mobile number must be 10 digits');
-      return res.redirect('/signup');
-    }
-
-    if (password !== confirmPassword) {
-      req.flash('message', 'Password mismatch');
-      return res.redirect('/signup');
-    }
-
-    let strongPasswordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!strongPasswordRegex.test(password)) {
-      req.flash('message', 'Password must be at least 8 characters long and include at least one letter, one number, and one special character.');
-      return res.redirect('/signup');
-    }
-
     const emailExist = await User.findOne({ email: email });
 
     if (emailExist) {
-      req.flash('message', 'Existing User');
-      return res.redirect('/signup');
+      req.flash("message", "Existing User");
+      return res.redirect("/signup");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -65,49 +39,46 @@ const verifySignup = async (req, res) => {
       verified: false,
     });
 
-
     await newuser.save();
     await sendMail(newuser, res);
-    console.log('success');
+    console.log("success");
   } catch (error) {
     console.log(error);
-    req.flash('message', 'An error occurred. Please try again.');
-    return res.redirect('/signup');
+    req.flash("message", "An error occurred. Please try again.");
+    return res.redirect("/signup");
   }
 };
-5
+
 const verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const userData = await User.findOne({ email: email });
 
     if (!userData) {
-      req.flash('error', 'User not Found');
-      return res.redirect('/login');  // Return here to exit the function after redirect
+      req.flash("error", "User not Found");
+      return res.redirect("/login");
     }
 
     if (userData.isBlocked) {
-      req.flash('error', 'User is blocked');
-      return res.redirect('/login');  // Return here to exit the function after redirect
+      req.flash("error", "User is blocked");
+      return res.redirect("/login");
     }
 
     const passwordMatch = await bcrypt.compare(password, userData.password);
-    // const passwordMatch = password==userData.password
-    
-    if (!passwordMatch) {
-      req.flash('message', 'Password does not match');
-      console.log('password does not match');
-      return res.redirect('/login');  
-    }
 
+    if (!passwordMatch) {
+      req.flash("message", "Password does not match");
+      console.log("password does not match");
+      return res.redirect("/login");
+    }
 
     req.session.userId = userData._id;
     console.log(req.session.userId);
-    res.redirect('/');
+    res.redirect("/");
   } catch (error) {
     console.log(error.message);
-    req.flash('error', 'Internal Server Error');
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    req.flash("error", "Internal Server Error");
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
 
@@ -120,27 +91,24 @@ const verifyLogin = async (req, res) => {
 //   }
 // };
 
-
 const sendMail = async ({ email }, res) => {
   try {
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      host: 'smtp.gmail.com',
+      service: "gmail",
+      host: "smtp.gmail.com",
       port: 587,
       secure: true,
       auth: {
-          user: "pa772250@gmail.com",
-          pass: "ozsq enxc hswi rvzt"
-      }
-  });
-      const otp = `${Math.floor(1000 + Math.random() * 9000)}`
-
-
-      const mailOption = {
-          from: "pa772250@gmail.com",
-          to: email,
-          subject: "Verify Your Email",
-          html: `<div style="font-family: Helvetica, Arial, sans-serif; min-width: 1000px; overflow: auto; line-height: 2">
+        user: "pa772250@gmail.com",
+        pass: "ozsq enxc hswi rvzt",
+      },
+    });
+    const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const mailOption = {
+      from: "pa772250@gmail.com",
+      to: email,
+      subject: "Verify Your Email",
+      html: `<div style="font-family: Helvetica, Arial, sans-serif; min-width: 1000px; overflow: auto; line-height: 2">
           <div style="margin: 50px auto; width: 70%; padding: 20px 0; background-color: #c7ecc7; border-radius: 8px;">
             <div style="border-bottom: 1px solid #eee;">
             <a href="hidden" style="font-size: 1.4em; color: #4caf50; text-decoration: none; font-weight: 600;">MINI SHOP</a>
@@ -156,34 +124,30 @@ const sendMail = async ({ email }, res) => {
               <p>India</p>
             </div>
           </div>
-        </div>`
-      }
+        </div>`,
+    };
 
-      const hashedOTP = await bcrypt.hash(otp, 10);
-      const newOTPverification = await new userOTPverification({
-          email: email,
-          otp: hashedOTP,
-          createdAt: Date.now(),
-          expiresAt: Date.now() + 60000
-      })
+    const hashedOTP = await bcrypt.hash(otp, 10);
+    const newOTPverification = await new userOTPverification({
+      email: email,
+      otp: hashedOTP,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 60000,
+    });
 
-      await newOTPverification.save();
-      await transporter.sendMail(mailOption);
-      console.log(`OTP send for ${email} will be deleted in 1 minutes`);
-      setTimeout(async () => {
-          await userOTPverification.deleteOne({ email: email });
-          console.log(`OTP for ${email} has been deleted after 1 minutes.`);
-      }, 60000);
+    await newOTPverification.save();
+    await transporter.sendMail(mailOption);
+    console.log(`OTP send for ${email} will be deleted in 1 minutes`);
+    setTimeout(async () => {
+      await userOTPverification.deleteOne({ email: email });
+      console.log(`OTP for ${email} has been deleted after 1 minutes.`);
+    }, 60000);
 
-
-      res.redirect(`/otp?email=${email}`);
-
+    res.redirect(`/otp?email=${email}`);
   } catch (error) {
-      console.log(error);
+    console.log(error);
   }
-}
-
-
+};
 
 const verifyOtp = async (req, res) => {
   try {
@@ -204,19 +168,18 @@ const verifyOtp = async (req, res) => {
   } catch (error) {}
 };
 
-
-
-//resend Otp
 const resendOTP = async (req, res) => {
   try {
     const { email } = req.body;
     console.log("Resending OTP for email:", email);
     const user = await userOTPverification.findOne({ email: email });
 
-    // Check if one minute has passed since the last OTP was sent
     const oneMinuteAgo = Date.now() - 60 * 1000;
     if (user && user.expiresAt > oneMinuteAgo) {
-      console.log("Previous OTP was sent less than one minute ago for email:", email);
+      console.log(
+        "Previous OTP was sent less than one minute ago for email:",
+        email
+      );
       res.status(400).send("Previous OTP was sent less than one minute ago");
       return;
     }
@@ -230,27 +193,27 @@ const resendOTP = async (req, res) => {
         {
           otp: hashedOTP,
           createdAt: Date.now(),
-          expiresAt: Date.now() + 60000, // Set the new expiration time
+          expiresAt: Date.now() + 60000,
         },
         { upsert: true }
       );
 
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host: 'smtp.gmail.com',
+        service: "gmail",
+        host: "smtp.gmail.com",
         port: 587,
         secure: true,
         auth: {
           user: "pa772250@gmail.com",
-          pass: "ozsq enxc hswi rvzt"
-        }
+          pass: "ozsq enxc hswi rvzt",
+        },
       });
 
       const mailOption = {
         from: "pa772250@gmail.com",
         to: email,
         subject: "Verify Your Email",
-        html: `<div>Your new OTP is: ${otp}</div>`
+        html: `<div>Your new OTP is: ${otp}</div>`,
       };
 
       await transporter.sendMail(mailOption);
@@ -266,130 +229,112 @@ const resendOTP = async (req, res) => {
   }
 };
 // reset
-
-
-const loadForget = async(req,res)=>{
+const loadForget = async (req, res) => {
   try {
-    res.render("forgetPassword"); 
+    res.render("forgetPassword");
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-
-const forgetPasswordVerify = async(req,res)=>{
+const forgetPasswordVerify = async (req, res) => {
   try {
     const email = req.body.email;
-    console.log("email",email);
+    console.log("email", email);
     const details = await User.findOne({ email: email });
-    console.log(22,details);
-    if (details) { 
-      if (details.verified == 0) { 
-        res.render("forgetPassword", { message: "Please Verify your email" }); // Corrected template name and message
+    console.log(22, details);
+    if (details) {
+      if (details.verified == 0) {
+        res.render("forgetPassword", { message: "Please Verify your email" });
       } else {
         const randomstring = randomstrings.generate();
         const updatedetail = await User.updateOne(
           { email: email },
           { $set: { token: randomstring } }
         );
-        console.log(updatedetail,33);
+        console.log(updatedetail, 33);
         sendforgetemail(details.name, details.email, randomstring);
-        res.render("forgetPassword", { message: "Please check your email" }); // Corrected template name and message
-      } 
+        res.render("forgetPassword", { message: "Please check your email" });
+      }
     } else {
-      res.render("forgetPassword", { message: "Email is incorrect" }); // Corrected template name and message
+      res.render("forgetPassword", { message: "Email is incorrect" });
     }
   } catch (error) {
     console.log(error.message);
   }
 };
-  
 
+const sendforgetemail = async (name, email, token) => {
+  try {
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
 
+      auth: {
+        user: "pa772250@gmail.com",
+        pass: "ozsq enxc hswi rvzt",
+      },
+    });
 
-  const sendforgetemail = async (name, email, token) => {
-    try {
-      let transporter = nodemailer.createTransport({
-        service: "gmail",
-  
-        auth: {
-          user:  "pa772250@gmail.com",
-          pass: "ozsq enxc hswi rvzt"
-        },
-      });
-  
-      const mailOptions = {
-        from:"pa772250@gmail.com",
-        to: email,
-        subject: "For Reset Password",
-        html:
-          "<p>Hii " +
-          name +
-          ', please click here to <a href="http://127.0.0.1:6001/forgetpassword?token=' +
-          token +
-          '">Reset</a> your password.</p>',
-      };
-      await transporter.sendMail(mailOptions);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-  
-
-
-    const resetPasswordLoad = async (req, res) => {
-      try {
-        const token = req.query.token;
-        const TOkenId = await User.findOne({ token: token });
-        if (TOkenId) {
-          res.render("resetpassword", { message: "", TOkenId: TOkenId });
-          console.log("too", TOkenId);
-        } else {
-          res.redirect("/forget");
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
+    const mailOptions = {
+      from: "pa772250@gmail.com",
+      to: email,
+      subject: "For Reset Password",
+      html:
+        "<p>Hii " +
+        name +
+        ', please click here to <a href="http://127.0.0.1:6001/forgetpassword?token=' +
+        token +
+        '">Reset</a> your password.</p>',
     };
-    
-    
-  
-    const resetpassword = async (req, res) => {
-      try {
-        const password = req.body.password;
-        const confirmPassword = req.body.confirmPassword;
-    
-        const Token = req.body.token;
-        console.log("hello", Token);
-    
-        console.log("password", password);
-        console.log("confirmPassword", confirmPassword);
-    
-        if (password == confirmPassword && Token) {
-          // const secure = await secur(password);
-          const hashedPassword = await bcrypt.hash(password, 10);
-          const updatepass = await User.findOneAndUpdate(
-            { _id: Token },
-            { $set: { password: hashedPassword} }
-          
-          );
-          if(updatepass){
-            res.redirect("/login");
-            console.log("success fully saved"); 
-          }
-         
-        } else {
-          res.render("forgetpassword", { message: "password does not matchfdvv" });
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    }; 
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
+const resetPasswordLoad = async (req, res) => {
+  try {
+    const token = req.query.token;
+    const TOkenId = await User.findOne({ token: token });
+    if (TOkenId) {
+      res.render("resetpassword", { message: "", TOkenId: TOkenId });
+      console.log("too", TOkenId);
+    } else {
+      res.redirect("/forget");
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
+const resetpassword = async (req, res) => {
+  try {
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+    const Token = req.body.token;
 
-
-
+    if (password === confirmPassword && Token) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const updatepass = await User.findOneAndUpdate(
+        { _id: Token },
+        { $set: { password: hashedPassword } }
+      );
+      if (updatepass) {
+        req.flash("success", "Password changed successfully");
+        res.redirect("/login");
+        console.log("Password changed successfully");
+        return;
+      }
+    }
+    // If password update fails
+    req.flash("error", "Password update failed");
+    res.redirect("/forget");
+  } catch (error) {
+    console.log(error.message);
+    req.flash("error", "An error occurred");
+    res.redirect("/forget");
+  }
+};
 
 const loadSign = async (req, res) => {
   try {
@@ -399,7 +344,6 @@ const loadSign = async (req, res) => {
   }
 };
 
-
 const loadLogin = async (req, res) => {
   try {
     res.render("login");
@@ -407,7 +351,6 @@ const loadLogin = async (req, res) => {
     console.log(error);
   }
 };
-
 
 const loadHome = async (req, res) => {
   try {
@@ -458,14 +401,12 @@ const loadShop = async (req, res) => {
       currentPage: page,
       totalPages: totalPages,
       sort: req.query.sort,
-      currentUser
+      currentUser,
     });
   } catch (error) {
     console.log(error);
   }
 };
-
-
 
 const loadContact = async (req, res) => {
   try {
@@ -479,26 +420,20 @@ const loadContact = async (req, res) => {
   }
 };
 
-
-
-
 const loadProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
     const userData = await User.findById(userId);
-    
 
     if (!userData) {
       req.flash("error", "User not found");
       return res.redirect("/login");
     }
-
     res.render("profile", {
       username: userData.username,
       email: userData.email,
       phone: userData.phone,
-      currentUser :req.session.user_id,
-   
+      currentUser: req.session.user_id,
     });
   } catch (error) {
     console.log(error);
@@ -510,17 +445,17 @@ const loadProfile = async (req, res) => {
 // const editProfile = async (req, res) => {
 //   try {
 //     const userId = req.session.userId;
-    // const { username, email, phone } = req.body;
+// const { username, email, phone } = req.body;
 
-    // const updatedUser = await User.findByIdAndUpdate(
-    //   userId,
-    //   { username, email, phone },
-    //   { new: true }
-    // );
-    // Send JSON response for AJAX requests
-    // if (req.xhr) {
-    //   return res.status(200).json({ success: true, user: updatedUser });
-    
+// const updatedUser = await User.findByIdAndUpdate(
+//   userId,
+//   { username, email, phone },
+//   { new: true }
+// );
+// Send JSON response for AJAX requests
+// if (req.xhr) {
+//   return res.status(200).json({ success: true, user: updatedUser });
+
 //     res.redirect("/profile");
 //   } catch (error) {
 //     console.error(error);
@@ -554,7 +489,6 @@ const editProfile = async (req, res) => {
   }
 };
 
-
 const updateProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -571,29 +505,29 @@ const updateProfile = async (req, res) => {
   }
 };
 
-
 const userOrders = async (req, res) => {
   try {
     const userData = req.session.userId;
-    if(userData){
-    const Orders = await order.find({ user_id: userData }).populate("user_id");
-    console.log("jbshjdd",Orders)
-  
-    res.render("userOrders", { Orders ,currentUser: req.session.user_id});
-    }else{
-      res.redirect("/login")
+    if (userData) {
+      const Orders = await order
+        .find({ user_id: userData })
+        .populate("user_id");
+      console.log("jbshjdd", Orders);
+
+      res.render("userOrders", { Orders, currentUser: req.session.user_id });
+    } else {
+      res.redirect("/login");
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-
 const laodUsersAddress = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
-  
-    res.render("address", { Data: userData ,  currentUser: req.session.user_id});
+
+    res.render("address", { Data: userData, currentUser: req.session.user_id });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
@@ -612,7 +546,6 @@ const addAddress = async (req, res) => {
 const saveAddress = async (req, res) => {
   try {
     const { name, housename, city, state, phone, pincode } = req.body;
-
     const newAddress = {
       name,
       housename,
@@ -628,19 +561,19 @@ const saveAddress = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({ success: true, message: "Address added successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Address added successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
-
-
 const editAddress = async (req, res) => {
   try {
     const addressId = req.query.addressId;
-    console.log("jsd",addressId)
+    console.log("jsd", addressId);
     const userData = await User.findOne({ _id: req.session.userId });
     const addressToEdit = userData.address.find(
       (address) => address._id.toString() === addressId
@@ -657,48 +590,45 @@ const editAddress = async (req, res) => {
   }
 };
 
-const editADD = async (req, res) => {
-  try {
-    const { addressId } = req.query;
-    console.log("shbdh", addressId);
-    const { name, city, housename, state, phone, pincode } = req.body;
-    console.log("hii", req.body);
-    const id = req.session.userId;
-    const user = await User.findOne({ _id: id });
+// const editADD = async (req, res) => {
+//   try {
+//     const { addressId } = req.query;
+//     console.log("shbdh", addressId);
+//     const { name, city, housename, state, phone, pincode } = req.body;
+//     console.log("hii", req.body);
+//     const id = req.session.userId;
+//     const user = await User.findOne({ _id: id });
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    console.log("sdj", id);
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: id }, 
-      {
-        $set: {
-          "address.$[address].name": name,
-          "address.$[address].phone": phone,
-          "address.$[address].pincode": pincode,
-          "address.$[address].city": city,
-          "address.$[address].housename": housename,
-          "address.$[address].state": state,
-        },
-      },
-      { 
-        arrayFilters: [ { "address._id": addressId } ], 
-        new: true 
-      }
-    );
-
-    if (!updatedUser) {
-      return res.status(404).json({ error: "Address not found" });
-    }
-    res.redirect("/profile/address");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+//     console.log("sdj", id);
+//     const updatedUser = await User.findOneAndUpdate(
+//       { _id: id },
+//       {
+//         $set: {
+//           "address.$[address].name": name,
+//           "address.$[address].phone": phone,
+//           "address.$[address].pincode": pincode,
+//           "address.$[address].city": city,
+//           "address.$[address].housename": housename,
+//           "address.$[address].state": state,
+//         },
+//       },
+//       {
+//         arrayFilters: [ { "address._id": addressId } ],
+//         new: true
+//       }
+//     )
+//     if (!updatedUser) {
+//       return res.status(404).json({ error: "Address not found" });
+//     }
+//     res.redirect("/profile/address");
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// }
 
 const deleteAddress = async (req, res) => {
   try {
@@ -728,7 +658,11 @@ const loadCart = async (req, res) => {
       (sum, item) => sum + item.total_price,
       0
     );
-    res.render("cart", { cartProducts, totalPriceSum ,currentUser: req.session.user_id});
+    res.render("cart", {
+      cartProducts,
+      totalPriceSum,
+      currentUser: req.session.user_id,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
@@ -789,8 +723,8 @@ const addToCart = async (req, res) => {
         const productToAdd = {
           product_id: productId,
           quantity: quantity,
-          price: Product.price, 
-          total_price: quantity * Product.price, 
+          price: Product.price,
+          total_price: quantity * Product.price,
         };
 
         userCart.items.push(productToAdd);
@@ -801,12 +735,15 @@ const addToCart = async (req, res) => {
     }
 
     await userCart.save();
-    const cartTotals = userCart.items.reduce((sum, item) => sum + item.total_price, 0);
+    const cartTotals = userCart.items.reduce(
+      (sum, item) => sum + item.total_price,
+      0
+    );
 
     res.render("cart", {
       cartProducts: userCart.items,
-      totalPriceSum:cartTotals,
-      currentUser: req.session.user_id
+      totalPriceSum: cartTotals,
+      currentUser: req.session.user_id,
     });
   } catch (error) {
     console.error("Error adding product to cart:", error);
@@ -860,7 +797,6 @@ const loadAbout = async (req, res) => {
   }
 };
 
-
 const loadCheckout = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
@@ -880,13 +816,20 @@ const loadCheckout = async (req, res) => {
   }
 };
 
+const loadCheckAdd = async (req, res) => {
+  try {
+    res.render("checkAdd");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const generateCustomUserId = () => {
   const prefix = "";
   const uniqueId = Math.floor(Math.random() * 1000000);
 
   return `${prefix}${uniqueId}`;
 };
-
 
 const placeOrder = async (req, res) => {
   try {
@@ -895,6 +838,8 @@ const placeOrder = async (req, res) => {
     const user_id = req.session.userId;
     const { address, paymentMethod } = req.body;
     const delivery_address = address;
+
+    // console.log(1234,req.body);
 
     const cartData = await Cart.findOne({ user_id: user_id });
 
@@ -917,9 +862,8 @@ const placeOrder = async (req, res) => {
       0
     );
 
-    const status = paymentMethod === "COD" ? "placed" : "pending";
+    let status = paymentMethod === "COD" ? "placed" : "pending";
 
-    console.log(status + "hereee");
     const delivery = new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000);
     const deliveryDate = delivery
       .toLocaleString("en-US", {
@@ -960,10 +904,20 @@ const placeOrder = async (req, res) => {
 
     let orders = await orderData.save();
     const orderId = orders._id;
-
+    console.log(77668, orders);
     if (status === "placed") {
       const cartDelete = await Cart.deleteOne({ user_id: user_id });
       res.json({ success: true, orderId });
+    } else if (status == "RazorPay") {
+      var options = {
+        amount: orders.total_amount * 100,
+        currency: "INR",
+        receipt: orderId,
+      };
+      instance.orders.create(options, function (err, order) {
+        res.send({ status: "razer", order: order });
+        console.log(88888, order);
+      });
     }
   } catch (error) {
     console.log(error);
@@ -971,11 +925,10 @@ const placeOrder = async (req, res) => {
   }
 };
 
-
 const orderConfirmation = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
-    console.log(userData);
+    console.log(req.params.orderId);
 
     const orderId = req.params.orderId;
     const orderDetails = await order.findById(orderId);
@@ -991,15 +944,12 @@ const orderConfirmation = async (req, res) => {
   }
 };
 
-
 const loadData = async (req, res) => {
   try {
     const { email } = req.query;
     res.render("otp", { email });
   } catch (error) {}
 };
-
-
 
 const logout = async (req, res) => {
   try {
@@ -1018,10 +968,12 @@ const viewDetails = async (req, res) => {
     console.log("my view", userId);
     console.log("my order", orderId);
 
-    const orders = await order.findOne({ _id: orderId, user_id: userId }).populate({
-      path: 'items.product_id',
-      model: 'product'
-    });
+    const orders = await order
+      .findOne({ _id: orderId, user_id: userId })
+      .populate({
+        path: "items.product_id",
+        model: "product",
+      });
     console.log("Orders:", orders);
 
     const user = await User.findById(userId);
@@ -1035,54 +987,51 @@ const viewDetails = async (req, res) => {
 
 const cancelOrder = async (req, res) => {
   try {
-      const { id: order_id, product_id } = req.query;
-      console.log(req.query,"queryy gotee");
+    const { productIds } = req.body;
+
+    // Update the status of each product in the order
+    const updatedOrders = await Promise.all(productIds.map(async productId => {
       const updatedOrder = await order.findOneAndUpdate(
-          { _id: order_id, 'items.product_id': product_id },
-          { $set: { 'items.$.ordered_status': 'Cancelled' } },
-          { new: true }
+        { 'items.product_id': productId },
+        { $set: { 'items.$.ordered_status': 'Cancelled' } },
+        { new: true }
       );
+      return updatedOrder;
+    }));
 
-      if (!updatedOrder) {
-          return res.status(404).json({ message: "Order not found or product not in order" });
-      }
-
-      return res.status(200).json({ message: "Order cancelled successfully", updatedOrder });
+    return res.status(200).json({ message: "Orders cancelled successfully", updatedOrders });
   } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: "Internal server error" });
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
-
-
-
-const OrderCancel = async (req, res) => {
+const checkAdd = async (req, res) => {
   try {
-      console.log(req.body);
-      const id = req.body.cancelId;
-      console.log("fi", id);
-      const Order = await order.findOne({ _id: id });
+    const { name, housename, city, state, phone, pincode } = req.body;
 
-      if (!Order) {
-          return res.status(404).json({ success: false, message: "Order not found" });
-      }
+    const newAddress = {
+      name,
+      housename,
+      city,
+      state,
+      phone,
+      pincode,
+    };
 
-      await Order.updateOne(
-        { _id: id, "items.0": { $exists: true } }, 
-        { $set: { "items.0.ordered_status": "cancelled" } } 
+    await User.findByIdAndUpdate(
+      req.session.userId,
+      { $push: { address: newAddress } },
+      { new: true }
     );
 
-      console.log("Order cancelled successfully");
-     
-
-      res.json({ success: true, message: "Order cancelled successfully" });
-
+    res
+      .status(200)
+      .json({ success: true, message: "Address added successfully" });
   } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ success: false, message: "Internal Server Error" });
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
-}
-
+};
 
 module.exports = {
   loadHome,
@@ -1104,16 +1053,18 @@ module.exports = {
   updateProfile,
   userOrders,
   laodUsersAddress,
+
   addAddress,
   saveAddress,
   editAddress,
+  // editADD,
   deleteAddress,
-  cancelOrder,
-  orderConfirmation,
-  OrderCancel,
-  editADD,
+  loadCheckAdd,
 
-// Login
+  //check
+  checkAdd,
+
+  // Login
   loadLogin,
   loadForget,
   forgetPasswordVerify,
@@ -1125,4 +1076,7 @@ module.exports = {
   verifyLogin,
   resendOTP,
   generateCustomUserId,
-}
+
+  cancelOrder,
+  orderConfirmation,
+};

@@ -27,17 +27,12 @@ const storage = multer.diskStorage({
   }
 })
   
-
 const upload = multer({ storage: storage }).array('image', 4)
-
-
-
 
 adminRouter.get('/home', (req, res) => {
   const username = req.session.username;
   res.render('users/home', { username });
 });
-
 
 adminRouter.get('/', adminController.loadLogin);
 adminRouter.post('/',adminController.verifyLogin);
@@ -62,6 +57,7 @@ adminRouter.get('/order',isAdminAuthenticated,adminController.loadOrder)
 adminRouter.get('/detail',isAdminAuthenticated,adminController.loadDetail)
 adminRouter.post('/updateOrderStatus',isAdminAuthenticated,adminController.updateOrderStatus)
 
+adminRouter.get('/salesReport',isAdminAuthenticated, adminController.salesReport);
 
 
 
