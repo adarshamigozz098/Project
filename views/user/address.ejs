@@ -1,3 +1,6 @@
+<%- include('../user/layout/header') %>
+<%- include('../user/layout/nav') %>
+
 
 
 <!DOCTYPE html>
@@ -38,7 +41,7 @@
    
     <style>
         .bg-dark {
-    background-color: #343a40!important;
+    background-color:  #08da78!important;
     margin-top: -21px;
 }
     </style>
@@ -168,7 +171,7 @@
 
     <div class="wrapper">
         <div class="sidebar">
-            <div class="sidebar-wrapper" style="background-color: #000000;">
+            <div class="sidebar-wrapper" style="background-color: #f8f8f8;">
                 <div class="logo">
                     <a href="http://www.creative-tim.com" class="simple-text">
                         RAZO.com
@@ -178,19 +181,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/profile">
                             <i class="nc-icon nc-circle-09"></i>
-                            <p>User Profile</p>
+                            <p><b>USER PROFILE</b></p>
                         </a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="/profile/orders">
                             <i class="nc-icon nc-circle-09"></i>
-                            <p>Orders</p>
+                            <p><B>ORDERS</B></p>
                         </a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/profile/address/">
                             <i class="nc-icon nc-circle-09"></i>
-                            <p>Address</p>
+                            <p><B>ADDRESS</B></p>
                         </a>
                     </li>  
                 </ul>
@@ -200,8 +203,8 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class="container-fluid">
-                    <a style="color: #00ff37;" href="/">Home</a>
-                    <a style="margin-left: 10px;color: #00ff15;" href="/shop">Shop</a>
+                    <a style="color: #00ff37;" href="/"><B>HOME</B></a>
+                    <a style="margin-left: 10px;color: #00ff15;" href="/shop"><B>SHOP</B></a>
                     <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                         aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-bar burger-lines"></span>
@@ -218,7 +221,7 @@
 
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">
-                                    <span class="no-icon">Log out</span>
+                                    <span style="background-color: #e00000;" class="no-icon"><B>LOGOUT</B></span>
                                 </a>
                             </li>
                         </ul>

@@ -4,6 +4,7 @@ const Cart = require("../model/cart");
 
 const config = require("../config/config");
 const razorpay = require("razorpay");
+const mongoose = require("mongoose");
 
 const sharp = require("sharp");
 const bcrypt = require("bcrypt");
@@ -12,6 +13,7 @@ const userOTPverification = require("../model/userOTPverification");
 const randomstrings = require("randomstring");
 const order = require("../model/order");
 const { connections } = require("mongoose");
+
 
 var instance = new razorpay({
   key_id: "rzp_test_eUnQ885ah336VG",
@@ -58,12 +60,10 @@ const verifyLogin = async (req, res) => {
       req.flash("error", "User not Found");
       return res.redirect("/login");
     }
-
     if (userData.isBlocked) {
       req.flash("error", "User is blocked");
       return res.redirect("/login");
     }
-
     const passwordMatch = await bcrypt.compare(password, userData.password);
 
     if (!passwordMatch) {
@@ -71,7 +71,6 @@ const verifyLogin = async (req, res) => {
       console.log("password does not match");
       return res.redirect("/login");
     }
-
     req.session.userId = userData._id;
     console.log(req.session.userId);
     res.redirect("/");
@@ -126,7 +125,6 @@ const sendMail = async ({ email }, res) => {
           </div>
         </div>`,
     };
-
     const hashedOTP = await bcrypt.hash(otp, 10);
     const newOTPverification = await new userOTPverification({
       email: email,
@@ -228,6 +226,7 @@ const resendOTP = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
 // reset
 const loadForget = async (req, res) => {
   try {
@@ -326,7 +325,6 @@ const resetpassword = async (req, res) => {
         return;
       }
     }
-    // If password update fails
     req.flash("error", "Password update failed");
     res.redirect("/forget");
   } catch (error) {
@@ -346,9 +344,14 @@ const loadSign = async (req, res) => {
 
 const loadLogin = async (req, res) => {
   try {
-    res.render("login");
+    let currentUser;
+    if (req.session.userId) {
+      currentUser = await User.findById(req.session.userId);
+    }
+    res.render("login", { currentUser });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
@@ -357,8 +360,14 @@ const loadHome = async (req, res) => {
     let currentUser;
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);
+      if (currentUser && currentUser.isBlocked) {
+        req.flash(
+          "error",
+          "Your account has been blocked. Please login again."
+        );
+        return res.redirect("/login");
+      }
     }
-
     res.render("home", { currentUser });
   } catch (error) {
     console.log(error);
@@ -377,6 +386,13 @@ const loadShop = async (req, res) => {
     let currentUser;
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);
+      if (currentUser && currentUser.isBlocked) {
+        req.flash(
+          "error",
+          "Your account has been blocked. Please login again."
+        );
+        return res.redirect("/login");
+      }
     }
     let sortOption = {};
 
@@ -393,7 +409,7 @@ const loadShop = async (req, res) => {
       .find(query)
       .sort(sortOption)
       .skip((page - 1) * ITEMS_PER_PAGE)
-      .limit(ITEMS_PER_PAGE)
+      .limit(6)
       .exec();
 
     res.render("shop", {
@@ -413,6 +429,13 @@ const loadContact = async (req, res) => {
     let currentUser;
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);
+      if (currentUser && currentUser.isBlocked) {
+        req.flash(
+          "error",
+          "Your account has been blocked. Please login again."
+        );
+        return res.redirect("/login");
+      }
       res.render("contact", { currentUser: req.session.user_id });
     }
   } catch (error) {
@@ -439,6 +462,34 @@ const loadProfile = async (req, res) => {
     console.log(error);
     req.flash("error", "Internal Server Error");
     res.redirect("/login");
+  }
+};
+
+const changePassword = async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const user = await User.findById(userId);
+    console.log(user, "hii");
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    const isPasswordCorrect = await user.comparePassword(currentPassword);
+    if (!isPasswordCorrect) {
+      req.flash("error", "Current password is incorrect");
+      return res.redirect("/profile");
+    }
+    if (newPassword !== confirmPassword) {
+      req.flash("error", "New password and confirm password do not match");
+      return res.redirect("/profile");
+    }
+    user.password = newPassword;
+    await user.save();
+
+    req.flash("success", "Password updated successfully");
+    res.redirect("/profile");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Internal Server Error");
+    res.redirect("/profile");
   }
 };
 
@@ -475,13 +526,11 @@ const editProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
     const userData = await User.findById(userId);
-    
 
     if (!userData) {
       req.flash("error", "User not found");
       return res.redirect("/login");
     }
-  
 
     res.render("editProfile", { userData });
   } catch (error) {
@@ -490,6 +539,7 @@ const editProfile = async (req, res) => {
     res.redirect("/login");
   }
 };
+
 
 const updateProfile = async (req, res) => {
   try {
@@ -513,8 +563,8 @@ const userOrders = async (req, res) => {
     if (userData) {
       const Orders = await order
         .find({ user_id: userData })
-        .populate("user_id");
-      // console.log("jbshjdd", Orders);
+        .populate("user_id")
+        .sort({ createdAt: -1 });
 
       res.render("userOrders", { Orders, currentUser: req.session.user_id });
     } else {
@@ -592,46 +642,6 @@ const editAddress = async (req, res) => {
   }
 };
 
-// const editADD = async (req, res) => {
-//   try {
-//     const { addressId } = req.query;
-//     console.log("shbdh", addressId);
-//     const { name, city, housename, state, phone, pincode } = req.body;
-//     console.log("hii", req.body);
-//     const id = req.session.userId;
-//     const user = await User.findOne({ _id: id });
-
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-//     console.log("sdj", id);
-//     const updatedUser = await User.findOneAndUpdate(
-//       { _id: id },
-//       {
-//         $set: {
-//           "address.$[address].name": name,
-//           "address.$[address].phone": phone,
-//           "address.$[address].pincode": pincode,
-//           "address.$[address].city": city,
-//           "address.$[address].housename": housename,
-//           "address.$[address].state": state,
-//         },
-//       },
-//       {
-//         arrayFilters: [ { "address._id": addressId } ],
-//         new: true
-//       }
-//     )
-//     if (!updatedUser) {
-//       return res.status(404).json({ error: "Address not found" });
-//     }
-//     res.redirect("/profile/address");
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// }
-
 const deleteAddress = async (req, res) => {
   try {
     const addressIdToDelete = req.params.addressId;
@@ -648,68 +658,13 @@ const deleteAddress = async (req, res) => {
 };
 
 
-// const loadCart = async (req, res) => {
-//   try {
-   
-//     const loadLogin = req.session.user_id
-//     const userId = await User.findOne({ _id: req.session.user_id})
-//     const id = req.session.user_id
-//     const userCart = await Cart.findOne({ user: req.session.user_id }).populate('items.product_id')
-
-//     console.log(userId,"iMMM");
-//     console.log(userCart,"ioo");
-    
-//     if (userCart) {
-//       const products = userCart.items;
-//       if (products.length > 0) {
-//         for (const product of products) {
-//           product.total = product.price * product.quantity;
-//         }
-//         const total = await Cart.aggregate([
-//           { $match: { user: userId } },
-//           { $unwind: "$items" },
-//           {
-//             $project: {
-//               price: "$items.price",
-//               quantity: "$items.quantity",
-//             },
-//           },
-//           {
-//             $group: {
-//               _id: null,
-//               total: { $sum: { $multiply: ["$price", "$quantity"] } },
-//             },
-//           },
-//         ]);
-//         const Total = total[0].total;
-//         const userID = userId;
-
-//         res.render("cart", {
-//           user: userId.name,
-//           products: products,
-//           Total,
-//           userID,
-//         });
-//       }
-//     }
-//   } catch (error) {
-
-//     console.error(error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-
-
 const loadCart = async (req, res) => {
   try {
     const userId = req.user ? req.user._id : null;
     const userCart = await Cart.findOne({ user_id: userId }).populate(
       "items.product_id"
     );
-    console.log(userCart);
     const cartProducts = userCart ? userCart.items : [];
-
     const totalPriceSum = cartProducts.reduce(
       (sum, item) => sum + item.total_price,
       0
@@ -727,11 +682,12 @@ const loadCart = async (req, res) => {
 
 const addToCart = async (req, res) => {
   try {
-    console.log("add to cart request received ", req.body);
+    console.log("Add to cart request received ", req.body);
     const userId = req.user._id;
+  
     const productId = req.body.productId;
+  
     const quantity = req.body.quantity;
-    console.log("my productid", productId);
 
     let userCart = await Cart.findOne({ user_id: userId });
 
@@ -741,61 +697,54 @@ const addToCart = async (req, res) => {
         items: [],
       });
     }
+
+    const products = await product.findById(productId);
+    if (!products) {
+      console.error(`Product with id ${productId} not found.`);
+      return res.status(404).send(`Product with id ${productId} not found.`);
+    }
+
+    if (quantity > products.quantity) {
+      console.error(
+        `Requested quantity exceeds available quantity for product ${productId}`
+      );
+      return res
+        .status(400)
+        .send(
+          `Requested quantity exceeds available quantity for product ${productId}`
+        );
+    }
+
     const existingProduct = userCart.items.find(
       (item) => item.product_id === productId
     );
+
     if (existingProduct) {
-      try {
-        const Product = await product.findById(productId);
-        if (!Product) {
-          console.error(`Product with id ${productId} not found.`);
-          return res
-            .status(404)
-            .send(`Product with id ${productId} not found.`);
-        }
-
-        const availableQuantity = Product.quantity;
-
-        if (existingProduct.quantity < availableQuantity) {
-          existingProduct.quantity += 1;
-          existingProduct.total_price =
-            existingProduct.quantity * Product.price;
-        }
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-        return res.status(500).send("Internal Server Error");
+      existingProduct.quantity += quantity;
+      if (typeof products.price === "number" && !isNaN(products.price)) {
+        existingProduct.total_price = existingProduct.quantity * products.price;
+      } else {
+        console.error(`Invalid price for product ${productId}`);
+        return res.status(500).send(`Invalid price for product ${productId}`);
       }
     } else {
-      try {
-        const Product = await product.findById(productId);
-
-        if (!Product) {
-          console.error(`Product with id ${productId} not found.`);
-          return res
-            .status(404)
-            .send(`Product with id ${productId} not found.`);
-        }
-
-        const productToAdd = {
+      if (typeof products.price === "number" && !isNaN(products.price)) {
+        userCart.items.push({
           product_id: productId,
-          quantity: quantity,
-          price: Product.price,
-          total_price: quantity * Product.price,
-        };
-
-        userCart.items.push(productToAdd);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-        return res.status(500).send("Internal Server Error");
+         quantity : quantity,
+          price: products.price,
+          total_price: quantity * products.price,
+        });
+      } else {
+        console.error(`Invalid price for product ${productId}`);
+        return res.status(500).send(`Invalid price for product ${productId}`);
       }
     }
-
     await userCart.save();
     const cartTotals = userCart.items.reduce(
       (sum, item) => sum + item.total_price,
       0
     );
-
     res.render("cart", {
       cartProducts: userCart.items,
       totalPriceSum: cartTotals,
@@ -806,90 +755,55 @@ const addToCart = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+
+const increaseQuantity = async (req, res) => {
+  try {
+    const { productId, quantity, itemId } = req.body;
+    const userId = req.session.userId;
+
+    const cartItem = await Cart.findOne({ user_id: userId }).populate('items.product_id');
+
+    if (!cartItem) {
+      return res.status(404).json({ success: false, error: 'Cart not found for the user' });
+    }
+
+    const itemIndex = cartItem.items.findIndex(item => item.product_id.equals(productId));
     
+    if (itemIndex === -1) {
+      return res.status(404).json({ success: false, error: 'Product not found in cart' });
+    }
+
+    const Product = await product.findById(productId); 
+    if (!Product) {
+      return res.status(404).json({ success: false, error: 'Product not found' });
+    }
+
+    if (quantity > Product.quantity) { 
+      return res.status(400).json({ success: false, error: 'Requested quantity exceeds available quantity' });
+    }
+
+    cartItem.items[itemIndex].quantity = quantity;
+
+    const currentPrice = cartItem.items[itemIndex].price;
+    const newTotalPrice = currentPrice * quantity;
+    cartItem.items[itemIndex].total_price = newTotalPrice;
+
+    await cartItem.save(); 
+
+    Product.quantity = Product.quantity - (quantity - cartItem.items[itemIndex].quantity); 
+    await Product.save(); 
+
+    return res.json({ success: true, message: 'Quantity and total_price updated successfully' });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
 
 
 
-        // const availableQuantity = Product.quantity;
-        // if(existingProduct.quantity < availableQuantity) {
-        //   existingProduct.quantity += 1
-        //   existingProduct.total_price =
-        //   existingProduct.quantity * Product.price;
-        // }
-
-
-//       } catch (error) {
-//         console.error("Error fetching product details:", error);
-//         return res.status(500).send("Internal Server Error");
-//       }
-//     } else {
-//       try {
-//         const Product = await product.findById(productId);
-//         if (!Product) {
-//           console.error(`Product with id ${productId} not found.`);
-//           return res
-//             .status(404)
-//             .send(`Product with id ${productId} not found.`);
-//         }
-
-//         const productToAdd = {
-//           product_id: productId,
-//           quantity: quantity,
-//           price: Product.price,
-//           total_price: quantity * Product.price,
-//         };
-
-//         userCart.items.push(productToAdd);
-//       } catch (error) {
-//         console.error("Error fetching product details:", error);
-//         return res.status(500).send("Internal Server Error");
-//       }
-//     }
-//     await userCart.save();
-//     const cartTotals = userCart.items.reduce(
-//       (sum, item) => sum + item.total_price,
-//       0
-//     );
-//     res.render("cart", {
-//       cartProducts: userCart.items,
-//       totalPriceSum: cartTotals,
-//       currentUser: req.session.user_id,
-//     });
-//   } catch (error) {
-//     console.error("Error adding product to cart:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-
-
-
-// const quantityChange = async(req,res)=>{
-//   try {
-//     const count = req.body.count
-//     // console.log(count,"tell me");
-//     const product_id = req.body.product_id
-//     // console.log(product_id,"hhhhhhhh");
-
-//     const cart = Cart.await.findOne({ user: req.session.user_id})
-//     console.log(cart,"as");
-//     const products = product.findOne({_id: product_id})
-//     console.log(products,"ppppp");
-
-//     const cartProduct = Cart.product.find(
-//       (product) => product.product_Id.toString() === product_Id
-//     )
-
-//     if(count == 1){
-//       if(cartProduct)
-//     }
-  
-
-//   } catch (error) {
-//    console.log(error); 
-//   }
-// }
- 
 
 const removeProduct = async (req, res) => {
   try {
@@ -897,7 +811,6 @@ const removeProduct = async (req, res) => {
     const productId = req.body.productId;
 
     const userCart = await Cart.findOne({ user_id: userId });
-
     if (!userCart) {
       return res
         .status(404)
@@ -941,7 +854,6 @@ const loadCheckout = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
     const userCart = await Cart.findOne({ user_id: req.session.userId });
-    
 
     let totalPrice = 0;
     if (userCart && userCart.items) {
@@ -1003,7 +915,9 @@ const placeOrder = async (req, res) => {
       0
     );
 
-    let status = paymentMethod === "COD" ? "placed" : "pending";
+    let status = paymentMethod === "COD" ? "placed" : "RazorPay";
+  
+
 
     const delivery = new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000);
     const deliveryDate = delivery
@@ -1045,11 +959,19 @@ const placeOrder = async (req, res) => {
 
     let orders = await orderData.save();
     const orderId = orders._id;
-    console.log(77668, orders);
+  
+    for (const item of orderData.items) {
+      await product.findByIdAndUpdate(
+        item.product_id,
+        { $inc: { quantity: -item.quantity } }
+      );
+    }
+
+
     if (status === "placed") {
       const cartDelete = await Cart.deleteOne({ user_id: user_id });
       res.json({ success: true, orderId });
-    } else if (status == "RazorPay") {
+    } else if (status === "RazorPay") {
       var options = {
         amount: orders.total_amount * 100,
         currency: "INR",
@@ -1131,21 +1053,25 @@ const cancelOrder = async (req, res) => {
     const { productIds } = req.body;
 
     // Update the status of each product in the order
-    const updatedOrders = await Promise.all(productIds.map(async productId => {
-      const updatedOrder = await order.findOneAndUpdate(
-        { 'items.product_id': productId },
-        { $set: { 'items.$.ordered_status': 'Cancelled' } },
-        { new: true }
-      );
-      return updatedOrder;
-    }));
+    const updatedOrders = await Promise.all(
+      productIds.map(async (productId) => {
+        const updatedOrder = await order.findOneAndUpdate(
+          { "items.product_id": productId },
+          { $set: { "items.$.ordered_status": "Cancelled" } },
+          { new: true }
+        );
+        return updatedOrder;
+      })
+    );
 
-    return res.status(200).json({ message: "Orders cancelled successfully", updatedOrders });
+    return res
+      .status(200)
+      .json({ message: "Orders cancelled successfully", updatedOrders });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 const checkAdd = async (req, res) => {
   try {
     const { name, housename, city, state, phone, pincode } = req.body;
@@ -1188,9 +1114,11 @@ module.exports = {
   loadData,
   logout,
   loadSingle,
+  increaseQuantity,
 
   loadProfile,
   editProfile,
+  changePassword,
   updateProfile,
   userOrders,
   laodUsersAddress,

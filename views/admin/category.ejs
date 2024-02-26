@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>RAZO.Store</title>
+    <title>SHOEzzo</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -317,16 +317,18 @@
     <script src="js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
     <script src="js/main.js?v=1.1" type="text/javascript"></script>
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js"
       integrity="sha512-TjBzDQIDnc6pWyeM1bhMnDxtWH0QpOXMcVooglXrali/Tj7W569/wd4E8EDjk1CwOAOPSJon1VfcEt1BI4xIrA=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+      referrerpolicy="no-referrer">
+    </script>
+
 
     <script>
       const deleteButtons = document.querySelectorAll(".deleteBtn");
-
+      
       deleteButtons.forEach((button) => {
         button.addEventListener("click", function () {
           const categoryId = this.dataset.categoryId;
@@ -346,6 +348,7 @@
         });
       });
     </script>
+
 <script>
   const listOrUnlistButtons = document.querySelectorAll(".listBtn");
 
@@ -355,11 +358,9 @@
 
       try {
         const response = await axios.post(`/admin/category/listOrUnlist?id=${categoryId}`);
-        
-      
-        const updatedCategoryData = response.data;
+          
+       const updatedCategoryData = response.data;
 
-       
         if (updatedCategoryData.is_listed) {
           this.textContent = "Unlist";
           this.classList.remove("btn-success");
@@ -369,8 +370,6 @@
           this.classList.remove("btn-danger");
           this.classList.add("btn-success");
         }
-
-       
         const badge = this.closest("tr").querySelector(".badge");
         badge.textContent = updatedCategoryData.is_listed ? "Listed" : "Unlisted";
         badge.classList.remove(updatedCategoryData.is_listed ? "bg-danger" : "bg-success");

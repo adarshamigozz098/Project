@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>RAZO.Store</title>
+  <title>SHOEzzo</title>
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -137,35 +137,34 @@
           <div class="card">
             <div class="card-body">
               <!-- download -->
-              <!-- <div class="dropdown btn-group mt-3">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Dropdown
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <a class="dropdown-item" href="#" onclick="downloadPDF('printThisDiv')">Download as
-                    PDF</a>
-                  <a class="dropdown-item" href="#" onclick="downloadExcel('printThisDiv')">Download
-                    as Excel</a>
+              <div class="bttn " style="float: inline-end">
+                <div class="dropdown btn-group mt-3">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    onclick="downloadPDF('printThisDiv')" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false"> Print
+                  </button>
+
+
                 </div>
-              </div> -->
+              </div>
 
               <!-- heading -->
               <h2
                 style="margin-left: 39%;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
-                Sales Report</h2>
+                <b>SALES REPORT</b></h2>
 
               <!-- date -->
               <div class="row mt-4">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label for="startDatePicker">Select Start Date:</label>
-                    <input type="date" name="" id="startDatePicker" class="form-control" onchange="selectDate()">
+                    <label>Select Start Date:</label>
+                    <input type="date" id="fromDateInput" class="form-control">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label for="endDatePicker">Select End Date:</label>
-                    <input type="date" name="" id="endDatePicker" class="form-control" onchange="selectDate()">
+                    <label>Select End Date:</label>
+                    <input type="date" id="toDateInput" class="form-control">
                   </div>
                 </div>
               </div>
@@ -241,157 +240,136 @@
         </div>
       </div>
     </div>
-
-    <!-- Include Axios from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <!-- Include SweetAlert CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-      const selectDate = async () => {
-        let startDate = document.getElementById("startDatePicker").value
-        let endDate = document.getElementById("endDatePicker").value
+</body>
+<!-- Include Axios from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<!-- Include SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-        if (!startDate) {
-          showToast("please select both start and end date", "error")
-          return false
-        }
+<script>document.addEventListener('DOMContentLoaded', function () {
+    const fromDateInput = document.querySelector('#fromDateInput');
+    const toDateInput = document.querySelector('#toDateInput');
 
-        let startDateObj = new Date(startDate);
-        let endDateObj = new Date(endDate);
+    console.log(fromDateInput, toDateInput);
 
-
-        if (startDateObj > endDateObj) {
-          showToast("Start date cannot be greater than end date", "error");
-          return false;
-        }
-
-        const today = new Date();
-
-        if (endDateObj > today) {
-          showToast("End date cannot be in the future", "error");
-          return false;
-        }
-
-        function showToast(message, type) {
-          Swal.fire({
-            text: message,
-            icon: type,
-            position: "top",
-            showConfirmButton: false,
-            timer: 3000,
-            background: "#FFFFFF",
-            customClass: {
-              popup: 'your-custom-class',
-              content: 'your-custom-content-class',
-            },
-          });
-        }
-
-        const response = await axios.post("/admin/salesReport", {
-          startDate,
-          endDate
-        })
-
+    // Function to fetch data based on selected dates
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/admin/datePicker', {
+          params: {
+            startDate: fromDateInput.value,
+            endDate: toDateInput.value
+          },
+        });
+        console.log('startDate:', fromDateInput.value, 'endDate:', toDateInput.value);
+        // alert('data:', response.data);
         const salesReport = response.data.selectedDate
 
-        const reportBody = document.getElementById("reportBody");
-reportBody.innerHTML = salesReport
-  .filter((order) => {
-    // Check if both start and end dates fall within the order's date range
-    const orderStartDate = new Date(order.date);
-    const orderEndDate = new Date(order.expected_delivery);
-
-    return startDateObj >= orderStartDate && endDateObj <= orderEndDate;
-  })
-  .map((order) => {
-    return order.items
-      .filter((item) => item.ordered_status === "Delivered")
-      .map((item) => `
-        <tr>
-          <td>${order.user[0].email}</td>
-          <td>${order.user[0].mobileNumber}</td>
-          <td>${order.delivery_address}</td>
-          <td>${order.order_id}</td>
-          <td>${moment(order.date).format('DD/MM/YYYY')}</td>
-          <td>${order.payment}</td>
-          <td>${(item.price * item.quantity) - item.discountPerItem}</td>
-          <td>${item.ordered_status}</td>
-          <td>${item.quantity}</td>
-          <td>${item.product.name}</td>
-        </tr>`)
-      .join("");
-  })
-  .join("");
-
-          // .join("")
+        const reportBody = document.getElementById("reportBody")
+        reportBody.innerHTML = salesReport
+          .map((order) => {
+            return order.items
+              .filter((item) => item.ordered_status === "Delivered")
+              .map((item) => `
+<tr>
+     <td>${order.user[0].email}</td>
+     <td>${order.user[0].mobileNumber}</td>
+     <td>${order.delivery_address}</td>
+     <td>${order.order_id}</td>
+     <td>${moment(order.date).format('DD/MM/YYYY')}</td>
+     <td>${order.payment}</td>
+     <td>${(item.price * item.quantity) - item.discountPerItem}</td>
+     <td>${item.ordered_status}</td>
+     <td>${item.quantity}</td>
+     <td>${item.product.name}</td>
+ </tr>`)
+              .join("")
+          })
+          .join("")
         const tableHeader = `
-  <tr>
-      <th>Email</th>
-      <th>mobile</th>
-      <th>Address</th>
-      <th>OrderId</th>
-      <th>Date</th>
-      <th>Payment Method</th>
-      <th>Total</th>
-      <th>Status</th>
-      <th>Qty</th>
-      <th>Product Name</th>
-  </tr>`
+<tr>
+<th>Email</th>
+<th>mobile</th>
+<th>Address</th>
+<th>OrderId</th>
+<th>Date</th>
+<th>Payment Method</th>
+<th>Total</th>
+<th>Status</th>
+<th>Qty</th>
+<th>Product Name</th>
+</tr>`
 
         const reportHeader = document.getElementById("reportHeader")
         reportHeader.innerHTML = tableHeader
 
+
+
+
+
+      } catch (error) {
+        console.error('Error fetching sales data:', error);
       }
+    };
 
-    </script>
+    // Event listeners to trigger data fetching when date inputs are changed
+    fromDateInput.addEventListener('change', fetchData);
+    toDateInput.addEventListener('change', fetchData);
 
-    <!-- <script>
-      function showDownloadOptions(divName) {
-        const choise = confirm("Do you want to download as PDF and Excel?")
 
-        if (choise) {
-          downloadPDF(divName)
-        } else {
-          downloadExcel(divName)
-        }
-      }
 
-      function downloadPDF(divName) {
-        const printContents = document.getElementById(divName).innerHTML;
-        const orginalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        window.print();
-        document.body.innerHTML = orginalContents;
-      }
 
-      function downloadExcel(divName) {
-        const table = document.getElementById(divName);
-        const rows = table.getElementsByTagName('tr');
 
-        let csvContent = "\uFEFF";
 
-        // Adding table headers
-        const headerCells = table.querySelectorAll('thead th');
-        const headerValues = Array.from(headerCells).map(header => header.textContent.trim());
-        csvContent += headerValues.join(',') + '\n';
+  });
+</script>
 
-        // Adding table data
-        for (let i = 1; i < rows.length; i++) {
-          const cells = rows[i].getElementsByTagName('td');
-          const cellValues = Array.from(cells).map(cell => cell.textContent.trim());
-          csvContent += cellValues.join(',') + '\n';
-        }
+<script>
+  function showDownloadOptions(divName) {
+    const choise = confirm("Do you want to download as PDF and Excel?")
 
-        const blob = new Blob([csvContent], { type: 'text/csv' });
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.setAttribute('download', 'data.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } -->
-    <!-- </script> -->
+    if (choise) {
+      downloadPDF(divName)
+    } else {
+      downloadExcel(divName)
+    }
+  }
+
+  function downloadPDF(divName) {
+    const printContents = document.getElementById(divName).innerHTML;
+    const orginalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = orginalContents;
+  }
+
+  function downloadExcel(divName) {
+    const table = document.getElementById(divName);
+    const rows = table.getElementsByTagName('tr');
+
+    let csvContent = "\uFEFF";
+
+    // Adding table headers
+    const headerCells = table.querySelectorAll('thead th');
+    const headerValues = Array.from(headerCells).map(header => header.textContent.trim());
+    csvContent += headerValues.join(',') + '\n';
+
+    // Adding table data
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName('td');
+      const cellValues = Array.from(cells).map(cell => cell.textContent.trim());
+      csvContent += cellValues.join(',') + '\n';
+    }
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute('download', 'data.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
