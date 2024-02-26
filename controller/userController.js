@@ -282,7 +282,7 @@ const sendforgetemail = async (name, email, token) => {
       html:
         "<p>Hii " +
         name +
-        ', please click here to <a href="http://127.0.0.1:6001/forgetpassword?token=' +
+        ', please click here to <a href="http://127.0.0.1:6003/forgetpassword?token=' +
         token +
         '">Reset</a> your password.</p>',
     };
@@ -475,11 +475,13 @@ const editProfile = async (req, res) => {
   try {
     const userId = req.session.userId;
     const userData = await User.findById(userId);
+    
 
     if (!userData) {
       req.flash("error", "User not found");
       return res.redirect("/login");
     }
+  
 
     res.render("editProfile", { userData });
   } catch (error) {
@@ -512,7 +514,7 @@ const userOrders = async (req, res) => {
       const Orders = await order
         .find({ user_id: userData })
         .populate("user_id");
-      console.log("jbshjdd", Orders);
+      // console.log("jbshjdd", Orders);
 
       res.render("userOrders", { Orders, currentUser: req.session.user_id });
     } else {
@@ -573,7 +575,7 @@ const saveAddress = async (req, res) => {
 const editAddress = async (req, res) => {
   try {
     const addressId = req.query.addressId;
-    console.log("jsd", addressId);
+    // console.log("jsd", addressId);
     const userData = await User.findOne({ _id: req.session.userId });
     const addressToEdit = userData.address.find(
       (address) => address._id.toString() === addressId
@@ -645,6 +647,60 @@ const deleteAddress = async (req, res) => {
   }
 };
 
+
+// const loadCart = async (req, res) => {
+//   try {
+   
+//     const loadLogin = req.session.user_id
+//     const userId = await User.findOne({ _id: req.session.user_id})
+//     const id = req.session.user_id
+//     const userCart = await Cart.findOne({ user: req.session.user_id }).populate('items.product_id')
+
+//     console.log(userId,"iMMM");
+//     console.log(userCart,"ioo");
+    
+//     if (userCart) {
+//       const products = userCart.items;
+//       if (products.length > 0) {
+//         for (const product of products) {
+//           product.total = product.price * product.quantity;
+//         }
+//         const total = await Cart.aggregate([
+//           { $match: { user: userId } },
+//           { $unwind: "$items" },
+//           {
+//             $project: {
+//               price: "$items.price",
+//               quantity: "$items.quantity",
+//             },
+//           },
+//           {
+//             $group: {
+//               _id: null,
+//               total: { $sum: { $multiply: ["$price", "$quantity"] } },
+//             },
+//           },
+//         ]);
+//         const Total = total[0].total;
+//         const userID = userId;
+
+//         res.render("cart", {
+//           user: userId.name,
+//           products: products,
+//           Total,
+//           userID,
+//         });
+//       }
+//     }
+//   } catch (error) {
+
+//     console.error(error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
+
+
 const loadCart = async (req, res) => {
   try {
     const userId = req.user ? req.user._id : null;
@@ -686,7 +742,7 @@ const addToCart = async (req, res) => {
       });
     }
     const existingProduct = userCart.items.find(
-      (item) => item.product_id.toString() === productId
+      (item) => item.product_id === productId
     );
     if (existingProduct) {
       try {
@@ -750,6 +806,90 @@ const addToCart = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+    
+
+
+
+        // const availableQuantity = Product.quantity;
+        // if(existingProduct.quantity < availableQuantity) {
+        //   existingProduct.quantity += 1
+        //   existingProduct.total_price =
+        //   existingProduct.quantity * Product.price;
+        // }
+
+
+//       } catch (error) {
+//         console.error("Error fetching product details:", error);
+//         return res.status(500).send("Internal Server Error");
+//       }
+//     } else {
+//       try {
+//         const Product = await product.findById(productId);
+//         if (!Product) {
+//           console.error(`Product with id ${productId} not found.`);
+//           return res
+//             .status(404)
+//             .send(`Product with id ${productId} not found.`);
+//         }
+
+//         const productToAdd = {
+//           product_id: productId,
+//           quantity: quantity,
+//           price: Product.price,
+//           total_price: quantity * Product.price,
+//         };
+
+//         userCart.items.push(productToAdd);
+//       } catch (error) {
+//         console.error("Error fetching product details:", error);
+//         return res.status(500).send("Internal Server Error");
+//       }
+//     }
+//     await userCart.save();
+//     const cartTotals = userCart.items.reduce(
+//       (sum, item) => sum + item.total_price,
+//       0
+//     );
+//     res.render("cart", {
+//       cartProducts: userCart.items,
+//       totalPriceSum: cartTotals,
+//       currentUser: req.session.user_id,
+//     });
+//   } catch (error) {
+//     console.error("Error adding product to cart:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
+
+
+
+// const quantityChange = async(req,res)=>{
+//   try {
+//     const count = req.body.count
+//     // console.log(count,"tell me");
+//     const product_id = req.body.product_id
+//     // console.log(product_id,"hhhhhhhh");
+
+//     const cart = Cart.await.findOne({ user: req.session.user_id})
+//     console.log(cart,"as");
+//     const products = product.findOne({_id: product_id})
+//     console.log(products,"ppppp");
+
+//     const cartProduct = Cart.product.find(
+//       (product) => product.product_Id.toString() === product_Id
+//     )
+
+//     if(count == 1){
+//       if(cartProduct)
+//     }
+  
+
+//   } catch (error) {
+//    console.log(error); 
+//   }
+// }
+ 
 
 const removeProduct = async (req, res) => {
   try {
@@ -801,6 +941,7 @@ const loadCheckout = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
     const userCart = await Cart.findOne({ user_id: req.session.userId });
+    
 
     let totalPrice = 0;
     if (userCart && userCart.items) {

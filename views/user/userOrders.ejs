@@ -1,5 +1,3 @@
-<%- include('../user/layout/header') %>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -98,7 +96,12 @@
                             <p>Address</p>
                         </a>
                     </li>
-
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/profile/pass">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>Change Password</p>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -155,8 +158,6 @@
                             <td><%= order.items[0].ordered_status %></td>
                             <td>
                               <a href="/viewDetails?id=<%= order._id%>" class="btn btn-sm btn-outline-primary">View Details</a>
-                              <button class="btn btn-sm btn-outline-danger ml-2 cancel-order-btn"onclick="CancelOrder('<%= order._id%>')">Cancel</button>
-
                             </td>
                           </tr>
                         <% }); %>
@@ -172,7 +173,7 @@
               
               
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <!-- Add Axios CDN -->
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
@@ -228,4 +229,3 @@ function CancelOrder(cancelId) {
 
 </html>
 
-<%- include('../user/layout/footer') %>  
