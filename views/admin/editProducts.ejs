@@ -29,7 +29,7 @@
   <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
       <a href="/admin/dash" class="brand-wrap">
-        <img src="" class="logo" alt="RAZO.store" />
+        <img src="" class="logo" alt="SHOEzzo" />
       </a>
       <div>
         <button class="btn btn-icon btn-aside-minimize">
@@ -151,97 +151,108 @@
                 <div class="col-lg-9">
                   <section class="content-body p-xl-4">
 
-                    <form class="forms-sample" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <form class="forms-sample" method="post" enctype="multipart/form-data"
+                      onsubmit="return validateForm()">
                       <!-- Product Name -->
                       <div class="row mb-4">
-                          <label class="col-lg-3 col-form-label">Product name*</label>
-                          <div class="col-lg-9">
-                            <input name="productName" id="productName" type="text" class="form-control" placeholder="Product Name" value="<%=products.name %>" >
-                              <span id="productNameError" class="text-danger"></span>
-                          </div>
+                        <label class="col-lg-3 col-form-label">Product name*</label>
+                        <div class="col-lg-9">
+                          <input name="productName" id="productName" type="text" class="form-control"
+                            placeholder="Product Name" value="<%=products.name %>">
+                          <span id="productNameError" class="text-danger"></span>
+                        </div>
                       </div>
-                  
+
                       <!-- Description -->
                       <div class="row mb-4">
-                          <label class="col-lg-3 col-form-label">Description*</label>
-                          <div class="col-lg-9">
-                              <input name="description" id="description" type="text" class="form-control" placeholder="Description" value="<%=products.description %>" >
-                              <span id="descriptionError" class="text-danger"></span>
-                          </div>
+                        <label class="col-lg-3 col-form-label">Description*</label>
+                        <div class="col-lg-9">
+                          <input name="description" id="description" type="text" class="form-control"
+                            placeholder="Description" value="<%=products.description %>">
+                          <span id="descriptionError" class="text-danger"></span>
+                        </div>
                       </div>
-                  
+
                       <!-- Quantity -->
                       <div class="row mb-4">
-                          <label class="col-lg-3 col-form-label">Quantity</label>
-                          <div class="col-lg-9">
-                              <input name="quantity" id="quantity" type="number" class="form-control" placeholder="" value="<%=products.quantity %>" >
-                              <span id="quantityError" class="text-danger"></span>
-                          </div>
+                        <label class="col-lg-3 col-form-label">Quantity</label>
+                        <div class="col-lg-9">
+                          <input name="quantity" id="quantity" type="number" class="form-control" placeholder=""
+                            value="<%=products.quantity %>">
+                          <span id="quantityError" class="text-danger"></span>
+                        </div>
                       </div>
-                  
+
                       <!-- Price -->
                       <div class="row mb-4">
-                          <label class="col-lg-3 col-form-label">Price</label>
-                          <div class="col-lg-4">
-                              <input name="price" id="price" type="text" class="form-control" placeholder="Price" value="<%=products.price %>" >
-                              <span id="priceError" class="text-danger"></span>
-                          </div>
+                        <label class="col-lg-3 col-form-label">Price</label>
+                        <div class="col-lg-4">
+                          <input name="price" id="price" type="text" class="form-control" placeholder="Price"
+                            value="<%=products.price %>">
+                          <span id="priceError" class="text-danger"></span>
+                        </div>
                       </div>
-                  
+
                       <!-- File Upload -->
                       <div class="row mb-4">
                         <label class="col-lg-3 col-form-label">File upload</label>
                         <div class="col-lg-4">
-                            <div class="input-group">
-                                <input name="image" id="image" type="file" class="form-control" >
-                            </div>
-                            <div id="imageError" class="text-danger"></div> 
+                          <div class="input-group">
+                            <input name="image" id="image" type="file" class="form-control">
+                          </div>
+                          <div id="imageError" class="text-danger"></div>
                         </div>
-                    </div>
-                    
-                    <!-- Existing Images -->
-                    <div id="imagePreviewContainer" class="mt-3">
-                        <% if (products && products.image && products.image.length > 0) { %>
-                            <% products.image.forEach((image, index) => { %>
-                                <div class="image-container d-inline-block position-relative" id="imageContainer<%= index + 1 %>">
-                                    <img src="<%= `/images/${image}` %>" alt="Existing Image" class="img-thumbnail" style="max-width: 100px; max-height: 80px;">
-                                    <button type="button" class="btn btn-danger btn-sm delete-button rounded-circle" onclick="deleteImage(event, '<%= image %>', '<%= products.id %>')">X</button>
-                                </div>
+                      </div>
+
+                      <!-- Existing Images -->
+                      <div id="imagePreviewContainer" class="mt-3">
+                        <% if (products && products.image && products.image.length> 0) { %>
+                          <% products.image.forEach((image, index)=> { %>
+                            <div class="image-container d-inline-block position-relative"
+                              id="imageContainer<%= index + 1 %>">
+                              <img src="<%= `/images/${image}` %>" alt="Existing Image" class="img-thumbnail"
+                                style="max-width: 100px; max-height: 80px;">
+                              <button type="button" class="btn btn-danger btn-sm delete-button rounded-circle"
+                                onclick="deleteImage(event, '<%= image %>', '<%= products.id %>')">X</button>
+                            </div>
                             <% }); %>
-                        <% } %>
-                    </div>
-                  
+                              <% } %>
+                      </div>
+
+
                       <!-- Category -->
                       <div class="row mb-4">
-                          <label class="col-lg-3 col-form-label">Category</label>
-                          <div class="col-lg-4">
-                              <select class="form-control" name="category" id="exampleInputCity1" >
-                                  <% category.forEach(category => { %>
-                                      <option>
-                                          <%= category.name %>
-                                      </option>
-                                  <% }) %>
-                              </select>
-                              <span id="categoryError" class="text-danger"></span>
-                          </div>
+                        <label class="col-lg-3 col-form-label">Category</label>
+                        <div class="col-lg-4">
+                          <select class="form-control" name="category" id="exampleInputCity1">
+                            <% category.forEach(category=> { %>
+                              <option>
+                                <%= category.name %>
+                              </option>
+                              <% }) %>
+                          </select>
+                          <span id="categoryError" class="text-danger"></span>
+                        </div>
                       </div>
-                  
+
+
                       <!-- Brand -->
                       <div class="row mb-4">
-                          <label class="col-lg-3 col-form-label">Brand</label>
-                          <div class="col-lg-4">
-                              <input name="brand" id="brand" type="text" class="form-control" placeholder="Brand Name" value="<%=products.brand %>">
-                              <span id="brandError" class="text-danger"></span>
-                          </div>
+                        <label class="col-lg-3 col-form-label">Brand</label>
+                        <div class="col-lg-4">
+                          <input name="brand" id="brand" type="text" class="form-control" placeholder="Brand Name"
+                            value="<%=products.brand %>">
+                          <span id="brandError" class="text-danger"></span>
+                        </div>
                       </div>
-                  
+
                       <div class="row mb-4">
-                          <div class="col-lg-3"></div>
-                          <div class="col-lg-4">
-                              <button type="submit" class="btn btn-success">Submit</button>
-                          </div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-4">
+                          <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
                       </div>
-                  </form>
+                    </form>
 
                     <a href="/admin/products" class="btn btn-secondary">Cancel</a>
                   </section>
@@ -338,9 +349,9 @@
 
 
 
-<script>
-  function validateForm() {
-    
+  <script>
+    function validateForm() {
+
       var productName = document.getElementById("productName").value;
       var description = document.getElementById("description").value;
       var quantity = document.getElementById("quantity").value;
@@ -348,85 +359,81 @@
       var category = document.getElementById("exampleInputCity1").value;
       var brand = document.getElementById("brand").value;
 
-    
+
       if (productName.trim() === "") {
-          document.getElementById("productNameError").innerText = "Product name is required.";
+        document.getElementById("productNameError").innerText = "Product name is required.";
       }
 
       if (description.trim() === "") {
-          document.getElementById("descriptionError").innerText = "Description is required.";
+        document.getElementById("descriptionError").innerText = "Description is required.";
       }
 
       if (quantity.trim() === "") {
-          document.getElementById("quantityError").innerText = "Quantity is required.";
+        document.getElementById("quantityError").innerText = "Quantity is required.";
       }
 
       if (price.trim() === "") {
-          document.getElementById("priceError").innerText = "Price is required.";
+        document.getElementById("priceError").innerText = "Price is required.";
       }
 
       if (category.trim() === "") {
-          document.getElementById("categoryError").innerText = "Category is required.";
+        document.getElementById("categoryError").innerText = "Category is required.";
       }
 
       if (brand.trim() === "") {
-          document.getElementById("brandError").innerText = "Brand is required.";
+        document.getElementById("brandError").innerText = "Brand is required.";
       }
       if (
-          productName.trim() === "" ||
-          description.trim() === "" ||
-          quantity.trim() === "" ||
-          price.trim() === "" ||
-          image.trim() === "" ||
-          category.trim() === "" ||
-          brand.trim() === ""
+        productName.trim() === "" ||
+        description.trim() === "" ||
+        quantity.trim() === "" ||
+        price.trim() === "" ||
+        image.trim() === "" ||
+        category.trim() === "" ||
+        brand.trim() === ""
       ) {
-          return false; 
+        return false;
       }
 
-      return true; 
-  }
-</script>
+      return true;
+    }
+  </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
-<script>
- 
-  function countImages() {
+  <script>
+    function countImages() {
       return document.querySelectorAll('.image-container').length;
-  }
+    }
 
- 
-  function showSweetAlert(message) {
+    function showSweetAlert(message) {
       Swal.fire({
-          title: 'Validation Error',
-          text: message,
-          icon: 'error',
-          confirmButtonText: 'OK'
+        title: 'Validation Error',
+        text: message,
+        icon: 'error',
+        confirmButtonText: 'OK'
       });
-  }
+    }
 
- 
-  document.getElementById('uploadForm').addEventListener('submit', function(event) {
-    
+
+    document.getElementById('uploadForm').addEventListener('submit', function (event) {
+
       const numImages = countImages();
 
-     
+
       if (numImages < 4 || numImages > 4) {
-        
-          event.preventDefault();
 
-     
-          showSweetAlert('You can only upload exactly 4 images');
+        event.preventDefault();
 
-         
-          window.scrollTo(0, 0);
+
+        showSweetAlert('You can only upload exactly 4 images');
+
+
+        window.scrollTo(0, 0);
       }
-  });
-</script>
+    });
+  </script>
 
 
 
@@ -435,7 +442,7 @@
 
 
 
-<!-- <script>
+  <!-- <script>
 
 async function editProducts(event) {
   event.preventDefault();
@@ -468,7 +475,7 @@ async function editProducts(event) {
 
 
 
-<!-- Validation -->
+  <!-- Validation -->
 
 
 </body>

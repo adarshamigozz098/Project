@@ -1,176 +1,190 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>SHOEzzo</title>
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="" />
-        <meta property="og:type" content="" />
-        <meta property="og:url" content="" />
-        <meta property="og:image" content="" />
-        <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
-        <!-- Template CSS -->
-        <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
-    </head>
 
-    <body>
-        <div class="screen-overlay"></div>
-        <aside class="navbar-aside" id="offcanvas_aside">
-            <div class="aside-top">
-                <a href="" class="brand-wrap">
-                    <img src="imgs/theme/logo.svg" class="logo" alt="RAZO.store" />
-                </a>
-                <div>
-                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
-                </div>
+<head>
+    <meta charset="utf-8" />
+    <title>SHOEzzo</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
+    <!-- Template CSS -->
+    <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="" class="brand-wrap">
+                <img src="imgs/theme/logo.svg" class="logo" alt="SHOEzzo" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i
+                        class="text-muted material-icons md-menu_open"></i></button>
             </div>
-            <nav>
-                <ul class="menu-aside">
-                    <li class="menu-item">
-                        <a class="menu-link" href="/admin/dash">
-                            <i class="icon material-icons md-home"></i>
-                            <span class="text">Dashboard</span>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/dash">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/users">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/category">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Catgeory</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/products">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/order">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                        <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                        class="material-icons md-apps"></i></button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
                         </a>
                     </li>
-                    <li class="menu-item ">
-                        <a class="menu-link" href="/admin/users">
-                          <i class="icon material-icons md-shopping_bag"></i>
-                          <span class="text">Users</span>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i>
                         </a>
-                      </li>
-            
-                      <li class="menu-item active">
-                        <a class="menu-link" href="/admin/category">
-                          <i class="icon material-icons md-shopping_cart"></i>
-                          <span class="text">Catgeory</span>
-                        </a>
-                      </li>
-                      <li class="menu-item">
-                        <a class="menu-link" href="/admin/products">
-                          <i class="icon material-icons md-shopping_cart"></i>
-                          <span class="text">Products</span>
-                        </a>
-                      </li>
-                      <li class="menu-item">
-                        <a class="menu-link" href="/admin/order">
-                          <i class="icon material-icons md-shopping_cart"></i>
-                          <span class="text">Orders</span>
-                        </a>
-                      </li>
-                </ul>
-            </nav>
-        </aside>
-        <main class="main-wrap">
-            <header class="main-header navbar">
-                <div class="col-search">
-                    <form class="searchform">
-                        <div class="input-group">
-                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
-                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i
+                                class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage"
+                            aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png"
+                                    alt="English" />English</a>
+                            <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png"
+                                    alt="Français" />Français</a>
+
                         </div>
-                        <datalist id="search_terms">
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                        </datalist>
-                    </form>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                            aria-expanded="false"> <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png"
+                                alt="User" /></a>
+
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="/admin/logout">
+                            <i class="material-icons md-exit_to_app"></i>Logout
+                        </a>
+            </div>
+            </li>
+            </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Categories</h2>
+                    <p>Add, edit or delete a category</p>
                 </div>
-                <div class="col-nav">
-                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link btn-icon" href="#">
-                                <i class="material-icons md-notifications animation-shake"></i>
-                                <span class="badge rounded-pill">3</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
-                        </li>
-                        <li class="dropdown nav-item">
-                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-                                <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
-                                <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
-                              
+                <div>
+                    <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="row"> -->
+                    <div class="col-md">
+                        <form action="/admin/edit" method="post">
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Name</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="product_name"
+                                    name="product_name" value="<%= Data.name %>" />
+                                <input type="hidden" name="categoryId" value="<%= Data._id %>">
                             </div>
-                        </li>
-                        <li class="dropdown nav-item">
-                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
-                           
-                               
-                      <div class="dropdown-divider"></div>
-                  <a class="dropdown-item text-danger" href="/admin/logout">
-                   <i class="material-icons md-exit_to_app"></i>Logout
-                  </a>
-                  </div>
-                        </li>
-                    </ul>
-                </div>
-            </header>
-            <section class="content-main">
-                <div class="content-header">
-                    <div>
-                        <h2 class="content-title card-title">Categories</h2>
-                        <p>Add, edit or delete a category</p>
-                    </div>
-                    <div>
-                        <input type="text" placeholder="Search Categories" class="form-control bg-white" />
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <!-- <div class="row"> -->
-                            <div class="col-md">
-                                <form action="/admin/edit" method="post">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Name</label>
-                                        <input type="text" placeholder="Type here" class="form-control" id="product_name" name="product_name" value="<%= Data.name %>" />
-                                        <input type="hidden" name="categoryId" value="<%= Data._id %>" >
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label">Description</label>
-                                        <input type="text" placeholder="Type here" class="form-control" id="product_description" name="product_description" value="<%= Data.description %>" />
-                                    </div>
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary">Create category</button>
-                                    </div>
-                                    <% if(typeof message != 'undefined'){ %>
-                                        <span style="color: red; font-size: small;"><%= locals.message %></span>
-                                        <% } %>
-                                </form>
+                            <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="product_description"
+                                    name="product_description" value="<%= Data.description %>" />
                             </div>
-                          
-                            <!-- .col// -->
-                    
-                        <!-- .row // -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Create category</button>
+                            </div>
+                            <% if(typeof message !='undefined' ){ %>
+                                <span style="color: red; font-size: small;">
+                                    <%= locals.message %>
+                                </span>
+                                <% } %>
+                        </form>
                     </div>
-                    <!-- card body .// -->
+
+                    <!-- .col// -->
+
+                    <!-- .row // -->
                 </div>
-                <!-- card .// -->
-            </section>
-            <!-- content-main end// -->
-            <footer class="main-footer font-xs">
-                <div class="row pb-30 pt-15">
-                    <div class="col-sm-6">
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script>
-                        &copy;
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-end">All rights reserved</div>
-                    </div>
+                <!-- card body .// -->
+            </div>
+            <!-- card .// -->
+        </section>
+        <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    &copy;
                 </div>
-            </footer>
-        
+                <div class="col-sm-6">
+                    <div class="text-sm-end">All rights reserved</div>
+                </div>
+            </div>
+        </footer>
+
         <script src="ors/jquery-3.6.0.min.js"></script>
         <script src="js/vendors/bootstrap.bundle.min.js"></script>
         <script src="js/vendors/select2.min.js"></script>
@@ -178,5 +192,31 @@
         <script src="js/vendors/jquery.fullscreen.min.js"></script>
         <!-- Main Script -->
         <script src="js/main.js?v=1.1" type="text/javascript"></script>
-    </body>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const successMessage = '<%= messages.success %>';
+                const errorMessage = '<%= messages.error %>';
+                if (successMessage) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: successMessage,
+                    });
+                }
+                if (errorMessage) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage,
+                    });
+                }
+            });
+        </script>
+
+</body>
+
 </html>

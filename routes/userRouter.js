@@ -39,8 +39,8 @@ userRouter.get("/profile/orders",auth.isLogin,userController.userOrders)
 userRouter.get('/profile/address',auth.isLogin,userController.laodUsersAddress)
 userRouter.get('/addAddress',auth.isLogin,userController.addAddress)
 userRouter.post('/profile/address', userController.saveAddress);
-// userRouter.get('/profile/editAddress',userController.editAddress)
-// userRouter.post('/EditAddress',userController.editADD)
+userRouter.get('/profile/editAddress',userController.editAddress)
+
 userRouter.get('/checkAdd',userController.loadCheckAdd)
 userRouter.post('/checkAdd',userController.saveAddress)
 

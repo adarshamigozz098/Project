@@ -71,14 +71,6 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
 };
 
 
-userSchema.pre('save', async function(next) {
-    if (!this.isModified('password')) {
-        return next();
-    }
-    const saltRounds = 10;
-    this.password = await bcrypt.hash(this.password, saltRounds);
-    next();
-});
 
 
 const User=mongoose.model('User',userSchema)

@@ -23,7 +23,7 @@
   <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
       <a href="/admin/dash" class="brand-wrap">
-        <img src="" class="logo" alt="RAZO.store" />
+        <img src="" class="logo" alt="SHOEzzo" />
       </a>
       <div>
         <button class="btn btn-icon btn-aside-minimize">
@@ -141,7 +141,7 @@
                 <div class="dropdown btn-group mt-3">
                   <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
                     onclick="downloadPDF('printThisDiv')" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false"> Print
+                    aria-expanded="false"> <b style="text-decoration: darkgreen;">Print</b>
                   </button>
 
 
@@ -151,19 +151,19 @@
               <!-- heading -->
               <h2
                 style="margin-left: 39%;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
-                <b>SALES REPORT</b></h2>
+                <b style="font-weight: 300; color: rgb(203, 177, 177); background-color: rgb(3, 0, 0);">SALES REPORT</b></h2>
 
               <!-- date -->
               <div class="row mt-4">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label>Select Start Date:</label>
+                    <label><b style="color: rgb(0, 0, 0);">Select Start Date:</b></label>
                     <input type="date" id="fromDateInput" class="form-control">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label>Select End Date:</label>
+                    <label><b style="color: rgb(0, 0, 0);"> Select End Date</b>:</label>
                     <input type="date" id="toDateInput" class="form-control">
                   </div>
                 </div>
@@ -177,14 +177,14 @@
                       <thead id="reportHeader">
                         <tr>
                           <th>Email</th>
-                          <th>mobile</th>
+                          <!-- <th>mobile</th> -->
                           <th>Address</th>
                           <th>OrderId</th>
                           <th>Date</th>
                           <th>Payment Method</th>
                           <th>Total</th>
                           <th>Status</th>
-                          <th>Qty</th>
+                          <!-- <th>Qty</th> -->
                           <th>Product Name</th>
                         </tr>
                       </thead>
@@ -196,9 +196,9 @@
                                 <td>
                                   <%= order.user_id.email %>
                                 </td>
-                                <td>
+                                <!-- <td>
                                   <%= order.user_id.phone%>
-                                </td>
+                                </td> -->
                                 <td>
                                   <%= order.delivery_address %>
                                 </td>
@@ -217,9 +217,9 @@
                                 <td>
                                   <%= item.ordered_status %>
                                 </td>
-                                <td>
+                                <!-- <td>
                                   <%= item.quantity %>
-                                </td>
+                                </td> -->
                                 <td>
                                   <%= item.product_id.name %>
                                 </td>
@@ -233,13 +233,22 @@
                       <p class="text-center">No Sales</p>
                       <% } %>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <style>b {
+      font-weight: 1100;
+      .col-lg-6 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 12%;
+}
+  }</style>
 </body>
 <!-- Include Axios from CDN -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

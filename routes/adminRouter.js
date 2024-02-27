@@ -34,11 +34,7 @@ adminRouter.post("/", adminController.verifyLogin);
 adminRouter.get("/logout", adminController.logoutAdmin);
 adminRouter.get("/dashboard", isAdminAuthenticated, adminController.loadAdmin);
 adminRouter.get("/users", isAdminAuthenticated, adminController.loadUsers);
-adminRouter.get(
-  "/category",
-  isAdminAuthenticated,
-  adminController.loadCategory
-);
+adminRouter.get("/category",isAdminAuthenticated,adminController.loadCategory);
 adminRouter.post("/category", adminController.addCategory);
 adminRouter.post("/category/deleteCategory", adminController.deleteCategory);
 adminRouter.post("/category/listOrUnlist", adminController.listOrUnlist);
@@ -46,46 +42,25 @@ adminRouter.post("/block-user", adminController.blockUnblockUser);
 adminRouter.get("/edit", adminController.loadeditCategory);
 adminRouter.post("/edit", adminController.editCategory);
 
-adminRouter.get(
-  "/products",
-  isAdminAuthenticated,
-  productController.loadProducts
+adminRouter.get("/products",isAdminAuthenticated, productController.loadProducts
 );
-adminRouter.get(
-  "/products/addProducts",
-  isAdminAuthenticated,
-  productController.loadAddProducts
+adminRouter.get("/products/addProducts", isAdminAuthenticated,productController.loadAddProducts
 );
-adminRouter.post(
-  "/products/addProducts",
-  upload,
-  productController.addProducts
+adminRouter.post("/products/addProducts",upload,productController.addProducts
 );
-adminRouter.get(
-  "/editProducts",
-  isAdminAuthenticated,
-  productController.loadEditProduct
+adminRouter.get("/editProduct", isAdminAuthenticated, productController.loadEditProduct
 );
-adminRouter.post("/editProducts", upload, productController.editProducts);
+adminRouter.post("/editProduct", upload, productController.editProducts);
 adminRouter.get("/deleteProduct", productController.deleteProduct);
 adminRouter.post("/deleteImage", productController.deleteImage);
 adminRouter.get("/order", isAdminAuthenticated, adminController.loadOrder);
 adminRouter.get("/detail", isAdminAuthenticated, adminController.loadDetail);
-adminRouter.post(
-  "/updateOrderStatus",
-  isAdminAuthenticated,
-  adminController.updateOrderStatus
+adminRouter.post("/updateOrderStatus",isAdminAuthenticated,adminController.updateOrderStatus
 );
 
-adminRouter.get(
-  "/salesReport",
-  isAdminAuthenticated,
-  adminController.salesReport
+adminRouter.get("/salesReport",  isAdminAuthenticated,adminController.salesReport
 );
-adminRouter.get(
-  "/datePicker",
-  isAdminAuthenticated,
-  adminController.datePicker
+adminRouter.get( "/datePicker",isAdminAuthenticated,adminController.datePicker
 );
 
 module.exports = adminRouter;

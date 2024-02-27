@@ -20,6 +20,9 @@ var instance = new razorpay({
   key_secret: "2iLbGXeXJmvQGPb4dMOPlrST",
 });
 
+
+
+
 const verifySignup = async (req, res) => {
   try {
     const { username, email, phone, password, confirmPassword } = req.body;
@@ -263,6 +266,7 @@ const forgetPasswordVerify = async (req, res) => {
   }
 };
 
+
 const sendforgetemail = async (name, email, token) => {
   try {
     let transporter = nodemailer.createTransport({
@@ -280,9 +284,9 @@ const sendforgetemail = async (name, email, token) => {
       subject: "For Reset Password",
       html:
         "<p>Hii " +
-        name +
-        ', please click here to <a href="http://127.0.0.1:6003/forgetpassword?token=' +
+        ', please click here to <a href="http://127.0.0.1:6002/forgetpassword?token=' +
         token +
+
         '">Reset</a> your password.</p>',
     };
     await transporter.sendMail(mailOptions);
@@ -290,6 +294,7 @@ const sendforgetemail = async (name, email, token) => {
     console.log(error.message);
   }
 };
+
 
 const resetPasswordLoad = async (req, res) => {
   try {
@@ -657,7 +662,6 @@ const deleteAddress = async (req, res) => {
   }
 };
 
-
 const loadCart = async (req, res) => {
   try {
     const userId = req.user ? req.user._id : null;
@@ -669,6 +673,7 @@ const loadCart = async (req, res) => {
       (sum, item) => sum + item.total_price,
       0
     );
+
     res.render("cart", {
       cartProducts,
       totalPriceSum,
@@ -684,9 +689,7 @@ const addToCart = async (req, res) => {
   try {
     console.log("Add to cart request received ", req.body);
     const userId = req.user._id;
-  
     const productId = req.body.productId;
-  
     const quantity = req.body.quantity;
 
     let userCart = await Cart.findOne({ user_id: userId });
@@ -698,13 +701,24 @@ const addToCart = async (req, res) => {
       });
     }
 
-    const products = await product.findById(productId);
-    if (!products) {
+    const existingProductIndex = userCart.items.findIndex(
+      (item) => item.product_id.toString() === productId
+    );
+
+    if (existingProductIndex !== -1) {
+      console.error(`Product with id ${productId} is already in the cart.`);
+      return res
+        .status(400)
+        .send(`Product with id ${productId} is already in the cart.`);
+    }
+
+    const productToAdd = await product.findById(productId);
+    if (!productToAdd) {
       console.error(`Product with id ${productId} not found.`);
       return res.status(404).send(`Product with id ${productId} not found.`);
     }
 
-    if (quantity > products.quantity) {
+    if (quantity > productToAdd.quantity) {
       console.error(
         `Requested quantity exceeds available quantity for product ${productId}`
       );
@@ -715,31 +729,13 @@ const addToCart = async (req, res) => {
         );
     }
 
-    const existingProduct = userCart.items.find(
-      (item) => item.product_id === productId
-    );
+    userCart.items.push({
+      product_id: productId,
+      quantity: quantity,
+      price: productToAdd.price,
+      total_price: quantity * productToAdd.price,
+    });
 
-    if (existingProduct) {
-      existingProduct.quantity += quantity;
-      if (typeof products.price === "number" && !isNaN(products.price)) {
-        existingProduct.total_price = existingProduct.quantity * products.price;
-      } else {
-        console.error(`Invalid price for product ${productId}`);
-        return res.status(500).send(`Invalid price for product ${productId}`);
-      }
-    } else {
-      if (typeof products.price === "number" && !isNaN(products.price)) {
-        userCart.items.push({
-          product_id: productId,
-         quantity : quantity,
-          price: products.price,
-          total_price: quantity * products.price,
-        });
-      } else {
-        console.error(`Invalid price for product ${productId}`);
-        return res.status(500).send(`Invalid price for product ${productId}`);
-      }
-    }
     await userCart.save();
     const cartTotals = userCart.items.reduce(
       (sum, item) => sum + item.total_price,
@@ -755,6 +751,7 @@ const addToCart = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 
 
@@ -862,12 +859,26 @@ const loadCheckout = async (req, res) => {
         totalPrice += itemTotal;
       });
     }
-    res.render("checkout", { Data: userData, cart: userCart, totalPrice });
+
+    let currentUser; 
+    if (req.session.userId) {
+      currentUser = await User.findById(req.session.userId);
+      if (currentUser && currentUser.isBlocked) {
+        req.flash(
+          "error",
+          "Your account has been blocked. Please login again."
+        );
+        return res.redirect("/login");
+      }
+    }
+
+    res.render("checkout", { Data: userData, cart: userCart, totalPrice, currentUser }); 
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 const loadCheckAdd = async (req, res) => {
   try {
@@ -915,10 +926,18 @@ const placeOrder = async (req, res) => {
       0
     );
 
+    // Check if payment method is COD and total amount is over 1000
+    if (paymentMethod === "COD" && totalAmount > 1000) {
+      return res.status(400).json({
+        success: false,
+        message: "Cash on delivery orders cannot exceed 1000 INR.",
+      });
+    }
+    console.log("hehe");
+
     let status = paymentMethod === "COD" ? "placed" : "RazorPay";
+   
   
-
-
     const delivery = new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000);
     const deliveryDate = delivery
       .toLocaleString("en-US", {
@@ -967,7 +986,18 @@ const placeOrder = async (req, res) => {
       );
     }
 
-
+    if (status === "RazorPay") {
+      let cartDelete;
+      try {
+        cartDelete = await Cart.deleteOne({ user_id: user_id });
+      } catch (error) {
+        console.error("Error deleting cart:", error);
+        
+        return res.status(500).json({ success: false, message: "Failed to delete cart" });
+      }
+      console.log(cartDelete, "ayooo");
+    }
+    
     if (status === "placed") {
       const cartDelete = await Cart.deleteOne({ user_id: user_id });
       res.json({ success: true, orderId });
@@ -987,6 +1017,7 @@ const placeOrder = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
 
 const orderConfirmation = async (req, res) => {
   try {
@@ -1051,8 +1082,6 @@ const viewDetails = async (req, res) => {
 const cancelOrder = async (req, res) => {
   try {
     const { productIds } = req.body;
-
-    // Update the status of each product in the order
     const updatedOrders = await Promise.all(
       productIds.map(async (productId) => {
         const updatedOrder = await order.findOneAndUpdate(
@@ -1145,7 +1174,6 @@ module.exports = {
   verifyLogin,
   resendOTP,
   generateCustomUserId,
-
   cancelOrder,
   orderConfirmation,
 };

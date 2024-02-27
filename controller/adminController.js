@@ -557,6 +557,8 @@ const addCategory = async (req, res) => {
     });
 
     await newCategory.save();
+
+    req.flash("success", "Category created successfully.");
     return res.redirect("/admin/category");
   } catch (error) {
     console.error(error);
@@ -608,16 +610,15 @@ const editCategory = async (req, res) => {
     const description = req.body.product_description.toUpperCase();
     const existingCategory = await category.findOne({ name: name });
     if (existingCategory) {
-      res.render("categoryEdit", {
-        message: "Category already exists",
-        Data: existingCategory,
-      });
+      req.flash("error", "Category already exists");
+      return res.redirect("/admin/edit"); 
     } else {
       const updateCategory = await category.updateOne(
         { _id: id },
         { $set: { name: name, description: description } }
       );
 
+      req.flash("success", "Category updated successfully");
       res.redirect("/admin/category");
     }
   } catch (error) {
@@ -726,7 +727,7 @@ const salesReport = async (req, res) => {
 const datePicker = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    console.log(startDate,'--', endDate);
+    console.log(startDate, "--", endDate);
 
     const startDateObj = new Date(startDate);
     startDateObj.setHours(0, 0, 0, 0);
@@ -778,8 +779,8 @@ const datePicker = async (req, res) => {
         },
       },
     ]);
-console.log('selected orders',selectedDate);
-    res.status(200).json({success:true, selectedDate: selectedDate });
+    console.log("selected orders", selectedDate);
+    res.status(200).json({ success: true, selectedDate: selectedDate });
   } catch (error) {
     console.log(error);
   }

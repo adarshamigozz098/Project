@@ -27,7 +27,6 @@ const loadAddProducts = async (req, res) => {
 };
 
 
-
 const addProducts = async (req, res) => {
   try {
     const existProduct = await product.findOne({ name: req.body.productName });
@@ -44,7 +43,7 @@ const addProducts = async (req, res) => {
         date,
       } = req.body;
       const filenames = [];
-      console.log(req.body);
+      console.log(req.body,"huhhh");
     
       const selectedCategory = await Category.findOne({ name: category });
 
@@ -97,6 +96,8 @@ const loadEditProduct = async (req, res) => {
     console.log(error);
   }
 };
+
+
 
 const editProducts = async (req, res) => {
   try {
