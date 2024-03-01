@@ -4,6 +4,7 @@ const category = require("../model/category");
 const order = require("../model/order");
 const product = require("../model/product");
 const moment = require("moment");
+const coupon = require("../model/coupon")
 
 const loadAdmin = async (req, res) => {
   try {
@@ -35,7 +36,6 @@ const loadAdmin = async (req, res) => {
               $cond: [
                 {
                   $or: [
-                    { $eq: ["$items.ordered_status", "Cancelled"] },
                     { $eq: ["$items.ordered_status", "Returned"] },
                   ],
                 },
@@ -101,8 +101,8 @@ const loadAdmin = async (req, res) => {
       today.getDate() + 1
     );
 
-    console.log("Start of day:", startOfDay);
-    console.log("End of day:", endOfDay);
+    // console.log("Start of day:", startOfDay);
+    // console.log("End of day:", endOfDay);
 
     const dailyEarnings = await order.aggregate([
       {
@@ -392,7 +392,7 @@ const loadAdmin = async (req, res) => {
         totalUsers: foundYear ? foundYear.totalUsers : 0,
       };
     });
-    console.log("my yearlytotal users", updatedYearlyUsers);
+    // console.log("my yearlytotal users", updatedYearlyUsers);
     // latest orders
     const latestOrders = await order.aggregate([
       {
@@ -786,6 +786,98 @@ const datePicker = async (req, res) => {
   }
 };
 
+
+const loadCoupon = async (req, res) => {
+  try {
+    const coupons = await coupon.find({});
+    res.render("coupon", { coupons }); 
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+}
+
+
+const LoadaddCoupon = async(req,res)=>{
+  try {
+    res.render("addCoupon")
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const couponAddPost = async (req, res, next) => {
+  try {
+    const code = req.body.code;
+    const couponCode = await coupon.findOne({ code: code });
+
+    if (couponCode) {
+      res.render("addCoupon", { message: "This Coupon Already Exists" });
+    } else {
+      const newCoupon = new coupon({
+        code: req.body.code,
+        discountType: req.body.discountType,
+        discountAmount: req.body.amount,
+        maxCartAmount: req.body.cartAmount,
+        maxDiscountAmount: req.body.discountAmount,
+        maxUsers: req.body.couponCount,
+        expiryDate: req.body.date,
+      });
+
+      const savedCoupon = await newCoupon.save();
+      console.log("Saved Coupon:", savedCoupon);
+
+      const coupons = await coupon.find({});
+      res.render("coupon", { coupons });
+      console.log(coupons,"got :");
+    }
+  } catch (error) {
+    console.log(error.message);
+    next(error);
+  }
+};
+
+const deleteCoupon = async (req, res) => {
+  try {
+    const couponId = req.query.id; // Access id from query parameters
+    console.log(couponId, "id kittiyooo");
+    
+    const Coupon = await coupon.findById(couponId); // Use correct model name "Coupon"
+    console.log(coupon, "enthelum indoo");
+    
+    if (!Coupon) {
+      return res.status(404).json({ error: "Coupon not found" });
+    }
+
+    await coupon.findByIdAndDelete(couponId); 
+    res.redirect("/admin/coupon")
+  } catch (error) {
+    console.error("Error deleting coupon:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+
+const LoadEditCoupon = async(req,res)=>{
+  try {
+    res.render("editCoupon")
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const editCoupon = async(req,res)=>{
+  try {
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
 module.exports = {
   loadUsers,
   loadCategory,
@@ -797,12 +889,23 @@ module.exports = {
   addCategory,
   deleteCategory,
   listOrUnlist,
-  loadeditCategory,
+
   editCategory,
+  loadeditCategory,
+
   loadOrder,
   loadDetail,
   updateOrderStatus,
+
   // loadDashboard
   salesReport,
   datePicker,
+
+  // coupon
+  loadCoupon,
+  LoadaddCoupon,
+  couponAddPost,
+  deleteCoupon,
+  LoadEditCoupon,
+  editCoupon
 };

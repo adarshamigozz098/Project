@@ -937,6 +937,7 @@ const placeOrder = async (req, res) => {
 
     let status = paymentMethod === "COD" ? "placed" : "RazorPay";
    
+   
   
     const delivery = new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000);
     const deliveryDate = delivery

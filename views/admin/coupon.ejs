@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>SHOEZO</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
+    <!-- Template CSS -->
+    <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<style>
+
+.action-button {
+
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: green;
+  color: white; 
+}
+
+.delete-button {
+  background-color: red; 
+  color: white;
+}
+
+</style>
+
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i
+                        class="text-muted material-icons md-menu_open"></i></button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/dashboard">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/users">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/category">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Catgeory</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/products">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/order">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/coupon">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Coupon List</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+              
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
+                        class="material-icons md-apps"></i></button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i
+                                class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage"
+                            aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png"
+                                    alt="English" />English</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                            aria-expanded="false"> <img class="img-xs rounded-circle"
+                                src="imgs/people/avatar-2.png" alt="User" /></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                    class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <div class="content-header">
+                <h2 class="content-title">Coupons</h2>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <header class="border-bottom mb-4 pb-4">
+                                <div class="row">
+                                    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                                        <a href="./addcoupon">
+                                          <button class="btn btn-danger">Add Coupon</button>
+                                        </a>
+                                      </h2>
+                            </header>
+                            <!-- card-header end// -->
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>NO</th>
+                                            <th>NAME</th>
+                                            <th>AMOUNT</th>
+                                            <th>USER COUNT</th>
+                                            <th>DISCOUNT TYPE</th>
+                                            <th>EXPIRY DATE</th>
+                                            <th>ACTIONS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% coupons.forEach((coupon, index) => { %>
+                                            <tr>
+                                                <td><b><%= index + 1 %></b></td>
+                                                <td><%= coupon.code %></td>
+                                                <td><%= coupon.discountAmount %></td>                                              
+                                                <td><%= coupon.maxUsers %></td>
+                                                <td><%= coupon.discountType %></td>
+                                                <td><%= new Date(coupon.expiryDate).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }) %></td>
+                                                <td class="px-4 py-3">
+                                                    <div class="flex items-center space-x-4 text-sm">
+                                                      <a href="/admin/editCoupon?id=<%=coupon._id%>">
+                                                        <button style="background-color: green; color: white;" class="action-button edit-button" aria-label="Edit">
+                                                          Edit
+                                                        </button>
+                                                      </a>
+                                                      <a href="/admin/deleteCoupon?id=<%=coupon._id%>">
+                                                        <button style="background-color: red; color: white;" class="action-button delete-button" aria-label="Delete">
+                                                          Delete
+                                                        </button>
+                                                      </a>
+                                                    </div>
+                                                  </td>
+                                                  
+                                            </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- table-responsive.// -->
+                        </div>               
+                    </div>            
+                </div>        
+            </div>
+
+
+            <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                        <li class="page-item"><a class="page-link" href="#">02</a></li>
+                        <li class="page-item"><a class="page-link" href="#">03</a></li>
+                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    &copy; Nest - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">All rights reserved</div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="js/vendors/select2.min.js"></script>
+    <script src="js/vendors/perfect-scrollbar.js"></script>
+    <script src="js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="js/main.js?v=1.1" type="text/javascript"></script>
+
+
+    
+
+</body>
+
+</html>

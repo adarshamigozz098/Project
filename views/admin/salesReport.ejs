@@ -54,7 +54,7 @@
         </li>
         <li class="menu-item ">
           <a class="menu-link" href="/admin/products">
-            <i class="icon material-icons md-shopping_cart"></i>
+            <i class="icon material-icons md-shopping_bag"></i>
             <span class="text">Products</span>
           </a>
         </li>
@@ -62,6 +62,12 @@
           <a class="menu-link" href="/admin/order">
             <i class="icon material-icons md-shopping_cart"></i>
             <span class="text">orders</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/coupon">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Coupon List</span>
           </a>
         </li>
       </ul>
@@ -176,58 +182,41 @@
                     <table class="table table-bordered table-contextual" id="example">
                       <thead id="reportHeader">
                         <tr>
+                          <th>Product Name</th>
                           <th>Email</th>
                           <!-- <th>mobile</th> -->
                           <th>Address</th>
                           <th>OrderId</th>
                           <th>Date</th>
-                          <th>Payment Method</th>
+                          <th>PM</th>
                           <th>Total</th>
                           <th>Status</th>
-                          <!-- <th>Qty</th> -->
-                          <th>Product Name</th>
+                          <!-- <th>Qty</th> -->                    
                         </tr>
                       </thead>
                       <tbody id="reportBody">
-                        <% salesReport.forEach(order=>{ %>
-                          <% order.items.forEach(item=>{ %>
-                            <% if(item.ordered_status==="Delivered" ){ %>
+                        <% salesReport.forEach(order => { %>
+                          <% order.items.forEach(item => { %>
+                            <% if (item.ordered_status === "Delivered") { %>
                               <tr>
-                                <td>
-                                  <%= order.user_id.email %>
-                                </td>
-                                <!-- <td>
-                                  <%= order.user_id.phone%>
-                                </td> -->
-                                <td>
-                                  <%= order.delivery_address %>
-                                </td>
-                                <td>
-                                  <%= order.order_id%>
-                                </td>
-                                <td>
-                                  <%= moment(order.date).format('DD/MM/YYYY') %>
-                                </td>
-                                <td>
-                                  <%= order.payment%>
-                                </td>
-                                <td>
-                                  <%= (item.price*item.quantity)-item.discountPerItem %>
-                                </td>
-                                <td>
-                                  <%= item.ordered_status %>
-                                </td>
-                                <!-- <td>
-                                  <%= item.quantity %>
-                                </td> -->
-                                <td>
-                                  <%= item.product_id.name %>
-                                </td>
+                                <td><%= item.product_id.name %></td>
+                                <td><%= order.user_id.email %></td>
+                                <!-- Uncomment below lines if needed -->
+                                <!-- <td><%= order.user_id.phone %></td> -->
+                                <td><%= order.delivery_address %></td>
+                                <td><%= order.order_id %></td>
+                                <td><%= moment(order.date).format('DD/MM/YYYY') %></td>
+                                <td><%= order.payment %></td>
+                                <td><%= (item.price * item.quantity) - item.discountPerItem %></td>
+                                <td><%= item.ordered_status %></td>
+                                <!-- Uncomment below line if needed -->
+                                <!-- <td><%= item.quantity %></td> -->
                               </tr>
-                              <% } %>
-                                <% }) %>
-                                  <% }) %>
+                            <% } %>
+                          <% }) %>
+                        <% }) %>
                       </tbody>
+                      
                     </table>
                     <% }else{ %>
                       <p class="text-center">No Sales</p>
@@ -327,11 +316,6 @@
     // Event listeners to trigger data fetching when date inputs are changed
     fromDateInput.addEventListener('change', fetchData);
     toDateInput.addEventListener('change', fetchData);
-
-
-
-
-
 
   });
 </script>

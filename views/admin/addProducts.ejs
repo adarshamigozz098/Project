@@ -1,369 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>SHOEzzo</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-    <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/admin/imgs/theme/favicon.svg"
-    />
-    <!-- Template CSS -->
-    <link href="/admin/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
-  </head>
 
-  <body>
+<head>
+  <meta charset="utf-8" />
+  <title>SHOEzzo</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/admin/imgs/theme/favicon.svg" />
+  <!-- Template CSS -->
+  <link href="/admin/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+</head>
 
-<style>
-  .btn.btn-secondary {
-    margin-inline: 120px;
-  }
-</style>
+<body>
 
-   
-    <style>
-      div .nfs {
-          margin-left: -260x;
-      }
+  <style>
+    .btn.btn-secondary {
+      margin-inline: 120px;
+    }
   </style>
 
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-      <div class="aside-top">
-        <a href="/" class="brand-wrap">
-          <img src="" class="logo" alt="SHOEzzo" />
-        </a>
-        <div>
-          <button class="btn btn-icon btn-aside-minimize">
-            <i class="text-muted material-icons md-menu_open"></i>
-          </button>
-        </div>
-      </div>
-      <nav>
-        <ul class="menu-aside">
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/dashboard">
-              <i class="icon material-icons md-home"></i>
-              <span class="text">Dashboard</span>
-            </a>
-          </li>
-          <li class="menu-item ">
-            <a class="menu-link" href="/admin/users">
-              <i class="icon material-icons md-shopping_bag"></i>
-              <span class="text">Users</span>
-            </a>
-          </li>
 
-          <li class="menu-item ">
-            <a class="menu-link" href="/admin/category">
-              <i class="icon material-icons md-shopping_cart"></i>
-              <span class="text">Catgeory</span>
+  <style>
+    div .nfs {
+      margin-left: -260x;
+    }
+  </style>
+
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a href="/" class="brand-wrap">
+        <img src="" class="logo" alt="SHOEzzo" />
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize">
+          <i class="text-muted material-icons md-menu_open"></i>
+        </button>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/users">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Users</span>
+          </a>
+        </li>
+
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/category">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Catgeory</span>
+          </a>
+        </li>
+        <li class="menu-item active">
+          <a class="menu-link" href="/admin/products">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Products</span>
+          </a>
+        </li>
+        <li class="menu-item active">
+          <a class="menu-link" href="/admin/order">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Orders</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/order">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Coupon List</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/coupon">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Coupon List</span>
+          </a>
+        </li>
+    </nav>
+  </aside>
+
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+        <form class="searchform">
+          <div class="input-group">
+            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+            <button class="btn btn-light bg" type="button">
+              <i class="material-icons md-search"></i>
+            </button>
+          </div>
+          <datalist id="search_terms">
+            <option value=""></option>
+            <option value=""></option>
+
+          </datalist>
+        </form>
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+          <i class="material-icons md-apps"></i>
+        </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon" href="#">
+              <i class="material-icons md-notifications animation-shake"></i>
+              <span class="badge rounded-pill">3</span>
             </a>
           </li>
-          <li class="menu-item active">
-            <a class="menu-link" href="/admin/products">
-              <i class="icon material-icons md-shopping_cart"></i>
-              <span class="text">Products</span>
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#">
+              <i class="material-icons md-nights_stay"></i>
             </a>
           </li>
-          <li class="menu-item active">
-            <a class="menu-link" href="/admin/order">
-              <i class="icon material-icons md-shopping_cart"></i>
-              <span class="text">Orders</span>
-            </a>
+          <li class="nav-item">
+            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
           </li>
-      </nav>
-    </aside>
-    
-    <main class="main-wrap">
-      <header class="main-header navbar">
-        <div class="col-search">
-          <form class="searchform">
-            <div class="input-group">
-              <input
-                list="search_terms"
-                type="text"
-                class="form-control"
-                placeholder="Search term"
-              />
-              <button class="btn btn-light bg" type="button">
-                <i class="material-icons md-search"></i>
-              </button>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i
+                class="material-icons md-public"></i></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+              <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
+              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
             </div>
-            <datalist id="search_terms">
-              <option value=""></option>
-              <option value=""></option>
-             
-            </datalist>
-          </form>
-        </div>
-        <div class="col-nav">
-          <button
-            class="btn btn-icon btn-mobile me-auto"
-            data-trigger="#offcanvas_aside"
-          >
-            <i class="material-icons md-apps"></i>
-          </button>
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link btn-icon" href="#">
-                <i class="material-icons md-notifications animation-shake"></i>
-                <span class="badge rounded-pill">3</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link btn-icon darkmode" href="#">
-                <i class="material-icons md-nights_stay"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="requestfullscreen nav-link btn-icon"
-                ><i class="material-icons md-cast"></i
-              ></a>
-            </li>
-            <li class="dropdown nav-item">
-              <a
-                class="dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                id="dropdownLanguage"
-                aria-expanded="false"
-                ><i class="material-icons md-public"></i
-              ></a>
-              <div
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownLanguage"
-              >
-                <a class="dropdown-item text-brand" href="#"
-                  ><img src="imgs/theme/flag-us.png" alt="English" />English</a
-                >
-                <a class="dropdown-item" href="#"
-                  ><img
-                    src="imgs/theme/flag-fr.png"
-                    alt="Français"
-                  />Français</a
-                >
-              </div>
-            </li>
-            <li class="dropdown nav-item">
-              <a
-                class="dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                id="dropdownAccount"
-                aria-expanded="false"
-              >
-                <img
-                  class="img-xs rounded-circle"
-                  src="user//imgs/people/avatar-2.png"
-                  alt="User"
-              /></a>
-              <div
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownAccount"
-              >   
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="user//imgs/people/avatar-2.png" alt="User" /></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
               <div class="dropdown-divider"></div>
               <a class="dropdown-item text-danger" href="/admin/logout">
                 <i class="material-icons md-exit_to_app"></i>Logout
               </a>
-            </li>
-            </div>
-          </ul>
-        </div>
-      </header>
-      <section class="content-main">
-        <div class="row">
-            <div class="col-9">
-                <div class="content-header">
-                    <h2 class="content-title">Add New Product</h2>
-                </div>
-            </div>
-            <div class="col-9">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row gx-5">
-                            <div class="col-lg-9">
-
-                              <section class="content-body p-xl-4">
-                                <form class="forms-sample" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-                                  
-                                    <div class="row mb-4">
-                                        <label class="col-lg-3 col-form-label">Product name*</label>
-                                        <div class="col-lg-9">
-                                            <input name="productName" id="productName" type="text" class="form-control" placeholder="Product Name" >
-                                            <span id="productNameError" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                             
-                                    <div class="row mb-4">
-                                        <label class="col-lg-3 col-form-label">Description*</label>
-                                        <div class="col-lg-9">
-                                            <input name="description" id="description" type="text" class="form-control" placeholder="Description" >
-                                            <span id="descriptionError" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                            
-                                    <div class="row mb-4">
-                                        <label class="col-lg-3 col-form-label">Quantity</label>
-                                        <div class="col-lg-9">
-                                            <input name="quantity" id="quantity" type="number" class="form-control" placeholder="Quantity" />
-                                            <span id="quantityError" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                            
-                                    <!-- Price -->
-                                    <div class="row mb-4">
-                                        <label class="col-lg-3 col-form-label">Price</label>
-                                        <div class="col-lg-4">
-                                            <input name="price" id="price" type="text" class="form-control" placeholder="Price" >
-                                            <span id="priceError" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                            
-                                    <!-- File Upload -->
-                                    <div class="row mb-4">
-                                      <label class="col-lg-3 col-form-label">File upload</label>
-                                      <div class="col-lg-4">
-                                          <div class="input-group">
-                                              <input name="image" id="image" type="file" class="form-control" name="image" multiple required>
-                                          </div>
-                                          <div id="imageError" class="text-danger"></div>
-                                      </div>
-                                  </div>
-                                  
-                                  <!-- category -->
-                                    <div class="row mb-4">
-                                        <label class="col-lg-3 col-form-label">Category</label>
-                                        <div class="col-lg-4">
-                                            <select class="form-control" name="category" id="exampleInputCity1" required>
-                                                <% category.forEach(category=>{ %>
-                                                    <option>
-                                                        <%= category.name %>
-                                                    </option>
-                                                <% }) %>
-                                            </select>
-                                            <span id="categoryError" class="text-danger"></span>
-                                        </div>      
-                                    </div>
-                            
-                                    <div class="row mb-4">
-                                        <label class="col-lg-3 col-form-label">Brand</label>
-                                        <div class="col-lg-4">
-                                            <input name="brand" id="brand" type="text" class="form-control" placeholder="Brand" />
-                                            <span id="brandError" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                            
-                                    <div class="row mb-4">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-4">
-                                            <button type="submit" class="btn btn-success">Submit</button>                                            
-                                        </div>
-                                    </div>
-                                </form>
-                                <a href="/admin/products" class="btn btn-secondary">Cancel</a>                              
-                            </section>
-                            
-                            
-      <footer class="main-footer font-xs">
-        <div class="row pb-30 pt-15">
-          <div class="col-sm-6">
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            &copy; 
-          </div>
-          <div class="col-sm-6">
-            <div class="text-sm-end">All rights reserved</div>
+          </li>
+      </div>
+      </ul>
+      </div>
+    </header>
+    <section class="content-main">
+      <div class="row">
+        <div class="col-9">
+          <div class="content-header">
+            <h2 class="content-title">Add New Product</h2>
           </div>
         </div>
-      </footer>
-    </main>
-    <script src="js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="js/vendors/select2.min.js"></script>
-    <script src="js/vendors/perfect-scrollbar.js"></script>
-    <script src="js/vendors/jquery.fullscreen.min.js"></script>
-   
-    <script src="js/main.js?v=1.1" type="text/javascript"></script>
+        <div class="col-9">
+          <div class="card">
+            <div class="card-body">
+              <div class="row gx-5">
+                <div class="col-lg-9">
+
+                  <section class="content-body p-xl-4">
+                    <form class="forms-sample" method="post" enctype="multipart/form-data"
+                      onsubmit="return validateForm()">
+
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Product name*</label>
+                        <div class="col-lg-9">
+                          <input name="productName" id="productName" type="text" class="form-control"
+                            placeholder="Product Name">
+                          <span id="productNameError" class="text-danger"></span>
+                        </div>
+                      </div>
+
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Description*</label>
+                        <div class="col-lg-9">
+                          <input name="description" id="description" type="text" class="form-control"
+                            placeholder="Description">
+                          <span id="descriptionError" class="text-danger"></span>
+                        </div>
+                      </div>
+
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Quantity</label>
+                        <div class="col-lg-9">
+                          <input name="quantity" id="quantity" type="number" class="form-control"
+                            placeholder="Quantity" />
+                          <span id="quantityError" class="text-danger"></span>
+                        </div>
+                      </div>
+
+                      <!-- Price -->
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Price</label>
+                        <div class="col-lg-4">
+                          <input name="price" id="price" type="text" class="form-control" placeholder="Price">
+                          <span id="priceError" class="text-danger"></span>
+                        </div>
+                      </div>
+
+                      <!-- File Upload -->
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">File upload</label>
+                        <div class="col-lg-4">
+                          <div class="input-group">
+                            <input name="image" id="image" type="file" class="form-control" name="image" multiple
+                              required>
+                          </div>
+                          <div id="imageError" class="text-danger"></div>
+                        </div>
+                      </div>
+
+                      <!-- category -->
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Category</label>
+                        <div class="col-lg-4">
+                          <select class="form-control" name="category" id="exampleInputCity1" required>
+                            <% category.forEach(category=>{ %>
+                              <option>
+                                <%= category.name %>
+                              </option>
+                              <% }) %>
+                          </select>
+                          <span id="categoryError" class="text-danger"></span>
+                        </div>
+                      </div>
+
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Brand</label>
+                        <div class="col-lg-4">
+                          <input name="brand" id="brand" type="text" class="form-control" placeholder="Brand" />
+                          <span id="brandError" class="text-danger"></span>
+                        </div>
+                      </div>
+
+                      <div class="row mb-4">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-4">
+                          <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                    <a href="/admin/products" class="btn btn-secondary">Cancel</a>
+                  </section>
 
 
-  
-    <script>
-      function validateForm() {
-        
-          document.getElementById("productNameError").innerText = "";
-          document.getElementById("descriptionError").innerText = "";
-          document.getElementById("quantityError").innerText = "";
-          document.getElementById("priceError").innerText = "";
-          document.getElementById("imageError").innerText = "";
-          document.getElementById("categoryError").innerText = "";
-          document.getElementById("brandError").innerText = "";
-  
-     
-          var productName = document.getElementById("productName").value;
-          var description = document.getElementById("description").value;
-          var quantity = document.getElementById("quantity").value;
-          var price = document.getElementById("price").value;
-          var image = document.getElementById("image").value;
-          var category = document.getElementById("exampleInputCity1").value;
-          var brand = document.getElementById("brand").value;
-  
-        
-          if (productName.trim() === "") {
-              document.getElementById("productNameError").innerText = "Product name is required.";
-          }
-  
-          if (description.trim() === "") {
-              document.getElementById("descriptionError").innerText = "Description is required.";
-          }
-  
-          if (quantity.trim() === "") {
-              document.getElementById("quantityError").innerText = "Quantity is required.";
-          }
-  
-          if (price.trim() === "") {
-              document.getElementById("priceError").innerText = "Price is required.";
-          }
-  
-          if (image.trim() === "") {
-              document.getElementById("imageError").innerText = "Image is required.";
-          }
-  
-          if (category.trim() === "") {
-              document.getElementById("categoryError").innerText = "Category is required.";
-          }
-  
-          if (brand.trim() === "") {
-              document.getElementById("brandError").innerText = "Brand is required.";
-          }
-          if (
-              productName.trim() === "" ||
-              description.trim() === "" ||
-              quantity.trim() === "" ||
-              price.trim() === "" ||
-              image.trim() === "" ||
-              category.trim() === "" ||
-              brand.trim() === ""
-          ) {
-              return false; 
-          }
-  
-          return true; 
+                  <footer class="main-footer font-xs">
+                    <div class="row pb-30 pt-15">
+                      <div class="col-sm-6">
+                        <script>
+                          document.write(new Date().getFullYear());
+                        </script>
+                        &copy;
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                      </div>
+                    </div>
+                  </footer>
+  </main>
+  <script src="js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="js/vendors/select2.min.js"></script>
+  <script src="js/vendors/perfect-scrollbar.js"></script>
+  <script src="js/vendors/jquery.fullscreen.min.js"></script>
+
+  <script src="js/main.js?v=1.1" type="text/javascript"></script>
+
+
+
+  <script>
+    function validateForm() {
+
+      document.getElementById("productNameError").innerText = "";
+      document.getElementById("descriptionError").innerText = "";
+      document.getElementById("quantityError").innerText = "";
+      document.getElementById("priceError").innerText = "";
+      document.getElementById("imageError").innerText = "";
+      document.getElementById("categoryError").innerText = "";
+      document.getElementById("brandError").innerText = "";
+
+
+      var productName = document.getElementById("productName").value;
+      var description = document.getElementById("description").value;
+      var quantity = document.getElementById("quantity").value;
+      var price = document.getElementById("price").value;
+      var image = document.getElementById("image").value;
+      var category = document.getElementById("exampleInputCity1").value;
+      var brand = document.getElementById("brand").value;
+
+
+      if (productName.trim() === "") {
+        document.getElementById("productNameError").innerText = "Product name is required.";
       }
+
+      if (description.trim() === "") {
+        document.getElementById("descriptionError").innerText = "Description is required.";
+      }
+
+      if (quantity.trim() === "") {
+        document.getElementById("quantityError").innerText = "Quantity is required.";
+      }
+
+      if (price.trim() === "") {
+        document.getElementById("priceError").innerText = "Price is required.";
+      }
+
+      if (image.trim() === "") {
+        document.getElementById("imageError").innerText = "Image is required.";
+      }
+
+      if (category.trim() === "") {
+        document.getElementById("categoryError").innerText = "Category is required.";
+      }
+
+      if (brand.trim() === "") {
+        document.getElementById("brandError").innerText = "Brand is required.";
+      }
+      if (
+        productName.trim() === "" ||
+        description.trim() === "" ||
+        quantity.trim() === "" ||
+        price.trim() === "" ||
+        image.trim() === "" ||
+        category.trim() === "" ||
+        brand.trim() === ""
+      ) {
+        return false;
+      }
+
+      return true;
+    }
   </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-<!-- <script>
+  <!-- <script>
   function validateAddProductForm() {
     var input = document.getElementById('image');
     var files = input.files;
@@ -392,5 +367,6 @@
 
 
 
-  </body>
+</body>
+
 </html>

@@ -24,10 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).array("image", 4);
 
 
-adminRouter.get("/home", (req, res) => {
-  const username = req.session.username;
-  res.render("users/home", { username });
-});
+adminRouter.get("/home", (req, res) => { const username = req.session.username;res.render("users/home", { username });});
 
 adminRouter.get("/", adminController.loadLogin);
 adminRouter.post("/", adminController.verifyLogin);
@@ -42,25 +39,29 @@ adminRouter.post("/block-user", adminController.blockUnblockUser);
 adminRouter.get("/edit", adminController.loadeditCategory);
 adminRouter.post("/edit", adminController.editCategory);
 
-adminRouter.get("/products",isAdminAuthenticated, productController.loadProducts
-);
-adminRouter.get("/products/addProducts", isAdminAuthenticated,productController.loadAddProducts
-);
-adminRouter.post("/products/addProducts",upload,productController.addProducts
-);
-adminRouter.get("/editProduct", isAdminAuthenticated, productController.loadEditProduct
-);
+adminRouter.get("/products",isAdminAuthenticated, productController.loadProducts);
+adminRouter.get("/products/addProducts", isAdminAuthenticated,productController.loadAddProducts);
+adminRouter.post("/products/addProducts",upload,productController.addProducts);
+adminRouter.get("/editProduct", isAdminAuthenticated, productController.loadEditProduct);
 adminRouter.post("/editProduct", upload, productController.editProducts);
 adminRouter.get("/deleteProduct", productController.deleteProduct);
 adminRouter.post("/deleteImage", productController.deleteImage);
 adminRouter.get("/order", isAdminAuthenticated, adminController.loadOrder);
 adminRouter.get("/detail", isAdminAuthenticated, adminController.loadDetail);
-adminRouter.post("/updateOrderStatus",isAdminAuthenticated,adminController.updateOrderStatus
-);
+adminRouter.post("/updateOrderStatus",isAdminAuthenticated,adminController.updateOrderStatus);
 
-adminRouter.get("/salesReport",  isAdminAuthenticated,adminController.salesReport
-);
-adminRouter.get( "/datePicker",isAdminAuthenticated,adminController.datePicker
-);
+adminRouter.get("/salesReport",  isAdminAuthenticated,adminController.salesReport);
+adminRouter.get( "/datePicker",isAdminAuthenticated,adminController.datePicker);
+
+// Coupons
+adminRouter.get("/coupon", isAdminAuthenticated,adminController.loadCoupon)
+adminRouter.get("/addCoupon", isAdminAuthenticated,adminController.LoadaddCoupon)
+adminRouter.post("/addCoupon", isAdminAuthenticated, adminController.couponAddPost);
+adminRouter.get("/deleteCoupon",isAdminAuthenticated, adminController.deleteCoupon)
+adminRouter.get("/editCoupon",isAdminAuthenticated, adminController.LoadEditCoupon)
+adminRouter.get("/editCoupon",isAdminAuthenticated, adminController.editCoupon)
+
+
+
 
 module.exports = adminRouter;

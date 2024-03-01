@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>SHOEzzo</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
+  <!-- Template CSS -->
+
+  <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f7f7f7;
+        }
+      
+        .container {
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #ffffff;
+          border-radius: 10px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+      
+        h2 {
+          font-size: 24px;
+          margin-bottom: 20px;
+        }
+      
+        label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: bold;
+        }
+      
+        input[type="text"],
+        input[type="number"],
+        select {
+          width: 100%;
+          padding: 15px;
+          margin-bottom: 12px;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+        }
+      
+        button {
+          background-color: #ff0000;
+          color: #ffffff;
+          border: none;
+          border-radius: 4px;
+          padding: 10px 20px;
+          margin-left: 120px;
+          cursor: pointer;
+        }
+      
+        button:hover {
+          background-color: #a01111;
+        }
+        
+      </style>
+      
+
+
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a href="index.html" class="brand-wrap">
+        <img src="" class="" alt="SHOEzzo" />
+      </a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize">
+          <i class="text-muted material-icons md-menu_open"></i>
+        </button>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item active">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/users">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Users</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/category">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Catgeory</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/products">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Products</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/order">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Orders</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/coupon">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Coupon List</span>
+          </a>
+        </li>
+      </ul>
+
+      <br />
+      <br />
+    </nav>
+  </aside>
+
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+        <!-- <form class="searchform">
+          <div class="input-group">
+            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+            <button class="btn btn-light bg" type="button">
+              <i class="material-icons md-search"></i>
+            </button>
+          </div>
+          <datalist id="search_terms">
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+          </datalist>
+        </form> -->
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+          <i class="material-icons md-apps"></i>
+        </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon" href="#">
+              <i class="material-icons md-notifications animation-shake"></i>
+              <span class="badge rounded-pill">3</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#">
+              <i class="material-icons md-nights_stay"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i
+                class="material-icons md-public"></i></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+              <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png"
+                  alt="English" />English</a>
+              <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+            </div>
+          </li>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="/admin/logout">
+                <i class="material-icons md-exit_to_app"></i>Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </header>
+   
+
+    <!-- FORM -->
+    <main class="h-full pb-16 overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+          <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            EDIT COUPON
+          </h2>
+          <form action="" method="post">
+            <div
+            class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
+          >
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400">Name</span>
+              <input
+                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                placeholder="Enter Coupon Name"
+                id="code"
+                name="code"
+                type="text"
+                required/>
+              
+            </label>
+            <% if(typeof message !== 'undefined'){ %>
+              <p id="para" style="color: red;font-family: Georgia, 'Times New Roman', Times, serif;"><%=message%></p>
+              <% } %>
+    
+            <label class="block mt-4 text-sm">
+              <span class="text-gray-700 dark:text-gray-400">
+                Discount Type
+              </span>
+              <select
+                class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                name="discountType"
+                id="discountType">
+               <option>Fixed Amount</option>
+               <option>Percentage Type</option>
+              </select>
+            </label>
+    
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400">Discount Amount</span>
+              <input
+                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                placeholder="Enter the discount amount"
+                id="amount"
+                name="amount"
+                type="number"
+                required/>
+    
+            <label class="block text-sm py-4">
+              <span class="text-gray-700 dark:text-gray-400">Expiry Date</span>
+              <input
+                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                id="date"
+                name="date"
+                type="date"
+                required/>
+              
+            </label>
+    
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400">Min Cart Amount</span>
+              <input
+                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                placeholder="Enter the Cart amount"
+                id="cartAmount"
+                name="cartAmount"
+                type="number"
+                required/>
+            </label>
+    
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400">Max Discount Amount</span>
+              <input
+                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                placeholder="Enter the Discount Amount"
+                id="discountAmount"
+                name="discountAmount"
+                type="number"
+                required/>
+              
+            </label>
+    
+            <label class="block text-sm">
+              <span class="text-gray-700 dark:text-gray-400">Max Coupons</span>
+              <input
+                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                placeholder="Enter the count of coupons"
+                id="couponCount"
+                name="couponCount"
+                type="number"
+                required />  
+
+            </label>
+
+            <button
+            type="submit"
+            class="block w-50 px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            SUMBIT
+          </button>
+          
+          </div>
+          </form>   
+        </div>
+      </main>
+      
+    
