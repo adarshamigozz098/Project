@@ -22,9 +22,7 @@
   <div class="screen-overlay"></div>
   <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
-      <a href="/admin/dash" class="brand-wrap">
-        <img src="" class="logo" alt="SHOEzzo" />
-      </a>
+      <a class="navbar-brand" href="/">SHOEzzo</a>
       <div>
         <button class="btn btn-icon btn-aside-minimize">
           <i class="text-muted material-icons md-menu_open"></i>
@@ -67,7 +65,7 @@
         <li class="menu-item">
           <a class="menu-link" href="/admin/coupon">
             <i class="icon material-icons md-shopping_bag"></i>
-            <span class="text">Coupon List</span>
+            <span class="text">Coupons</span>
           </a>
         </li>
       </ul>
@@ -149,15 +147,13 @@
                     onclick="downloadPDF('printThisDiv')" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false"> <b style="text-decoration: darkgreen;">Print</b>
                   </button>
-
-
                 </div>
               </div>
 
               <!-- heading -->
               <h2
                 style="margin-left: 39%;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
-                <b style="font-weight: 300; color: rgb(203, 177, 177); background-color: rgb(3, 0, 0);">SALES REPORT</b></h2>
+                <b style="font-weight: 300; color: rgb(203, 177, 177);  margin-left: -470px; ;  background-color: rgb(244 244 244);;">SALES REPORT</b></h2>
 
               <!-- date -->
               <div class="row mt-4">
@@ -229,6 +225,16 @@
       </div>
     </div>
 
+
+<style>
+  element.style {
+    font-weight: 300;
+    color: rgb(203, 177, 177);
+    background-color: rgb(244 244 244);
+    margin-left: -470px;
+}
+</style>
+
     <style>b {
       font-weight: 1100;
       .col-lg-6 {
@@ -239,11 +245,10 @@
 }
   }</style>
 </body>
-<!-- Include Axios from CDN -->
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<!-- Include SweetAlert CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
@@ -253,7 +258,7 @@
 
     console.log(fromDateInput, toDateInput);
 
-    // Function to fetch data based on selected dates
+   
     const fetchData = async () => {
       try {
         const response = await axios.get('/admin/datePicker', {
@@ -263,7 +268,7 @@
           },
         });
         console.log('startDate:', fromDateInput.value, 'endDate:', toDateInput.value);
-        // alert('data:', response.data);
+    
         const salesReport = response.data.selectedDate
 
         const reportBody = document.getElementById("reportBody")
@@ -313,7 +318,7 @@
       }
     };
 
-    // Event listeners to trigger data fetching when date inputs are changed
+   
     fromDateInput.addEventListener('change', fetchData);
     toDateInput.addEventListener('change', fetchData);
 
@@ -345,12 +350,11 @@
 
     let csvContent = "\uFEFF";
 
-    // Adding table headers
     const headerCells = table.querySelectorAll('thead th');
     const headerValues = Array.from(headerCells).map(header => header.textContent.trim());
     csvContent += headerValues.join(',') + '\n';
 
-    // Adding table data
+   
     for (let i = 1; i < rows.length; i++) {
       const cells = rows[i].getElementsByTagName('td');
       const cellValues = Array.from(cells).map(cell => cell.textContent.trim());

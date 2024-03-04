@@ -1,6 +1,7 @@
 const User = require("../model/userModel");
 const product = require("../model/product");
 const Cart = require("../model/cart");
+const coupon = require("../model/coupon")
 
 const config = require("../config/config");
 const razorpay = require("razorpay");
@@ -13,6 +14,7 @@ const userOTPverification = require("../model/userOTPverification");
 const randomstrings = require("randomstring");
 const order = require("../model/order");
 const { connections } = require("mongoose");
+const category = require("../model/category");
 
 
 var instance = new razorpay({
@@ -388,6 +390,7 @@ const loadShop = async (req, res) => {
     if (req.query.search) {
       query = { name: { $regex: new RegExp(req.query.search, "i") } };
     }
+
     let currentUser;
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);
@@ -399,6 +402,7 @@ const loadShop = async (req, res) => {
         return res.redirect("/login");
       }
     }
+
     let sortOption = {};
 
     if (req.query.sort === "lowToHigh") {
@@ -410,8 +414,11 @@ const loadShop = async (req, res) => {
     const totalProducts = await product.countDocuments(query);
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
 
-    const productData = await product
-      .find(query)
+    // Fetch categories
+    const categories = await category.distinct("name");
+
+
+    const productData = await product.find(query)
       .sort(sortOption)
       .skip((page - 1) * ITEMS_PER_PAGE)
       .limit(6)
@@ -423,11 +430,13 @@ const loadShop = async (req, res) => {
       totalPages: totalPages,
       sort: req.query.sort,
       currentUser,
+      categories: categories 
     });
   } catch (error) {
     console.log(error);
   }
 };
+
 
 const loadContact = async (req, res) => {
   try {
@@ -537,7 +546,7 @@ const editProfile = async (req, res) => {
       return res.redirect("/login");
     }
 
-    res.render("editProfile", { userData });
+    res.render("editProfile", { currentUser: userData });
   } catch (error) {
     console.log(error);
     req.flash("error", "Internal Server Error");
@@ -583,7 +592,6 @@ const userOrders = async (req, res) => {
 const laodUsersAddress = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
-
     res.render("address", { Data: userData, currentUser: req.session.user_id });
   } catch (error) {
     console.log(error);
@@ -593,7 +601,16 @@ const laodUsersAddress = async (req, res) => {
 
 const addAddress = async (req, res) => {
   try {
-    res.render("addAddress");
+    const userId = req.session.userId;
+    const userData = await User.findById(userId);
+
+    if (!userData) {
+      req.flash("error", "User not found");
+      return res.redirect("/login");
+    }
+    res.render("addAddress", {
+      currentUser: userData, 
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
@@ -627,17 +644,24 @@ const saveAddress = async (req, res) => {
   }
 };
 
+
 const editAddress = async (req, res) => {
   try {
     const addressId = req.query.addressId;
-    // console.log("jsd", addressId);
+
     const userData = await User.findOne({ _id: req.session.userId });
+
+    if (!userData) {
+      req.flash("error", "User not found");
+      return res.redirect("/login");
+    }
+
     const addressToEdit = userData.address.find(
       (address) => address._id.toString() === addressId
     );
 
     if (addressToEdit) {
-      res.render("editAddress", { addressToEdit });
+      res.render("editAddress", { addressToEdit, currentUser: userData });
     } else {
       res.status(404).send("Address not found");
     }
@@ -646,6 +670,7 @@ const editAddress = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 const deleteAddress = async (req, res) => {
   try {
@@ -847,10 +872,13 @@ const loadAbout = async (req, res) => {
   }
 };
 
+
+
 const loadCheckout = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
     const userCart = await Cart.findOne({ user_id: req.session.userId });
+    const coupons = await coupon.find()
 
     let totalPrice = 0;
     if (userCart && userCart.items) {
@@ -871,13 +899,13 @@ const loadCheckout = async (req, res) => {
         return res.redirect("/login");
       }
     }
-
-    res.render("checkout", { Data: userData, cart: userCart, totalPrice, currentUser }); 
+    res.render("checkout", { Data: userData, cart: userCart, totalPrice, currentUser, coupons }); 
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 
 const loadCheckAdd = async (req, res) => {
@@ -1093,7 +1121,6 @@ const cancelOrder = async (req, res) => {
         return updatedOrder;
       })
     );
-
     return res
       .status(200)
       .json({ message: "Orders cancelled successfully", updatedOrders });
@@ -1130,6 +1157,76 @@ const checkAdd = async (req, res) => {
   }
 };
 
+
+
+//apply coupon
+const applyCoupon = async (req, res,next) => {
+  try {
+    const code = req.body.code;
+    console.log("code:",code);
+    const amount = Number(req.body.amount);
+    console.log(amount,"numm");
+    const userExist = await coupon.findOne({
+      code: code,
+      user: { $in: [req.session.userId] },
+    });
+    if (userExist) {
+      res.json({ user: true });
+    } else {
+      const couponData = await coupon.findOne({ code: code });
+      if (couponData) {
+        if (couponData.maxUsers <= 0) {
+          res.json({ limit: true });
+        } else {
+          if (couponData.status == false) {
+            res.json({ status: true });
+          } else {
+            if (couponData.expiryDate <= new Date()) {
+              res.json({ date: true });
+            } else {
+              if (couponData.maxCartAmount >= amount) {
+                res.json({ cartAmount: true });
+              } else {
+                await coupon.findByIdAndUpdate(
+                  { _id: couponData._id },
+                  { $push: { user: req.session.user_id } }
+                );
+                await coupon.findByIdAndUpdate(
+                  { _id: couponData._id },
+                  { $inc: { maxUsers: -1 } }
+                );
+                if (couponData.discountType == "Fixed Amount") {
+                  const disAmount = couponData.discountAmount;
+                  const disTotal = Math.round(amount - disAmount);
+                  return res.json({ amountOkey: true, disAmount, disTotal });
+                } else if (couponData.discountType == "Percentage Type") {
+                  const perAmount = (amount * couponData.discountAmount) / 100;
+                  if (perAmount <= couponData.maxDiscountAmount) {
+                    const disAmount = perAmount;
+                    const disTotal = Math.round(amount - disAmount);
+                    return res.json({ amountOkey: true, disAmount, disTotal });
+                  }
+                } else {
+                  const disAmount = couponData.maxDiscountAmount;
+                  const disTotal = Math.round(amount - disAmount);
+                  return res.json({ amountOkey: true, disAmount, disTotal });
+                }
+              }
+            }
+          }
+        }
+      } else {
+        res.json({ invalid: true });
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+    console.error("Error occurred while loading apply coupon page:", error);
+    next(error)
+    }
+};
+
+
 module.exports = {
   loadHome,
   loadShop,
@@ -1156,6 +1253,7 @@ module.exports = {
   addAddress,
   saveAddress,
   editAddress,
+
   // editADD,
   deleteAddress,
   loadCheckAdd,
@@ -1177,4 +1275,7 @@ module.exports = {
   generateCustomUserId,
   cancelOrder,
   orderConfirmation,
+
+
+  applyCoupon 
 };

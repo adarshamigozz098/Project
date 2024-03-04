@@ -4,7 +4,8 @@ const category = require("../model/category");
 const order = require("../model/order");
 const product = require("../model/product");
 const moment = require("moment");
-const coupon = require("../model/coupon")
+const coupon = require("../model/coupon");
+
 
 const loadAdmin = async (req, res) => {
   try {
@@ -837,18 +838,54 @@ const couponAddPost = async (req, res, next) => {
   }
 };
 
+
+
+
+const loadEditCoupon = async (req, res,next) => {
+  try {
+    const id = req.query.id;
+    const couponData = await coupon.findOne({ _id: id });
+    res.render("editCoupon", { couponData });
+  } catch (error) {
+    console.log(error.message);
+    next(error)
+  }
+};
+
+const updateCoupon = async (req, res,next) => {
+  try {
+    const couponId = req.query.id;
+    const coupons = await coupon.findByIdAndUpdate(
+      { _id: couponId },
+      {
+        code: req.body.code,
+        discountType: req.body.discountType,
+        discountAmount: req.body.amount,
+        expiryDate: req.body.date,
+        maxCartAmount: req.body.cartAmount,
+        maxDiscountAmount: req.body.discountAmount,
+        maxUsers: req.body.couponCount,
+      }
+    );
+    await coupons.save();
+    res.redirect("/admin/coupon");
+  } catch (error) {
+    console.log(error.message);
+    next(error)
+  }
+};
+
+
 const deleteCoupon = async (req, res) => {
   try {
-    const couponId = req.query.id; // Access id from query parameters
-    console.log(couponId, "id kittiyooo");
-    
-    const Coupon = await coupon.findById(couponId); // Use correct model name "Coupon"
+    const couponId = req.query.id; 
+    console.log(couponId, "id kittiyooo"); 
+    const Coupon = await coupon.findById(couponId); 
     console.log(coupon, "enthelum indoo");
     
     if (!Coupon) {
       return res.status(404).json({ error: "Coupon not found" });
     }
-
     await coupon.findByIdAndDelete(couponId); 
     res.redirect("/admin/coupon")
   } catch (error) {
@@ -856,27 +893,6 @@ const deleteCoupon = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
-
-const LoadEditCoupon = async(req,res)=>{
-  try {
-    res.render("editCoupon")
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-const editCoupon = async(req,res)=>{
-  try {
-    
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-
-
 
 module.exports = {
   loadUsers,
@@ -906,6 +922,6 @@ module.exports = {
   LoadaddCoupon,
   couponAddPost,
   deleteCoupon,
-  LoadEditCoupon,
-  editCoupon
+  loadEditCoupon, 
+  updateCoupon,
 };

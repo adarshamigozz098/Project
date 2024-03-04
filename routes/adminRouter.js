@@ -58,8 +58,8 @@ adminRouter.get("/coupon", isAdminAuthenticated,adminController.loadCoupon)
 adminRouter.get("/addCoupon", isAdminAuthenticated,adminController.LoadaddCoupon)
 adminRouter.post("/addCoupon", isAdminAuthenticated, adminController.couponAddPost);
 adminRouter.get("/deleteCoupon",isAdminAuthenticated, adminController.deleteCoupon)
-adminRouter.get("/editCoupon",isAdminAuthenticated, adminController.LoadEditCoupon)
-adminRouter.get("/editCoupon",isAdminAuthenticated, adminController.editCoupon)
+adminRouter.get("/editCoupon",isAdminAuthenticated, adminController.loadEditCoupon)
+adminRouter.post("/editCoupon",isAdminAuthenticated, adminController.updateCoupon)
 
 
 

@@ -20,6 +20,12 @@
 <body>
 
 <style>
+.col-lg-9 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    width: 100%;
+}
 
 .action-button {
 
@@ -37,15 +43,12 @@
   background-color: red; 
   color: white;
 }
-
 </style>
 
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
-            <a href="index.html" class="brand-wrap">
-                <img src="imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
-            </a>
+            <a class="navbar-brand" href="/">SHOEzzo</a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"><i
                         class="text-muted material-icons md-menu_open"></i></button>
@@ -86,8 +89,8 @@
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/coupon">
-                        <i class="icon material-icons md-shopping_bag"></i>
-                        <span class="text">Coupon List</span>
+                        <i class="icon material-icons md-shopping_bag"> </i>
+                        <span class="text">Coupons</span>
                     </a>
                 </li>
             </ul>
@@ -137,9 +140,9 @@
             </div>
         </header>
         <section class="content-main">
-            <div class="content-header">
+            <!-- <div class="content-header">
                 <h2 class="content-title">Coupons</h2>
-            </div>
+            </div> -->
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -203,7 +206,7 @@
             </div>
 
 
-            <div class="pagination-area mt-30 mb-50">
+            <!-- <div class="pagination-area mt-30 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
                         <li class="page-item active"><a class="page-link" href="#">01</a></li>
@@ -215,7 +218,7 @@
                             <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
                         </li>
                     </ul>
-                </nav>
+                </nav> -->
             </div>
         </section>
         <footer class="main-footer font-xs">
@@ -238,11 +241,7 @@
     <script src="js/vendors/perfect-scrollbar.js"></script>
     <script src="js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
-    <script src="js/main.js?v=1.1" type="text/javascript"></script>
-
-
-    
+    <script src="js/main.js?v=1.1" type="text/javascript"></script>  
 
 </body>
-
 </html>

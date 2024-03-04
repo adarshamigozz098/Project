@@ -76,9 +76,7 @@
   <div class="screen-overlay"></div>
   <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
-      <a href="index.html" class="brand-wrap">
-        <img src="" class="" alt="SHOEzzo" />
-      </a>
+      <a class="navbar-brand" href="/">SHOEzzo</a>
       <div>
         <button class="btn btn-icon btn-aside-minimize">
           <i class="text-muted material-icons md-menu_open"></i>
@@ -121,7 +119,7 @@
         <li class="menu-item">
           <a class="menu-link" href="/admin/coupon">
             <i class="icon material-icons md-shopping_bag"></i>
-            <span class="text">Coupon List</span>
+            <span class="text">Coupons</span>
           </a>
         </li>
       </ul>
@@ -200,20 +198,19 @@
             EDIT COUPON
           </h2>
           <form action="" method="post">
-            <div
-            class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
-          >
-            <label class="block text-sm">
-              <span class="text-gray-700 dark:text-gray-400">Name</span>
-              <input
-                class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                placeholder="Enter Coupon Name"
-                id="code"
-                name="code"
-                type="text"
-                required/>
-              
-            </label>
+              <label for="code" class="block text-sm">
+                <span class="text-gray-700 dark:text-gray-400">Name</span>
+                <input
+                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder=""
+                  id="code"
+                  name="code"
+                  type="text"
+                  value="<%= couponData.code%>"
+                  required
+                />
+              </label>
+
             <% if(typeof message !== 'undefined'){ %>
               <p id="para" style="color: red;font-family: Georgia, 'Times New Roman', Times, serif;"><%=message%></p>
               <% } %>
@@ -239,6 +236,7 @@
                 id="amount"
                 name="amount"
                 type="number"
+                value="<%= couponData.discountAmount%>"
                 required/>
     
             <label class="block text-sm py-4">
@@ -248,6 +246,7 @@
                 id="date"
                 name="date"
                 type="date"
+                value="<%= couponData.expiryDate%>"
                 required/>
               
             </label>
@@ -260,6 +259,7 @@
                 id="cartAmount"
                 name="cartAmount"
                 type="number"
+                value="<%= couponData.maxCartAmount%>"
                 required/>
             </label>
     
@@ -271,6 +271,7 @@
                 id="discountAmount"
                 name="discountAmount"
                 type="number"
+                value="<%= couponData.maxDiscountAmount%>"
                 required/>
               
             </label>
@@ -283,6 +284,7 @@
                 id="couponCount"
                 name="couponCount"
                 type="number"
+                value="<%= couponData.maxUsers%>"
                 required />  
 
             </label>
@@ -291,8 +293,8 @@
             type="submit"
             class="block w-50 px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
             SUMBIT
-          </button>
-          
+    
+          </button>     
           </div>
           </form>   
         </div>

@@ -119,71 +119,69 @@
     width: max-content;
 }
   </style>
- 
-  
-
   </head>
+
   <div class="content">
     <div class="container-fluid">
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="card-header">
-              <h3>Customer Address</h3>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Order Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Customer Address -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5>Customer Address</h5>
+                            </div>
+                            <div class="card-body">
+                                <span class="line">Delivery Address: <%= orders.delivery_address %></span>
+                            </div>
+                        </div>
+
+                        <!-- Order Items -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5>Order Items</h5>
+                            </div>
+                            <div class="card-body">
+                                <% orders.items.forEach(function(item) { %>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="hidden" class="product-id" value="<%=item.product_id._id%>">
+                                            <span class="line">Item Name: <%= item.product_id.name %></span><br>
+                                            <span class="line">Item Price: <%= item.price %></span><br> 
+                                            <span class="line">Quantity: <%= item.quantity %></span><br>
+                                            <span class="line">Status: <%= item.ordered_status %></span><br><br>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                                <button type="button" onclick="cancel()" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h5>Your Order Payment Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <span class="line">Subtotal: <%= orders.total_amount %></span><br>
+                                <span class="line">Coupon: </span><br>
+                                <span class="line">Estimated Total: <%= orders.total_amount %></span><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-              <span class="line">Delivery Address: <%= orders.delivery_address %></span>
-            </div>
-          </div>
-          <br>
-          <div class="card">
-            <div class="card-header">
-              <h3>Order Details</h3>
-            </div>
-            <div class="card-body">
-              <% orders.items.forEach(function(item) { %>
-                <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
-                <br>
-                <input type="hidden" class="product-id" value="<%=item.product_id._id%>">
-                <span class="line">Item Name: <%= item.product_id.name %></span><br>
-                <span class="line">Item Price: <%= item.price %></span><br> 
-                <span class="line">Quantity: <%= item.quantity %></span><br>
-                <span class="line">Status: <%= item.ordered_status %></span><br><br>
-              <% }); %>
-              <button type="button" onclick="cancel()" class="btn btn-danger">Cancel</button>
-            </div>
-          </div>
-          <br>
-          <div class="card">
-            <div class="card-header">
-              <h3>Your Order Payment Details</h3>
-            </div>
-            <div class="card-body">
-              <span class="line">Subtotal: <%= orders.total_amount %></span><br>
-              <span class="line">Estimated Total: <%= orders.total_amount %></span><br>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
   
-  <!-- <a href="">
-    <button type="button" class="btn btn-danger btn-fill pull-right mr-4 mt-2 mb-2 cancel-button custom-cancel-button"
-      onclick="cancelOrder()">
-      Cancel Order
-    </button>
-  </a>
-
-  <button type="button" class="btn btn-primary btn-fill pull-right mr-4 mt-2 mb-2 return-button"
-    onclick="returnOrder()">
-    Return
-  </button> -->
-
-  </div>
-  </div>
-  </div>
-  </div>
   <footer class="ftco-footer ftco-section">
     <div class="container">
       <div class="row">
