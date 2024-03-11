@@ -67,15 +67,15 @@
                 <p><%= message %></p>
             <% } %>
         </form>
-
-
-        
         <p id="verificationStatus" class="verification-status"></p>
         <p id="resendOTPValidation" class="validation-message"></p> 
 
         <a href="#" id="resendOTPButton" class="resend-link" onclick="resendOTP()">Resend OTP</a>
     </div>
 
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         const timerDuration = 60; 
         let timer = timerDuration;
@@ -111,18 +111,18 @@
               url: "/resendOTP",
               data: { email: email },
               success: function(response) {
-                alert("New OTP sent successfully");
+                swal("New OTP sent successfully");
                 timer = timerDuration;
                 startTimer();
                 document.getElementById("resendOTPButton").textContent = "Resend OTP";
               },
               error: function(xhr, status, error) {
-                alert("Error resending OTP: " + error);
+                swal("Error!", "Error resending OTP: " + error, "error");
                 document.getElementById("resendOTPButton").textContent = "Resend OTP";
               }
             });
           } else {
-            document.getElementById("resendOTPValidation").textContent = "Please wait until the timer ends to resend OTP."; // Display validation message
+            document.getElementById("resendOTPValidation").textContent = "Please wait until the timer ends to resend OTP."; 
           }
         }
     </script>

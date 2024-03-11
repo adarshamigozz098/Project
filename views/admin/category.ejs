@@ -43,7 +43,7 @@
           </a>
         </li>
 
-        <li class="menu-item ">
+        <li class="menu-item active ">
           <a class="menu-link" href="/admin/category">
             <i class="icon material-icons md-shopping_cart"></i>
             <span class="text">Catgeory</span>
@@ -114,8 +114,7 @@
                 class="material-icons md-public"></i></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
               <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
-              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
-              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -137,7 +136,7 @@
       <div class="content-header">
         <div>
           <h2 class="content-title card-title">Categories</h2>
-          <p>Add, edit or delete a category</p>
+          <p></p>
         </div>
         <div>
           <input type="text" placeholder="Search Categories" class="form-control bg-white" />
@@ -235,15 +234,14 @@
                 </table>
               </div>
             </div>
-            <!-- .col// -->
+
           </div>
-          <!-- .row // -->
+
         </div>
-        <!-- card body .// -->
+ 
       </div>
-      <!-- card .// -->
+
     </section>
-    <!-- content-main end// -->
     <footer class="main-footer font-xs">
       <div class="row pb-30 pt-15">
         <div class="col-sm-6">
@@ -258,14 +256,14 @@
       </div>
     </footer>
   </main>
+
+    <!-- Main Script -->
   <script src="js/vendors/jquery-3.6.0.min.js"></script>
   <script src="js/vendors/bootstrap.bundle.min.js"></script>
   <script src="js/vendors/select2.min.js"></script>
   <script src="js/vendors/perfect-scrollbar.js"></script>
   <script src="js/vendors/jquery.fullscreen.min.js"></script>
-  <!-- Main Script -->
   <script src="js/main.js?v=1.1" type="text/javascript"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js"
     integrity="sha512-TjBzDQIDnc6pWyeM1bhMnDxtWH0QpOXMcVooglXrali/Tj7W569/wd4E8EDjk1CwOAOPSJon1VfcEt1BI4xIrA=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -275,13 +273,10 @@
   <!-- DELETE CATEGORY -->
   <script>
     const deleteButtons = document.querySelectorAll(".deleteBtn");
-
     deleteButtons.forEach((button) => {
       button.addEventListener("click", function () {
         const categoryId = this.dataset.categoryId;
-
         console.log(categoryId);
-
         axios
           .post(`/admin/category/deleteCategory?id=${categoryId}`)
           .then((response) => {
@@ -330,8 +325,6 @@
       });
     });
   </script>
-
-
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

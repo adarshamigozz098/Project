@@ -19,31 +19,31 @@
 
 <body>
 
-<style>
-.col-lg-9 {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: 100%;
-}
+    <style>
+        .col-lg-9 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: 100%;
+        }
 
-.action-button {
+        .action-button {
 
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-}
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-.edit-button {
-  background-color: green;
-  color: white; 
-}
+        .edit-button {
+            background-color: green;
+            color: white;
+        }
 
-.delete-button {
-  background-color: red; 
-  color: white;
-}
-</style>
+        .delete-button {
+            background-color: red;
+            color: white;
+        }
+    </style>
 
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
@@ -69,7 +69,7 @@
                     </a>
                 </li>
 
-                <li class="menu-item active">
+                <li class="menu-item ">
                     <a class="menu-link" href="/admin/category">
                         <i class="icon material-icons md-shopping_cart"></i>
                         <span class="text">Catgeory</span>
@@ -87,7 +87,7 @@
                         <span class="text">Orders</span>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item active">
                     <a class="menu-link" href="/admin/coupon">
                         <i class="icon material-icons md-shopping_bag"> </i>
                         <span class="text">Coupons</span>
@@ -99,7 +99,7 @@
     <main class="main-wrap">
         <header class="main-header navbar">
             <div class="col-search">
-              
+
             </div>
             <div class="col-nav">
                 <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
@@ -129,8 +129,8 @@
                     </li>
                     <li class="dropdown nav-item">
                         <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
-                            aria-expanded="false"> <img class="img-xs rounded-circle"
-                                src="imgs/people/avatar-2.png" alt="User" /></a>
+                            aria-expanded="false"> <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png"
+                                alt="User" /></a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
                             <a class="dropdown-item text-danger" href="/admin/logout"><i
                                     class="material-icons md-exit_to_app"></i>Logout</a>
@@ -151,9 +151,9 @@
                                 <div class="row">
                                     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                                         <a href="./addcoupon">
-                                          <button class="btn btn-danger">Add Coupon</button>
+                                            <button class="btn btn-danger">Add Coupon</button>
                                         </a>
-                                      </h2>
+                                    </h2>
                             </header>
                             <!-- card-header end// -->
                             <div class="table-responsive">
@@ -170,39 +170,54 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% coupons.forEach((coupon, index) => { %>
+                                        <% coupons.forEach((coupon, index)=> { %>
                                             <tr>
-                                                <td><b><%= index + 1 %></b></td>
-                                                <td><%= coupon.code %></td>
-                                                <td><%= coupon.discountAmount %></td>                                              
-                                                <td><%= coupon.maxUsers %></td>
-                                                <td><%= coupon.discountType %></td>
-                                                <td><%= new Date(coupon.expiryDate).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }) %></td>
+                                                <td><b>
+                                                        <%= index + 1 %>
+                                                    </b></td>
+                                                <td>
+                                                    <%= coupon.code %>
+                                                </td>
+                                                <td>
+                                                    <%= coupon.discountAmount %>
+                                                </td>
+                                                <td>
+                                                    <%= coupon.maxUsers %>
+                                                </td>
+                                                <td>
+                                                    <%= coupon.discountType %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(coupon.expiryDate).toLocaleDateString('en-US', {
+                                                        year: 'numeric' , month: '2-digit' , day: '2-digit' }) %>
+                                                </td>
                                                 <td class="px-4 py-3">
                                                     <div class="flex items-center space-x-4 text-sm">
-                                                      <a href="/admin/editCoupon?id=<%=coupon._id%>">
-                                                        <button style="background-color: green; color: white;" class="action-button edit-button" aria-label="Edit">
-                                                          Edit
-                                                        </button>
-                                                      </a>
-                                                      <a href="/admin/deleteCoupon?id=<%=coupon._id%>">
-                                                        <button style="background-color: red; color: white;" class="action-button delete-button" aria-label="Delete">
-                                                          Delete
-                                                        </button>
-                                                      </a>
+                                                        <a href="/admin/editCoupon?id=<%=coupon._id%>">
+                                                            <button style="background-color: green; color: white;"
+                                                                class="action-button edit-button" aria-label="Edit">
+                                                                Edit
+                                                            </button>
+                                                        </a>
+                                                        <a href="/admin/deleteCoupon?id=<%=coupon._id%>">
+                                                            <button style="background-color: red; color: white;"
+                                                                class="action-button delete-button" aria-label="Delete">
+                                                                Delete
+                                                            </button>
+                                                        </a>
                                                     </div>
-                                                  </td>
-                                                  
+                                                </td>
+
                                             </tr>
-                                        <% }); %>
+                                            <% }); %>
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <!-- table-responsive.// -->
-                        </div>               
-                    </div>            
-                </div>        
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -241,7 +256,8 @@
     <script src="js/vendors/perfect-scrollbar.js"></script>
     <script src="js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
-    <script src="js/main.js?v=1.1" type="text/javascript"></script>  
+    <script src="js/main.js?v=1.1" type="text/javascript"></script>
 
 </body>
+
 </html>

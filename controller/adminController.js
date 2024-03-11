@@ -6,7 +6,6 @@ const product = require("../model/product");
 const moment = require("moment");
 const coupon = require("../model/coupon");
 
-
 const loadAdmin = async (req, res) => {
   try {
     const ordersCount = await order.aggregate([
@@ -36,9 +35,7 @@ const loadAdmin = async (req, res) => {
             $sum: {
               $cond: [
                 {
-                  $or: [
-                    { $eq: ["$items.ordered_status", "Returned"] },
-                  ],
+                  $or: [{ $eq: ["$items.ordered_status", "Returned"] }],
                 },
                 1,
                 0,
@@ -509,7 +506,6 @@ const blockUnblockUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
     user.isBlocked = !user.isBlocked;
     await user.save();
 
@@ -604,15 +600,17 @@ const loadeditCategory = async (req, res) => {
   }
 };
 
+
 const editCategory = async (req, res) => {
   try {
     const id = req.body.categoryId;
     const name = req.body.product_name.toUpperCase();
     const description = req.body.product_description.toUpperCase();
     const existingCategory = await category.findOne({ name: name });
-    if (existingCategory) {
-      req.flash("error", "Category already exists");
-      return res.redirect("/admin/edit"); 
+
+    if (existingCategory && existingCategory._id.toString() !== id) {
+      req.flash("error", "Category with this name already exists");
+      return res.redirect("/admin/edit");
     } else {
       const updateCategory = await category.updateOne(
         { _id: id },
@@ -624,8 +622,12 @@ const editCategory = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    req.flash("error", "An error occurred");
+    res.redirect("/admin/edit");
   }
 };
+
+
 
 const loadOrder = async (req, res) => {
   try {
@@ -634,7 +636,6 @@ const loadOrder = async (req, res) => {
       model: "product",
       select: "name",
     });
-
     for (const order of Orders) {
       const user = await User.findById(order.user_id);
       order.username = user.username;
@@ -651,7 +652,6 @@ const loadOrder = async (req, res) => {
         order.items = [];
       }
     }
-
     res.render("adminOrders", { Orders });
   } catch (error) {
     console.log(error);
@@ -787,128 +787,25 @@ const datePicker = async (req, res) => {
   }
 };
 
-
-const loadCoupon = async (req, res) => {
-  try {
-    const coupons = await coupon.find({});
-    res.render("coupon", { coupons }); 
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error");
-  }
-}
-
-
-const LoadaddCoupon = async(req,res)=>{
-  try {
-    res.render("addCoupon")
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-const couponAddPost = async (req, res, next) => {
-  try {
-    const code = req.body.code;
-    const couponCode = await coupon.findOne({ code: code });
-
-    if (couponCode) {
-      res.render("addCoupon", { message: "This Coupon Already Exists" });
-    } else {
-      const newCoupon = new coupon({
-        code: req.body.code,
-        discountType: req.body.discountType,
-        discountAmount: req.body.amount,
-        maxCartAmount: req.body.cartAmount,
-        maxDiscountAmount: req.body.discountAmount,
-        maxUsers: req.body.couponCount,
-        expiryDate: req.body.date,
-      });
-
-      const savedCoupon = await newCoupon.save();
-      console.log("Saved Coupon:", savedCoupon);
-
-      const coupons = await coupon.find({});
-      res.render("coupon", { coupons });
-      console.log(coupons,"got :");
-    }
-  } catch (error) {
-    console.log(error.message);
-    next(error);
-  }
-};
-
-
-
-
-const loadEditCoupon = async (req, res,next) => {
-  try {
-    const id = req.query.id;
-    const couponData = await coupon.findOne({ _id: id });
-    res.render("editCoupon", { couponData });
-  } catch (error) {
-    console.log(error.message);
-    next(error)
-  }
-};
-
-const updateCoupon = async (req, res,next) => {
-  try {
-    const couponId = req.query.id;
-    const coupons = await coupon.findByIdAndUpdate(
-      { _id: couponId },
-      {
-        code: req.body.code,
-        discountType: req.body.discountType,
-        discountAmount: req.body.amount,
-        expiryDate: req.body.date,
-        maxCartAmount: req.body.cartAmount,
-        maxDiscountAmount: req.body.discountAmount,
-        maxUsers: req.body.couponCount,
-      }
-    );
-    await coupons.save();
-    res.redirect("/admin/coupon");
-  } catch (error) {
-    console.log(error.message);
-    next(error)
-  }
-};
-
-
-const deleteCoupon = async (req, res) => {
-  try {
-    const couponId = req.query.id; 
-    console.log(couponId, "id kittiyooo"); 
-    const Coupon = await coupon.findById(couponId); 
-    console.log(coupon, "enthelum indoo");
-    
-    if (!Coupon) {
-      return res.status(404).json({ error: "Coupon not found" });
-    }
-    await coupon.findByIdAndDelete(couponId); 
-    res.redirect("/admin/coupon")
-  } catch (error) {
-    console.error("Error deleting coupon:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
 module.exports = {
-  loadUsers,
-  loadCategory,
   verifyLogin,
   loadLogin,
   loadAdmin,
-  blockUnblockUser,
   logoutAdmin,
+
+  //USER
+  loadUsers,
+  blockUnblockUser,
+
+  //  CATEGORY
+  loadCategory,
   addCategory,
+  editCategory,
+  loadeditCategory,
   deleteCategory,
   listOrUnlist,
 
-  editCategory,
-  loadeditCategory,
-
+  //Orders
   loadOrder,
   loadDetail,
   updateOrderStatus,
@@ -916,12 +813,4 @@ module.exports = {
   // loadDashboard
   salesReport,
   datePicker,
-
-  // coupon
-  loadCoupon,
-  LoadaddCoupon,
-  couponAddPost,
-  deleteCoupon,
-  loadEditCoupon, 
-  updateCoupon,
 };

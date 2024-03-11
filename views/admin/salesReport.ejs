@@ -30,8 +30,8 @@
       </div>
     </div>
     <nav>
-      <ul class="menu-aside">
-        <li class="menu-item">
+      <ul class="menu-aside ">
+        <li class="menu-item active">
           <a class="menu-link" href="/admin/dashboard">
             <i class="icon material-icons md-home"></i>
             <span class="text">Dashboard</span>
@@ -141,11 +141,14 @@
           <div class="card">
             <div class="card-body">
               <!-- download -->
-              <div class="bttn " style="float: inline-end">
+
+              <div class="bttn" style="float: inline-end">
                 <div class="dropdown btn-group mt-3">
-                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                  <button href="#" class="btn btn-primary rounded font-md btn-sm mr-2"
+                    onclick="generateExcel()">Excel</button>
+                  <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1"
                     onclick="downloadPDF('printThisDiv')" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false"> <b style="text-decoration: darkgreen;">Print</b>
+                    aria-expanded="false"> <b style="text-decoration: darkgreen;">PDF DOWNLOAD</b>
                   </button>
                 </div>
               </div>
@@ -153,7 +156,10 @@
               <!-- heading -->
               <h2
                 style="margin-left: 39%;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
-                <b style="font-weight: 300; color: rgb(203, 177, 177);  margin-left: -470px; ;  background-color: rgb(244 244 244);;">SALES REPORT</b></h2>
+                <b
+                  style="font-weight: 300; color: rgb(203, 177, 177);  margin-left: -470px; ;  background-color: rgb(244 244 244);;">SALES
+                  REPORT</b>
+              </h2>
 
               <!-- date -->
               <div class="row mt-4">
@@ -180,39 +186,54 @@
                         <tr>
                           <th>Product Name</th>
                           <th>Email</th>
-                          <!-- <th>mobile</th> -->
                           <th>Address</th>
                           <th>OrderId</th>
                           <th>Date</th>
                           <th>PM</th>
                           <th>Total</th>
                           <th>Status</th>
-                          <!-- <th>Qty</th> -->                    
+
                         </tr>
                       </thead>
                       <tbody id="reportBody">
-                        <% salesReport.forEach(order => { %>
-                          <% order.items.forEach(item => { %>
-                            <% if (item.ordered_status === "Delivered") { %>
+                        <% salesReport.forEach(order=> { %>
+                          <% order.items.forEach(item=> { %>
+                            <% if (item.ordered_status==="Delivered" ) { %>
                               <tr>
-                                <td><%= item.product_id.name %></td>
-                                <td><%= order.user_id.email %></td>
-                                <!-- Uncomment below lines if needed -->
+                                <td>
+                                  <%= item.product_id.name %>
+                                </td>
+                                <td>
+                                  <%= order.user_id.email %>
+                                </td>
+
                                 <!-- <td><%= order.user_id.phone %></td> -->
-                                <td><%= order.delivery_address %></td>
-                                <td><%= order.order_id %></td>
-                                <td><%= moment(order.date).format('DD/MM/YYYY') %></td>
-                                <td><%= order.payment %></td>
-                                <td><%= (item.price * item.quantity) - item.discountPerItem %></td>
-                                <td><%= item.ordered_status %></td>
-                                <!-- Uncomment below line if needed -->
+                                <td>
+                                  <%= order.delivery_address %>
+                                </td>
+                                <td>
+                                  <%= order.order_id %>
+                                </td>
+                                <td>
+                                  <%= moment(order.date).format('DD/MM/YYYY') %>
+                                </td>
+                                <td>
+                                  <%= order.payment %>
+                                </td>
+                                <td>
+                                  <%= (item.price * item.quantity) - item.discountPerItem %>
+                                </td>
+                                <td>
+                                  <%= item.ordered_status %>
+                                </td>
+
                                 <!-- <td><%= item.quantity %></td> -->
                               </tr>
-                            <% } %>
-                          <% }) %>
-                        <% }) %>
+                              <% } %>
+                                <% }) %>
+                                  <% }) %>
                       </tbody>
-                      
+
                     </table>
                     <% }else{ %>
                       <p class="text-center">No Sales</p>
@@ -224,26 +245,41 @@
         </div>
       </div>
     </div>
+    <style>
+      .form-control,
+      .form-select {
+        background-color: #f6f6f6;
+        border: 3px solid #e9e9e9;
+        font-size: 14px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        padding-left: 20px;
+        color: #4f5d77;
+        width: 105%;
+        border-radius: 4px;
+        height: 52px;
+      }
 
+      element.style {
+        font-weight: 300;
+        color: rgb(203, 177, 177);
+        margin-left: -4px;
+        background-color: rgb(244 244 244);
+      }
+    </style>
 
-<style>
-  element.style {
-    font-weight: 300;
-    color: rgb(203, 177, 177);
-    background-color: rgb(244 244 244);
-    margin-left: -470px;
-}
-</style>
+    <style>
+      b {
+        font-weight: 1100;
 
-    <style>b {
-      font-weight: 1100;
-      .col-lg-6 {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: 12%;
-}
-  }</style>
+        .col-lg-6 {
+          -webkit-box-flex: 0;
+          -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+          width: 12%;
+        }
+      }
+    </style>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -258,7 +294,7 @@
 
     console.log(fromDateInput, toDateInput);
 
-   
+
     const fetchData = async () => {
       try {
         const response = await axios.get('/admin/datePicker', {
@@ -268,7 +304,7 @@
           },
         });
         console.log('startDate:', fromDateInput.value, 'endDate:', toDateInput.value);
-    
+
         const salesReport = response.data.selectedDate
 
         const reportBody = document.getElementById("reportBody")
@@ -309,21 +345,20 @@
         const reportHeader = document.getElementById("reportHeader")
         reportHeader.innerHTML = tableHeader
 
-
-
-
-
       } catch (error) {
         console.error('Error fetching sales data:', error);
       }
     };
-
-   
     fromDateInput.addEventListener('change', fetchData);
     toDateInput.addEventListener('change', fetchData);
 
   });
 </script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 
 <script>
   function showDownloadOptions(divName) {
@@ -354,7 +389,7 @@
     const headerValues = Array.from(headerCells).map(header => header.textContent.trim());
     csvContent += headerValues.join(',') + '\n';
 
-   
+
     for (let i = 1; i < rows.length; i++) {
       const cells = rows[i].getElementsByTagName('td');
       const cellValues = Array.from(cells).map(cell => cell.textContent.trim());
@@ -369,4 +404,82 @@
     link.click();
     document.body.removeChild(link);
   }
+  
+
+
+
+
+  // excel
+  function generateExcel() {
+    const orders = document.querySelectorAll('.table tbody tr');
+    const orderData = [];
+    orders.forEach(order => {
+        const orderId = order.cells[0].innerText;
+        const Name = order.cells[1].innerText;
+        const date = order.cells[2].innerText;
+        const total = order.cells[3].innerText;
+        const paymentMethod = order.cells[4].innerText;
+        const status = order.cells[5].innerText;
+
+        orderData.push([orderId, Name, date, total, paymentMethod, status]);
+    });
+
+    const headerStyle = {
+        font: { bold: true, color: { rgb: "FFFFFF" } },
+        fill: { fgColor: { rgb: "2F75B5" } },
+        alignment: { horizontal: "center" }
+    };
+
+    const cellStyle = {
+        alignment: { horizontal: "left" }
+    };
+
+    const header = ['OrderId', "Name", 'Date', 'Total', 'Payment Method', 'Status'];
+    const data = [header, ...orderData];
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+
+    XLSX.utils.format_cell(ws['A1'], headerStyle);
+    XLSX.utils.format_cell(ws['B1'], headerStyle);
+    XLSX.utils.format_cell(ws['C1'], headerStyle);
+    XLSX.utils.format_cell(ws['D1'], headerStyle);
+    XLSX.utils.format_cell(ws['E1'], headerStyle);
+    XLSX.utils.format_cell(ws['F1'], headerStyle);
+
+    data.forEach((row, rowIndex) => {
+        if (rowIndex > 0) {
+            row.forEach((cell, columnIndex) => {
+                XLSX.utils.format_cell(ws[XLSX.utils.encode_cell({ r: rowIndex, c: columnIndex })], cellStyle);
+            });
+        }
+    });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sales Report');
+
+    const filename = 'Sales_Report_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.xlsx';
+
+    // Convert Excel data to a Blob
+    const blob = new Blob([s2ab(XLSX.write(wb, { type: 'binary' }))], { type: 'application/octet-stream' });
+
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+// Utility function to convert s to an array buffer
+function s2ab(s) {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+}
+
+
+
 </script>

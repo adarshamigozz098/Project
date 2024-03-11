@@ -59,19 +59,28 @@ const userSchema=new mongoose.Schema({
             },
         },
     ],
-    token:{
-        type:String,
-        default:''
-    }
+    wallet: {
+        type: Number,
+        default: 0
+      },
+      walletHistory: [{
+        date: {
+          type: Date
+        },
+        amount: {
+          type: Number,
+        },
+        reason: {
+          type: String,
+        }
+    
+      }],
 })
 
 
 userSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
-
-
-
 
 const User=mongoose.model('User',userSchema)
 

@@ -13,8 +13,7 @@
   <meta property="og:image" content="" />
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
-  <!-- Template CSS -->
-
+ 
   <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
 </head>
 
@@ -85,7 +84,7 @@
     </div>
     <nav>
       <ul class="menu-aside">
-        <li class="menu-item active">
+        <li class="menu-item ">
           <a class="menu-link" href="/admin/dashboard">
             <i class="icon material-icons md-home"></i>
             <span class="text">Dashboard</span>
@@ -116,7 +115,7 @@
             <span class="text">Orders</span>
           </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item active">
           <a class="menu-link" href="/admin/coupon">
             <i class="icon material-icons md-shopping_bag"></i>
             <span class="text">Coupons</span>
@@ -170,9 +169,9 @@
             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i
                 class="material-icons md-public"></i></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-              <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png"
+              <a class="dropdown-item text-brand" href="#"><img src="/imgs/theme/flag-us.png"
                   alt="English" />English</a>
-              <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+              <a class="dropdown-item" href="#"><img src="/imgs/theme/flag-fr.png" alt="Français" />Français</a>
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -197,7 +196,7 @@
           <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             EDIT COUPON
           </h2>
-          <form action="" method="post">
+          <form id="couponForm" action="" method="post">
               <label for="code" class="block text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Name</span>
                 <input
@@ -224,7 +223,6 @@
                 name="discountType"
                 id="discountType">
                <option>Fixed Amount</option>
-               <option>Percentage Type</option>
               </select>
             </label>
     
@@ -300,4 +298,46 @@
         </div>
       </main>
       
+
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script>
+    document.getElementById('couponForm').addEventListener('submit', function (event) {
+      event.preventDefault(); 
+
+      const discountAmount = parseFloat(document.getElementById('amount').value);
+      const cartAmount = parseFloat(document.getElementById('cartAmount').value);
+      const maxDiscountAmount = parseFloat(document.getElementById('discountAmount').value);
+      const couponCount = parseFloat(document.getElementById('couponCount').value);
+      const expiryDate = new Date(document.getElementById('date').value);
+      const currentDate = new Date();
+
+      if (discountAmount < 0 || cartAmount < 0 || maxDiscountAmount < 0 || couponCount < 0) {
+        swal({
+          title: "Error",
+          text: "Values cannot be less than 0",
+          icon: "error",
+          button: "OK",
+        });
+        return;
+      }
+
+      if (expiryDate < currentDate) {
+        swal({
+          title: "Error",
+          text: "Expiry date cannot be less than the current date",
+          icon: "error",
+          button: "OK",
+        });
+        return;
+      }
+
+      // If all validations pass, submit the form
+      this.submit();
+    });
+  </script>
+
+
+      
+      </body>
+      </html>
     

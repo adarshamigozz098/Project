@@ -13,7 +13,7 @@ const orderSchema = mongoose.Schema(
     },
     delivery_address: {
       type: String,
-      required: true,
+      
     },
     total_amount: {
       type: Number,

@@ -55,7 +55,7 @@
             <span class="text">Products</span>
           </a>
         </li>
-        <li class="menu-item ">
+        <li class="menu-item active">
           <a class="menu-link" href="/admin/order">
             <i class="icon material-icons md-shopping_cart"></i>
             <span class="text">orders</span>
@@ -165,63 +165,75 @@
                     </thead>
                     <tbody>
                       <% Orders.forEach(order => { %>
-                        <tr>
-                          <td>
-                            <%= order.order_id %>
-                          </td>
-                                        
-                          <td>
-                            <% order.items.forEach(item => { %>
-                              <%= item.product_id.name %><br>
-                            <% }); %>
-                          </td>
-                          
-                          <td>
-                            <%= order.username %>
-                          </td>
-                          <td>
-                            <%= order.total_amount %>
-                          </td>
-                          <td>
-                            <%= new Date(order.date).toLocaleDateString() %>
-                          </td>
-                          <td>
-                            <%= order.payment %>
-                          </td>
-                          <td>
-                            <% order.items.forEach(item => { %>
+                        <% order.items.forEach(item => { %>
+                          <tr>
+                            <td><%= order.order_id %></td>
+                            <td><%= item.product_id.name %></td>
+                            <td><%= order.username %></td>
+                            <td><%= order.total_amount %></td>
+                            <td><%= new Date(order.date).toLocaleDateString() %></td>
+                            <td><%= order.payment %></td>
+                            <td>
                               <div class="status-dropdown-container">
-                                <select style="text-align: center;" class="form-control status-dropdown" name="status" data-order-id="<%= order.order_id %>" data-product-id="<%= item.product_id._id %>" onchange="updateOrderStatus(event)">
-                                  <% ['Placed', 'Shipped', 'Out for Delivery', 'Delivered', 'Requested return', 'Returned', 'Requested cancellation', 'Cancelled', 'pending'].forEach(status => { %>
-                                    <option value="<%= status %>" <%= status === item.ordered_status ? 'selected' : '' %>><%= status %></option>
+                                <select style="text-align: center;" class="form-control status-dropdown" name="status"
+                                  data-order-id="<%= order.order_id %>" data-product-id="<%= item.product_id._id %>"
+                                  onchange="updateOrderStatus(event)">
+                                  <% ['Placed', 'Shipped' , 'Out for Delivery' , 'Delivered' , 'Requested return'
+                                    , 'Returned' , 'Requested cancellation' , 'Cancelled' , 'pending' ].forEach(status => { %>
+                                    <% if ((item.ordered_status==='Cancelled' || item.ordered_status==='Returned' ) && status !== item.ordered_status) { %>
+                                      <option value="<%= status %>" disabled><%= status %></option>
+                                    <% } else { %>
+                                      <option value="<%= status %>" <%= status === item.ordered_status ? 'selected' : '' %>><%= status %></option>
+                                    <% } %>
                                   <% }); %>
                                 </select>
                               </div>
-                            <% }); %>
-                          </td>          
-                          <td>
-                            <a href="/admin/detail?orderId=<%= order.order_id %>">
-                              <button class="btn-primary">Detail</button>
-                            </a>
-                          </td>
-                        </tr>
-                        <% }); %>     
-                        <% if (Orders.length === 0) { %>
+                            </td>
+                            <td>
+                              <button id="save" class="btn-primary" onclick="reloadPage()">save</button>
+                            </td>
+                            <td>
+                              <a href="/admin/detail?orderId=<%= order.order_id %>">
+                                <button class="btn-primary">Detail</button>
+                              </a>
+                            </td>
+                          </tr>
+                        <% }); %>
+                      <% }); %>
+                      <% if (Orders.length === 0) { %>
                         <tr>
                           <td colspan="8">No orders found</td>
                         </tr>
-                        <% } %>
+                      <% } %>
                     </tbody>
-                    
 
-                  <footer class="main-footer font-xs">
-                    <div class="row pb-30 pt-15">
-                      <div class="col-sm-6">
 
+                    <footer class="main-footer font-xs">
+                      <div class="row pb-30 pt-15">
+                        <div class="col-sm-6">
+
+                        </div>
                       </div>
-                    </div>
-                  </footer>
+                    </footer>
   </main>
+
+  <script>
+    function updateOrderStatus(event) {
+      var selectElement = event.target;
+      var selectedValue = selectElement.value;
+
+      if (selectedValue === 'Returned' || selectedValue === 'Cancelled') {
+        selectElement.disabled = true;
+      }
+    }
+  </script>
+  <script>
+    function reloadPage() {
+      window.location.reload()
+
+    }
+  </script>
+
   <script src="js/vendors/jquery-3.6.0.min.js"></script>
   <script src="js/vendors/bootstrap.bundle.min.js"></script>
   <script src="js/vendors/select2.min.js"></script>
@@ -234,6 +246,9 @@
     crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
 
+  <script>
+
+  </script>
   <script>
     const deleteButtons = document.querySelectorAll(".deleteBtn");
     deleteButtons.forEach((button) => {
@@ -290,38 +305,38 @@
 
 
 
-<!-- script for order management -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- script for order management -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-  function updateOrderStatus(event) {
-    var selectedStatus = event.target.value;
-    var orderId = event.target.getAttribute("data-order-id");
-    var productId = event.target.getAttribute("data-product-id");
+  <script>
+    function updateOrderStatus(event) {
+      var selectedStatus = event.target.value;
+      var orderId = event.target.getAttribute("data-order-id");
+      var productId = event.target.getAttribute("data-product-id");
 
-    console.log(selectedStatus);
-    console.log(orderId);
-    console.log(productId);
+      console.log(selectedStatus);
+      console.log(orderId);
+      console.log(productId);
 
-    if (!productId) {
-      console.error('Product ID is empty.');
-      return;
-    }
-
-    $.ajax({
-      url: "/admin/updateOrderStatus",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify({ orderId: orderId, status: selectedStatus, productId: productId }),
-      success: function(data) {
-        console.log(data);
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        console.error('There was a problem with the AJAX request:', errorThrown);
+      if (!productId) {
+        console.error('Product ID is empty.');
+        return;
       }
-    });
-  }
-</script> 
+
+      $.ajax({
+        url: "/admin/updateOrderStatus",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ orderId: orderId, status: selectedStatus, productId: productId }),
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error('There was a problem with the AJAX request:', errorThrown);
+        }
+      });
+    }
+  </script>
 
 
 

@@ -7,14 +7,28 @@ const mongoose = require('mongoose');
 const fs=require("fs")
 
 
+
 const loadProducts = async (req, res) => {
   try {
-    const productData = await product.find({});
-    res.render("products", { products: productData });
+    let productData;
+    const searchTerm = req.query.search;
+    console.log(searchTerm,"search:");
+    if (searchTerm) {
+      productData = await product.find({ name: { $regex: searchTerm, $options: 'i' } });
+      console.log(productData,"pro:");
+    } else {
+      productData = await product.find({});
+    }
+    const uniqueProductNames = [...new Set(productData.map(item => item.name))];
+    const uniqueProducts = productData.filter(item => uniqueProductNames.includes(item.name));
+    console.log(uniqueProducts,"unn:");
+    res.render("products", { products: uniqueProducts });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
+
 
 
 const loadAddProducts = async (req, res) => {
@@ -98,22 +112,13 @@ const loadEditProduct = async (req, res) => {
 };
 
 
-
 const editProducts = async (req, res) => {
   try {
       const id = req.query.productsId;
-      const {productName, description, quantity, price, brand, category} = req.body;
-
-      const selectedCategory = await Category.findOne({name: category});
-
-      if (!selectedCategory) {
-          return res.status(404).send({message: "Selected category not found"});
-      }
-
-      if (req.files && req.files.length > 4) {
-          return res.status(400).send({message: "Maximum 4 images allowed"});
-      }
-
+      const { productName, description, quantity, price, brand, category } = req.body;
+       
+      // console.log(req.body,"bodyy:");
+       
       let updatedProduct = await product.findByIdAndUpdate(
           {_id: id},
           {
@@ -122,10 +127,14 @@ const editProducts = async (req, res) => {
               quantity,
               price,
               brand,
-              category: selectedCategory._id,
+              category: category, 
           },
           {new: true}
       );
+
+      if (!updatedProduct) {
+          return res.status(404).send({message: "Product not found"});
+      }
 
       if (req.files && req.files.length > 0) {
           for (const newImage of req.files) {
@@ -159,26 +168,20 @@ const deleteImage = async (req, res) => {
         .status(400)
         .send({ success: false, error: "Product id is required." });
     }
-
     const validProductId = mongoose.Types.ObjectId.isValid(productId);
     if (!validProductId) {
       return res
         .status(400)
         .send({ success: false, error: "Invalid product id." });
     }
-
     if (!image) {
       return res
         .status(400) 
         .send({ success: false, error: "Image is required." });
     }
-
-    
     fs.unlink(path.join(__dirname, "../public/images", image), () => {});
-
     const aw = await product.updateOne({ _id: productId }, { $pull: { image: image } });
     console.log(aw);
-
     res.send({ success: true });
     console.log("The image has been deleted.");
   } catch (error) {
@@ -198,9 +201,6 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
-
-
-
 
 
 module.exports = {

@@ -69,18 +69,13 @@
             <span class="text">Products</span>
           </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item ">
           <a class="menu-link" href="/admin/order">
             <i class="icon material-icons md-shopping_cart"></i>
             <span class="text">Orders</span>
           </a>
         </li>
-        <li class="menu-item">
-          <a class="menu-link" href="/admin/order">
-            <i class="icon material-icons md-shopping_bag"></i>
-            <span class="text">Coupon List</span>
-          </a>
-        </li>
+
         <li class="menu-item">
           <a class="menu-link" href="/admin/coupon">
             <i class="icon material-icons md-shopping_bag"></i>
@@ -136,7 +131,7 @@
           </li>
           <li class="dropdown nav-item">
             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="user//imgs/people/avatar-2.png" alt="User" /></a>
+              <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
               <div class="dropdown-divider"></div>
               <a class="dropdown-item text-danger" href="/admin/logout">
@@ -165,7 +160,7 @@
                       onsubmit="return validateForm()">
 
                       <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label">Product name*</label>
+                        <label class="col-lg-3 col-form-label">Product name</label>
                         <div class="col-lg-9">
                           <input name="productName" id="productName" type="text" class="form-control"
                             placeholder="Product Name">
@@ -174,7 +169,7 @@
                       </div>
 
                       <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label">Description*</label>
+                        <label class="col-lg-3 col-form-label">Description</label>
                         <div class="col-lg-9">
                           <input name="description" id="description" type="text" class="form-control"
                             placeholder="Description">
@@ -227,6 +222,8 @@
                         </div>
                       </div>
 
+                      <!-- brand -->
+
                       <div class="row mb-4">
                         <label class="col-lg-3 col-form-label">Brand</label>
                         <div class="col-lg-4">
@@ -259,7 +256,8 @@
                       </div>
                     </div>
                   </footer>
-  </main>
+                </main>
+
   <script src="js/vendors/jquery-3.6.0.min.js"></script>
   <script src="js/vendors/bootstrap.bundle.min.js"></script>
   <script src="js/vendors/select2.min.js"></script>
@@ -267,9 +265,7 @@
   <script src="js/vendors/jquery.fullscreen.min.js"></script>
 
   <script src="js/main.js?v=1.1" type="text/javascript"></script>
-
-
-
+  
   <script>
     function validateForm() {
 

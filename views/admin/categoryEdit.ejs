@@ -62,10 +62,10 @@
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/coupon">
-                      <i class="icon material-icons md-shopping_bag"></i>
-                      <span class="text">Coupons</span>
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Coupons</span>
                     </a>
-                  </li>
+                </li>
             </ul>
         </nav>
     </aside>
@@ -109,21 +109,20 @@
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
                             <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png"
                                     alt="English" />English</a>
-                            <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png"
-                                    alt="Français" />Français</a>
-
                         </div>
                     </li>
                     <li class="dropdown nav-item">
                         <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
-                            aria-expanded="false"> <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png"
-                                alt="User" /></a>
+                            aria-expanded="false">
+                            <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
 
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="/admin/logout">
-                            <i class="material-icons md-exit_to_app"></i>Logout
-                        </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="/admin/logout">
+                                <i class="material-icons md-exit_to_app"></i>Logout
+                            </a>
+                        </div>
+                    </li>
             </div>
             </li>
             </ul>
@@ -132,8 +131,7 @@
         <section class="content-main">
             <div class="content-header">
                 <div>
-                    <h2 class="content-title card-title">Categories</h2>
-                    <p>Add, edit or delete a category</p>
+                    <h2 class="content-title card-title">Edit Category</h2>
                 </div>
                 <div>
                     <input type="text" placeholder="Search Categories" class="form-control bg-white" />
@@ -142,30 +140,39 @@
             <div class="card">
                 <div class="card-body">
                     <!-- <div class="row"> -->
-                    <div class="col-md">
-                        <form action="/admin/edit" method="post">
-                            <div class="mb-4">
+                        
+                        <div class="col-md">
+                            <form action="/admin/edit" method="post">
+                              <div class="mb-4">
                                 <label for="product_name" class="form-label">Name</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_name"
-                                    name="product_name" value="<%= Data.name %>" />
-                                <input type="hidden" name="categoryId" value="<%= Data._id %>">
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label">Description</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="product_description"
-                                    name="product_description" value="<%= Data.description %>" />
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Create category</button>
-                            </div>
-                            <% if(typeof message !='undefined' ){ %>
-                                <span style="color: red; font-size: small;">
-                                    <%= locals.message %>
-                                </span>
+                                <% if (Data && Data.name) { %>
+                                  <input type="text" placeholder="Type here" class="form-control" id="product_name" name="product_name" value="<%= Data.name %>" />
+                                <% } else { %>
+                                  <input type="text" placeholder="Type here" class="form-control" id="product_name" name="product_name" />
                                 <% } %>
-                        </form>
-                    </div>
-
+                                <% if (Data && Data._id) { %>
+                                  <input type="hidden" name="categoryId" value="<%= Data._id %>">
+                                <% } %>
+                              </div>
+                              <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <% if (Data && Data.description) { %>
+                                  <input type="text" placeholder="Type here" class="form-control" id="product_description" name="product_description" value="<%= Data.description %>" />
+                                <% } else { %>
+                                  <input type="text" placeholder="Type here" class="form-control" id="product_description" name="product_description" />
+                                <% } %>
+                              </div>
+                              <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Update category</button>
+                              </div>
+                              <% if(typeof message !='undefined' ){ %>
+                                <span style="color: red; font-size: small;">
+                                  <%= message %>
+                                </span>
+                              <% } %>
+                            </form>
+                          </div>
+                          
                     <!-- .col// -->
 
                     <!-- .row // -->

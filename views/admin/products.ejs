@@ -11,9 +11,7 @@
   <meta property="og:type" content="" />
   <meta property="og:url" content="" />
   <meta property="og:image" content="" />
-  <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
-  <!-- Template CSS -->
   <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
 
 <body>
@@ -45,7 +43,7 @@
           </a>
 
         </li>
-        <li class="menu-item ">
+        <li class="menu-item active">
           <a class="menu-link" href="/admin/products">
             <i class="icon material-icons md-shopping_bag"></i>
             <span class="text">Products</span>
@@ -70,19 +68,17 @@
   </aside>
   <main class="main-wrap">
     <header class="main-header navbar">
-      <div class="col-search">
-        <form class="searchform">
-          <div class="input-group">
-            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
-            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
-          </div>
-          <datalist id="search_terms">
-            <option value=""></option>
-            <option value=""></option>
 
-          </datalist>
+      <!-- SEARCH -->
+      <div class="col-search">
+        <form class="search" onsubmit="searchProducts(event)">
+          <div class="input-group">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search product" />
+            <button class="btn btn-light bg" type="submit"><i class="material-icons md-search"></i></button>
+          </div>
         </form>
       </div>
+
       <div class="col-nav">
         <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
             class="material-icons md-apps"></i></button>
@@ -104,19 +100,19 @@
                 class="material-icons md-public"></i></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
               <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
-              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
+          
             </div>
           </li>
           <li class="dropdown nav-item">
             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+              <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
 
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item text-danger" href="/admin/logout">
-                <i class="material-icons md-exit_to_app"></i>Logout
-              </a>
-            </div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="/admin/logout">
+                  <i class="material-icons md-exit_to_app"></i>Logout
+                </a>
+              </div>
           </li>
         </ul>
       </div>
@@ -126,10 +122,9 @@
           border-radius: 5px;
         }
       </style>
-
     </header>
-    <section class="content-main">
 
+    <section class="content-main">
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="col-lg-3">
@@ -196,13 +191,12 @@
                         </button>
                       </td>
                       <td>
-                        <a href="/admin/deleteProduct?productsId=<%= products[i]._id %>">
-                          <button class="deleteBtn btn btn-danger btn-sm">delete</button>
-                        </a>
+                        <button class="deleteBtn btn btn-danger btn-sm" onclick="confirmDelete('<%= products[i]._id %>')">delete</button>
                       </td>
+                      
                     </tr>
                     <% } %>
-                      <% } %>            
+                      <% } %>
               </tbody>
             </table>
           </div>
@@ -212,7 +206,6 @@
       </div>
       </div>
       </div>
-
 
       <style>
         .table thead th {
@@ -231,21 +224,62 @@
         </div>
       </footer>
       </head>
-      
   </main>
+
   <script src="js/vendors/jquery-3.6.0.min.js"></script>
   <script src="js/vendors/bootstrap.bundle.min.js"></script>
   <script src="js/vendors/select2.min.js"></script>
   <script src="js/vendors/perfect-scrollbar.js"></script>
   <script src="js/vendors/jquery.fullscreen.min.js"></script>
-
   <script src="js/main.js?v=1.1" type="text/javascript"></script>
 
 
+  <script>
+    async function searchProducts(event) {
+      event.preventDefault();
+      const searchTerm = document.getElementById("searchInput").value.trim();
+      if (searchTerm === "") return;
+      try {
+        const response = await fetch(`/admin/products?search=${encodeURIComponent(searchTerm)}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const responseData = await response.text();
+        console.log(responseData);
+        const products = JSON.parse(responseData);
+        console.log(products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+  </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 
+<!-- Delete  -->
+<script>
+  function confirmDelete(productId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You are about to delete this product. This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = `/admin/deleteProduct?productsId=${productId}`;
+      }
+    });
+  }
+</script>
 
+
+
+  <!-- UNLIST -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const unlistButtons = document.querySelectorAll('.product-status');
@@ -288,7 +322,7 @@
       width: 13%;
     }
   </style>
-  
+
 </body>
 
 </html>

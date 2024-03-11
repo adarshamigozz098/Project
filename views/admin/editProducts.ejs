@@ -12,9 +12,9 @@
   <meta property="og:url" content="" />
   <meta property="og:image" content="" />
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="/admin/imgs/theme/favicon.svg" />
+  <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
   <!-- Template CSS -->
-  <link href="/admin/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+  <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
 
 
 <body>
@@ -62,7 +62,7 @@
             <span class="text">Products</span>
           </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item ">
           <a class="menu-link" href="/admin/order">
             <i class="icon material-icons md-shopping_cart"></i>
             <span class="text">Orders</span>
@@ -76,7 +76,6 @@
         </li>
       </ul>
       <hr />
-
       <br />
       <br />
     </nav>
@@ -123,14 +122,11 @@
                 class="material-icons md-public"></i></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
               <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
-              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
-              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-jp.png" alt="Français" />日本語</a>
-              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-cn.png" alt="Français" />中国人</a>
             </div>
           </li>
           <li class="dropdown nav-item">
             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
+              <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
               <div class="dropdown-divider"></div>
               <a class="dropdown-item text-danger" href="/admin/logout">
@@ -141,6 +137,7 @@
         </ul>
       </div>
     </header>
+
     <section class="content-main">
       <div class="row">
         <div class="col-9">
@@ -159,7 +156,7 @@
                       onsubmit="return validateForm()">
                       <!-- Product Name -->
                       <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label">Product name*</label>
+                        <label class="col-lg-3 col-form-label">Product name</label>
                         <div class="col-lg-9">
                           <input name="productName" id="productName" type="text" class="form-control"
                             placeholder="Product Name" value="<%=products.name %>">
@@ -169,7 +166,7 @@
 
                       <!-- Description -->
                       <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label">Description*</label>
+                        <label class="col-lg-3 col-form-label">Description</label>
                         <div class="col-lg-9">
                           <input name="description" id="description" type="text" class="form-control"
                             placeholder="Description" value="<%=products.description %>">
@@ -224,13 +221,15 @@
                       </div>
 
 
+                    
                       <!-- Category -->
                       <div class="row mb-4">
                         <label class="col-lg-3 col-form-label">Category</label>
                         <div class="col-lg-4">
                           <select class="form-control" name="category" id="exampleInputCity1">
                             <% category.forEach(category=> { %>
-                              <option>
+                              <option value="<%= category._id %>" <%=category._id.equals(products.category) ? 'selected'
+                                : '' %>>
                                 <%= category.name %>
                               </option>
                               <% }) %>
@@ -238,7 +237,6 @@
                           <span id="categoryError" class="text-danger"></span>
                         </div>
                       </div>
-
 
                       <!-- Brand -->
                       <div class="row mb-4">
@@ -266,8 +264,8 @@
           </div>
         </div>
       </div>
-
     </section>
+
     </head>
     <footer class="main-footer font-xs">
       <div class="row pb-30 pt-15">
@@ -300,34 +298,7 @@
       border-radius: 4px;
     }
   </style>
-
-
-  <!-- <script>
-
-    function previewImages() {
-      const input = document.getElementById('image');
-      const previewContainer = document.getElementById('imagePreviewContainer');
-      previewContainer.innerHTML = '';
-      if (input.files) {
-        for (const file of input.files) {
-          const reader = new FileReader();
-
-          reader.onload = function (e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.alt = 'New Image';
-            img.style.maxWidth = '100px';
-            img.style.marginRight = '10px';
-            previewContainer.appendChild(img);
-          };
-
-          reader.readAsDataURL(file);
-        }
-      }
-    }
-  </script> -->
-
-
+>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -355,7 +326,6 @@
 
   <script>
     function validateForm() {
-
       var productName = document.getElementById("productName").value;
       var description = document.getElementById("description").value;
       var quantity = document.getElementById("quantity").value;
@@ -367,19 +337,15 @@
       if (productName.trim() === "") {
         document.getElementById("productNameError").innerText = "Product name is required.";
       }
-
       if (description.trim() === "") {
         document.getElementById("descriptionError").innerText = "Description is required.";
       }
-
       if (quantity.trim() === "") {
         document.getElementById("quantityError").innerText = "Quantity is required.";
       }
-
       if (price.trim() === "") {
         document.getElementById("priceError").innerText = "Price is required.";
       }
-
       if (category.trim() === "") {
         document.getElementById("categoryError").innerText = "Category is required.";
       }
@@ -405,7 +371,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-
   <script>
     function countImages() {
       return document.querySelectorAll('.image-container').length;
@@ -419,8 +384,6 @@
         confirmButtonText: 'OK'
       });
     }
-
-
     document.getElementById('uploadForm').addEventListener('submit', function (event) {
 
       const numImages = countImages();
@@ -438,48 +401,6 @@
       }
     });
   </script>
-
-
-
-
-
-
-
-
-  <!-- <script>
-
-async function editProducts(event) {
-  event.preventDefault();
-  const formData = new FormData(document.querySelector('form')); 
-  const imageFiles = formData.getAll('image');
-
-  if (imageFiles.length > 4) {
-      swal("Error", "Maximum 4 images allowed", "error");
-      return;
-  }
-
-  try {
-      const response = await fetch("/admin/editProducts", {
-          method: "POST",
-          body: formData
-      });
-
-      if (response.ok) {
-          swal("Success", "Product updated successfully", "success");
-      } else {
-          swal("Error", "Failed to update product", "error");
-      }
-  } catch (error) {
-      console.error("Error:", error);
-      swal("Error", "Internal Server Error", "error");
-  }
-}
-</script> -->
-
-
-
-
-  <!-- Validation -->
 
 
 </body>

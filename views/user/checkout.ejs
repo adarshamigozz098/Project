@@ -36,8 +36,8 @@
     <style>
       .circle {
         display: "flex";
-        width: 105px;
-        height: 75px;
+        width: 76px;
+        height: 63px;
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         -ms-border-radius: 50%;
@@ -86,14 +86,6 @@
         cursor: pointer;
       }
 
-      .billing_details {
-        padding-top: 20px;
-      }
-
-      .billing_details h3 {
-        font-size: 24px;
-        margin-bottom: 15px;
-      }
 
       .modal-header {
         background-color: #dbcc8f;
@@ -143,31 +135,6 @@
         color: rgb(255, 255, 255);
       }
 
-      .modal-footer {
-        border-top: 1px solid #dfd9d9;
-        padding: 10px;
-      }
-
-      .modal-footer .btn-secondary {
-        background-color: #dbcc8f;
-        border-color: #000000;
-        color: #fffafa;
-        transition: background-color 0.3s ease;
-      }
-
-      .modal-footer .btn-secondary:hover {
-        background-color: #8d8a8a;
-      }
-
-      .modal-footer .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        transition: background-color 0.3s ease;
-      }
-
-      .modal-footer .btn-primary:hover {
-        background-color: #0056b3;
-      }
 
       .btn {
         border-radius: 30px;
@@ -279,12 +246,11 @@
         padding: 10px;
         cursor: pointer;
       }
+
+      .error-message {
+        color: red;
+      }
     </style>
-
-
-    <!-- jdhisuf -->
-
-
 
     <!-- CART  TOTAL-->
 
@@ -414,8 +380,6 @@
       </div>
     </div>
 
-
-
     <section class="ftco-section">
       <div class="container">
         <div class="cupon_area">
@@ -472,38 +436,84 @@
 
         <div class="address-section">
           <% Data.address.forEach((item)=> { %>
-            <div class="card fade-in address-card small-address" id="address_<%= item._id %>">
-              <label>
-                <span>Select Address</span>
-                <input type="radio" name="selectedAddress" id="addressRadio"
-                  value="<%= item.name %> , <%= item.housename %>, <%= item.city %>, <%= item.state %>, <%= item.phone %>, <%= item.pincode %>">
-              </label>
-              <div class="address-details">
-                <h4>
-                  <%= item.name %>
-                </h4>
-                <p>House Name: <%= item.housename %>
-                </p>
-                <p>City: <%= item.city %>
-                </p>
-                <p>State: <%= item.state %>
-                </p>
-                <p>Phone: <%= item.phone %>
-                </p>
-                <p>Pincode: <%= item.pincode %>
-                </p>
-              </div>
+          <div class="card fade-in address-card small-address" id="address_<%= item._id %>">
+            <div class="address-details">
+              <h4><%= item.name %></h4>
+              <p>House Name: <%= item.housename %></p>
+              <p>City: <%= item.city %></p>
+              <p>State: <%= item.state %></p>
+              <p>Phone: <%= item.phone %></p>
+              <p>Pincode: <%= item.pincode %></p>
             </div>
-            <% }) %>
-              <% if (Data.address.length===0) { %>
-                <div class="no-address">
-                  <p>No addresses found.</p>
-                </div>
-                <% } %>
-                  <div style="margin-top: -10px;">
-                  </div>
+            <label>
+              <span>Select Address</span>
+              <input type="radio" name="selectedAddress" id="addressRadio"
+                value="<%= item._id %>">
+            </label>
+          </div>
+          <% }) %>
+          <% if (Data.address.length===0) { %>
+          <div class="no-address">
+            <p>No addresses found.</p>
+          </div>
+          <% } %>
+          <div style="margin-top: -10px;"></div>
+          <button id="addAddressButton" class="btn btn-primary" style="margin-left: 160px;">Add Address</button>
         </div>
-      </div>
+        
+                  <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="addAddressForm">
+                            <div class="form-group">
+                              <label for="name">Name</label>
+                              <input type="text" class="form-control" id="name" name="name">
+                              <span id="nameError" class="error-message"></span>
+                            </div>
+                            <div class="form-group">
+                              <label for="housename">House Name</label>
+                              <input type="text" class="form-control" id="housename" name="housename">
+                              <span id="housenameError" class="error-message"></span>
+                            </div>
+                            <div class="form-group">
+                              <label for="city">City</label>
+                              <input type="text" class="form-control" id="city" name="city">
+                              <span id="cityError" class="error-message"></span>
+                            </div>
+                            <div class="form-group">
+                              <label for="state">State</label>
+                              <input type="text" class="form-control" id="state" name="state">
+                              <span id="stateError" class="error-message"></span>
+                            </div>
+                            <div class="form-group">
+                              <label for="phone">Phone</label>
+                              <input type="text" class="form-control" id="phone" name="phone">
+                              <span id="phoneError" class="error-message"></span>
+                            </div>
+                            <div class="form-group">
+                              <label for="pincode">Pincode</label>
+                              <input type="text" class="form-control" id="pincode" name="pincode">
+                              <span id="pincodeError" class="error-message"></span>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" id="saveAddressButton">Save Address</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+               </div>
+            </div>
 
       <div class="row justify-content-center">
         <div class="col-xl-10 ftco-animate">
@@ -580,16 +590,17 @@
             <div class="form-group">
               <div class="col-md-12">
                 <div class="radio">
-                  <label><input type="radio" name="optradio" value="Wallet" class="mr-2"> Wallet</label>
+                  <label><input type="radio" name="optradio" value="Wallet" class="mr-2">   
+                    Wallet (₹ <%= currentUser.wallet %>)</label>
                 </div>
               </div>
             </div>
+
             <p><a href="#" class="btn btn-primary py-3 px-4" id="placeOrderBtn">Place an order</a></p>
           </div>
         </div>
       </div>
     </section>
-
 
     <footer class="ftco-footer ftco-section">
       <div class="container">
@@ -686,7 +697,10 @@
     <script src="/user/js/google-map.js"></script>
     <script src="/user/js/main.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <!-- place order -->
 
 
     <script>
@@ -695,16 +709,24 @@
 
         const selectedAddress = document.querySelector('input[name="selectedAddress"]:checked');
         if (!selectedAddress) {
-          swal("Error", "Please select an address", "error");
-          return;
+          Swal.fire({
+            icon: "error",
+            title: "Select Address",
+            text: "'please select an address'",
+          });
+          // return;
         }
         const addressValue = selectedAddress.value;
         const selectedPaymentMethod = document.querySelector('input[name="optradio"]:checked');
         if (!selectedPaymentMethod) {
-          swal("Error", "Please select a payment method", "error");
-          return;
+          Swal.fire({
+            icon: "error",
+            title: "Payment Method",
+            text: "'please select your payment Method'",
+          });
         }
         const paymentMethod = selectedPaymentMethod.value;
+        
         if (paymentMethod == "COD") {
           try {
             const response = await fetch('/orderPlaced', {
@@ -722,7 +744,7 @@
             if (data.success) {
               const orderId = data.orderId;
 
-              swal({
+              swal.fire({
                 title: "Success",
                 text: "Order placed successfully!",
                 icon: "success",
@@ -731,11 +753,19 @@
                 window.location.href = `/orderConfirmation/${orderId}`;
               });
             } else {
-              swal("Error", "Failed to place the order. Please try again.", "error");
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Use other payment methods for orders above ₹1000",
+              });
             }
           } catch (error) {
             console.error('Error placing order:', error);
-            swal("Error", "Internal server error. Please try again later.", "error");
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "'Internal server error",
+            });;
           }
         } else if (paymentMethod == "RazorPay") {
           console.log("Razor payy");
@@ -761,7 +791,7 @@
                 "key": "rzp_test_eUnQ885ah336VG",
                 "amount": data.order.amount,
                 "currency": "INR",
-                "name": "Acme Corp",
+                "name": "SHOEzZo",
                 "description": "Test Transaction",
                 "image": "https://example.com/your_logo",
                 "order_id": data.order.id,
@@ -777,24 +807,30 @@
               var rzp1 = new Razorpay(options);
 
               rzp1.open();
-            } else {
-              swal("Error", "Failed to place the order. Please try again.", "error");
-            }
+            } else  {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "'Failed to place  an order",
+              });;
+            }  
+                
           } catch (error) {
             console.error('Error placing order:', error);
-            swal("Error", "Internal server error. Please try again later.", "error");
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Internal server error, please try later",
+            });;
           }
         }
       });
 
     </script>
+
     <!-- COUPON -->
 
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
-
       $(document).ready(function () {
         $("#coupon-form").submit(function (e) {
           e.preventDefault();
@@ -810,27 +846,31 @@
               amount: amount
             },
             success: function (response) {
+              // Disable the submit button after applying the coupon
+              $("#coupon-form button[type='submit']").prop('disabled', true);
+
               if (response.amountOkey) {
                 updateCouponDetails(response.disAmount, response.disTotal);
 
                 Swal.fire({
                   icon: "success",
-                  title: "Oops...",
+                  title: "Coupon Applied Successfully",
                 });
               } else if (response.user) {
-                showAlert('warning', 'Oops! This user has already used this coupon');
+                swal.fire('warning', 'Oops! This user has already used this coupon');
               } else if (response.limit) {
-                showAlert('warning', 'Oops! Coupon limit exceeded');
+                swal.fire('warning', 'Oops! Coupon limit exceeded');
               } else if (response.status) {
-                showAlert('warning', 'Oops! This coupon is not in use');
+                swal.fire('warning', 'Oops! This coupon is not in use');
               } else if (response.cartAmount) {
-                showAlert('warning', "Oops! You can't use the coupon... Buy more");
+                swal.fire('warning', "Oops! You can't use the coupon... Buy more");
               } else if (response.date) {
-                showAlert('warning', 'Oops! Coupon date expired');
+                swal.fire('warning', 'Oops! Coupon date expired');
               } else if (response.invalid) {
-                showAlert('error', 'Oops! Invalid coupon');
+                swal.fire('error', 'Oops! Invalid coupon');
               }
             },
+
             error: function (xhr, status, error) {
               console.error("Error:", error);
             }
@@ -862,6 +902,113 @@
       });
     </script>
 
-  </body>
 
+
+
+    <!-- MODAL ADDRESS -->
+
+    <script>
+  
+      const showModal = () => {
+        $('#addAddressModal').modal('show');
+      };
+
+      document.getElementById('addAddressButton').addEventListener('click', showModal);
+      document.getElementById('saveAddressButton').addEventListener('click', async () => {
+       
+        const name = document.getElementById('name').value;
+        const housename = document.getElementById('housename').value;
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+        const phone = document.getElementById('phone').value;
+        const pincode = document.getElementById('pincode').value;
+
+        const isValid = validateForm(name, housename, city, state, phone, pincode);
+
+        if (!isValid) {
+          return; 
+        }
+        try {
+         
+          const response = await fetch('/profile/address', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, housename, city, state, phone, pincode })
+          });
+       
+         const result = await response.json();     
+          if (result.success) {
+            alert('Address added successfully');
+            $('#addAddressModal').modal('hide');
+          } else {
+            alert('Failed to add address');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Internal Server Error');
+        }
+      });
+      function validateForm(name, housename, city, state, phone, pincode) {
+
+        clearErrors();
+        let isValid = true;
+
+        if (name.trim() === '') {
+          displayError('nameError', 'Please enter a name.');
+          isValid = false;
+        }
+
+        if (housename.trim() === '') {
+          displayError('housenameError', 'Please enter a house name.');
+          isValid = false;
+        }
+
+        if (city.trim() === '') {
+          displayError('cityError', 'Please enter a city.');
+          isValid = false;
+        }
+
+        if (state.trim() === '') {
+          displayError('stateError', 'Please enter a state.');
+          isValid = false;
+        }
+
+        if (phone.trim() === '' || isNaN(phone) || phone.length !== 10) {
+          displayError('phoneError', 'Please enter a valid phone number (10 digits).');
+          isValid = false;
+        }
+
+        if (pincode.trim() === '' || isNaN(pincode) || pincode.length !== 6) {
+          displayError('pincodeError', 'Please enter a valid pincode (6 digits).');
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
+      function displayError(fieldId, errorMessage) {
+        const errorSpan = document.getElementById(fieldId);
+        errorSpan.innerText = errorMessage;
+        errorSpan.style.display = 'block';
+      }
+
+      function clearErrors() {
+        const errorSpans = document.querySelectorAll('.error-message');
+        errorSpans.forEach(span => {
+          span.innerText = '';
+          span.style.display = 'none';
+        });
+      }
+    </script>
+
+
+
+<script>
+  
+</script>
+
+
+  </body>
 </html>

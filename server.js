@@ -22,6 +22,7 @@ app.use((req, res, next) => {
   next()
 });
 
+
 app.use(
   session({
     secret: "adarsh",
@@ -32,11 +33,7 @@ app.use(
 );
 
 
-
 app.use(express.static(path.resolve(__dirname, "public")));
-
-
-
 app.use(flash())
 
 
