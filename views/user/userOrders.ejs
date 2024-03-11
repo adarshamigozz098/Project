@@ -151,10 +151,10 @@
                           <tr>
                             <td><%= order.order_id %></td>
                             <td><%= order.payment %></td>
-                            <td>$<%= order.total_amount.toFixed(2) %></td>
-                            <td><%= order.items[0].ordered_status %></td>
+                            <td>$<%= (order.items.quantity * order.items.price) %></td>
+                            <td><%= order.items.ordered_status %></td>
                             <td>
-                              <a href="/viewDetails?id=<%= order._id%>" class="btn btn-sm btn-outline-primary">View Details</a>
+                              <a href="/viewDetails?orderId=<%= order._id%>&productId=<%= order.items.product_id %>" class="btn btn-sm btn-outline-primary">View Details</a>
                             </td>
                           </tr>
                         <% }); %>

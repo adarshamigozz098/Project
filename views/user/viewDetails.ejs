@@ -153,6 +153,7 @@
                                         </div>
                                         <div class="col-md-9">
                                             <input type="hidden" class="product-id" value="<%=item.product_id._id%>">
+                                            <input type="hidden" class="order-id" value="<%=orders._id%>">
                                             <span class="line">Item Name: <%= item.product_id.name %></span><br>
                                             <span class="line">Item Price: <%= item.price %></span><br> 
                                             <span class="line">Quantity: <%= item.quantity %></span><br>
@@ -302,20 +303,16 @@
         confirmButtonText: 'Yes, cancel it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          const productIds = document.querySelectorAll('.product-id');
-          const productIdsArray = Array.from(productIds).map(input => input.value);
+          
+          const productIds = document.querySelector('.product-id').value;
+          const orderIds = document.querySelector('.order-id').value;
+          // const productIdsArray = Array.from(productIds).map(input => input.value);
   
          
-          axios.post('/cancel-order', { productIds: productIdsArray })
-            .then(response => {
-         
-              console.log(response.data);
-              Swal.fire(
-                'Cancelled!',
-                'Your order has been cancelled.',
-                'success'
-              );
-              location.reload()
+          axios.post('/cancel-order', { productIds, orderIds })
+            .then(res => {
+              console.log(res);
+              location.reload();
             })
             .catch(error => {
           

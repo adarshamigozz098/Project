@@ -575,10 +575,21 @@ const userOrders = async (req, res) => {
   try {
     const userData = req.session.userId;
     if (userData) {
-      const Orders = await order
-        .find({ user_id: userData })
-        .populate("user_id")
-        .sort({ createdAt: -1 });
+      const Orders = await order.aggregate([
+        {
+          '$unwind': {
+            'path': '$items'
+          }
+        }, {
+          '$sort': {
+            'createdAt': -1
+          }
+        }
+      ]);
+      // const Orders = await order
+      //   .find({ user_id: userData })
+      //   .populate("user_id")
+      //   .sort({ createdAt: -1 });
 
       res.render("userOrders", { Orders, currentUser: req.session.user_id });
     } else {
@@ -999,7 +1010,7 @@ const placeOrder = async (req, res) => {
         quantity: item.quantity,
         price: item.price,
         total_price: item.total_price,
-        ordered_status: status,
+        ordered_status: "pending",
         discountPerItem: item.discountPerItem,
         cancellationReason: item.cancellationReason,
       })),
@@ -1083,22 +1094,51 @@ const logout = async (req, res) => {
   }
 };
 
+
+
+const cancelOrder = async (req, res) => {
+  try {
+    console.log("haiii");
+    const { productIds, orderIds } = req.body;
+    console.log(req.body);
+    await order.updateOne({_id: orderIds, "items.product_id": productIds}, {$set:{"items.$.ordered_status": "Cancelled"}});
+    // const updatedOrders = await Promise.all(
+    //   productIds.map(async (productId) => {
+    //     const updatedOrder = await order.findOneAndUpdate(
+    //       { "items.product_id": productId },
+    //       { $set: { "items.$.ordered_status": "Cancelled" } },
+    //       { new: true }
+    //     );
+    //     console.log(updatedOrder,"jdsa");
+    //     return updatedOrder;
+    //   })
+    // );
+    return res
+      .status(200)
+      .json({ message: "Orders cancelled successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+
+
 const viewDetails = async (req, res) => {
   try {
-    const orderId = req.query.id;
+    const orderId = req.query.orderId;
+    const productId = req.query.productId;
     const userId = req.session.userId;
 
-    console.log("my view", userId);
-    console.log("my order", orderId);
-
     const orders = await order
-      .findOne({ _id: orderId, user_id: userId })
+      .findOne({ _id: orderId, user_id: userId,"items.product_id": productId},{_id: 1, "items.$": 1,user_id: 1,order_id:1,delivery_address:1,total_amount:1,createdAt:1,updatedAt:1,expected_delivery:1,date:1,payment:1})
       .populate({
         path: "items.product_id",
         model: "product",
       });
-    console.log("Orders:", orders);
-
+ 
     const user = await User.findById(userId);
 
     res.render("viewDetails", { orders, user });
@@ -1108,27 +1148,6 @@ const viewDetails = async (req, res) => {
   }
 };
 
-const cancelOrder = async (req, res) => {
-  try {
-    const { productIds } = req.body;
-    const updatedOrders = await Promise.all(
-      productIds.map(async (productId) => {
-        const updatedOrder = await order.findOneAndUpdate(
-          { "items.product_id": productId },
-          { $set: { "items.$.ordered_status": "Cancelled" } },
-          { new: true }
-        );
-        return updatedOrder;
-      })
-    );
-    return res
-      .status(200)
-      .json({ message: "Orders cancelled successfully", updatedOrders });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
 const checkAdd = async (req, res) => {
   try {
     const { name, housename, city, state, phone, pincode } = req.body;
@@ -1275,7 +1294,6 @@ module.exports = {
   generateCustomUserId,
   cancelOrder,
   orderConfirmation,
-
 
   applyCoupon 
 };
