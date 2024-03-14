@@ -2,7 +2,7 @@ const User = require("../model/userModel");
 const product = require("../model/product");
 const Cart = require("../model/cart");
 const coupon = require("../model/coupon");
-const moment = require('moment')
+const moment = require("moment");
 const config = require("../config/config");
 const razorpay = require("razorpay");
 const mongoose = require("mongoose");
@@ -359,7 +359,9 @@ const loadLogin = async (req, res) => {
 
 const loadHome = async (req, res) => {
   try {
+    const products = await product.find().limit(4);
     let currentUser;
+
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);
       if (currentUser && currentUser.isBlocked) {
@@ -370,13 +372,14 @@ const loadHome = async (req, res) => {
         return res.redirect("/login");
       }
     }
-    res.render("home", { currentUser });
+    res.render("home", { products, currentUser });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
 
+// shop
 const ITEMS_PER_PAGE = 6;
 
 const loadShop = async (req, res) => {
@@ -389,22 +392,26 @@ const loadShop = async (req, res) => {
     }
 
     if (req.query.category) {
-      const categoryId = await category.findOne({ name: req.query.category }).select("_id");
+      const categoryId = await category
+        .findOne({ name: req.query.category })
+        .select("_id");
       if (categoryId) {
         query.category = categoryId;
       }
     }
 
     if (Object.keys(query).length === 0 && query.constructor === Object) {
-      // Empty search query, fetch all products
-      query = {}; // Reset query object
+      query = {};
     }
 
     let currentUser;
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);
       if (currentUser && currentUser.isBlocked) {
-        req.flash("error", "Your account has been blocked. Please login again.");
+        req.flash(
+          "error",
+          "Your account has been blocked. Please login again."
+        );
         return res.redirect("/login");
       }
     }
@@ -454,7 +461,6 @@ const loadShop = async (req, res) => {
   }
 };
 
-
 const loadContact = async (req, res) => {
   try {
     let currentUser;
@@ -474,244 +480,15 @@ const loadContact = async (req, res) => {
   }
 };
 
-const loadProfile = async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const userData = await User.findById(userId);
 
-    if (!userData) {
-      req.flash("error", "User not found");
-      return res.redirect("/login");
-    }
-    res.render("profile", {
-      username: userData.username,
-      email: userData.email,
-      phone: userData.phone,
-      currentUser: req.session.user_id,
-    });
-  } catch (error) {
-    console.log(error);
-    req.flash("error", "Internal Server Error");
-    res.redirect("/login");
-  }
-};
 
-const changePassword = async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const user = await User.findById(userId);
-    console.log(user, "hii");
-    const { currentPassword, newPassword, confirmPassword } = req.body;
 
-    const isPasswordCorrect = await user.comparePassword(currentPassword);
-    if (!isPasswordCorrect) {
-      req.flash("error", "Current password is incorrect");
-      return res.redirect("/profile");
-    }
-    if (newPassword !== confirmPassword) {
-      req.flash("error", "New password and confirm password do not match");
-      return res.redirect("/profile");
-    }
-    user.password = newPassword;
-    await user.save();
 
-    req.flash("success", "Password updated successfully");
-    res.redirect("/profile");
-  } catch (error) {
-    console.log(error);
-    req.flash("error", "Internal Server Error");
-    res.redirect("/profile");
-  }
-};
 
-// const editProfile = async (req, res) => {
-//   try {
-//     const userId = req.session.userId;
-// const { username, email, phone } = req.body;
 
-// const updatedUser = await User.findByIdAndUpdate(
-//   userId,
-//   { username, email, phone },
-//   { new: true }
-// );
-// Send JSON response for AJAX requests
-// if (req.xhr) {
-//   return res.status(200).json({ success: true, user: updatedUser });
 
-//     res.redirect("/profile");
-//   } catch (error) {
-//     console.error(error);
 
-//     // Send JSON response for AJAX requests
-//     if (req.xhr) {
-//       return res
-//         .status(500)
-//         .json({ success: false, error: "Internal Server Error" });
-//     }
 
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-const editProfile = async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const userData = await User.findById(userId);
-
-    if (!userData) {
-      req.flash("error", "User not found");
-      return res.redirect("/login");
-    }
-
-    res.render("editProfile", { currentUser: userData });
-  } catch (error) {
-    console.log(error);
-    req.flash("error", "Internal Server Error");
-    res.redirect("/login");
-  }
-};
-
-const updateProfile = async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const { username, email, phone } = req.body;
-
-    await User.findByIdAndUpdate(userId, { username, email, phone });
-
-    req.flash("success", "Profile updated successfully");
-    res.redirect("/profile");
-  } catch (error) {
-    console.log(error);
-    req.flash("error", "Internal Server Error");
-    res.redirect("/editProfile");
-  }
-};
-
-const userOrders = async (req, res) => {
-  try {
-    const userData = req.session.userId;
-    if (userData) {
-      const Orders = await order.aggregate([
-        {
-          $unwind: {
-            path: "$items",
-          },
-        },
-        {
-          $sort: {
-            createdAt: -1,
-          },
-        },
-      ]);
-      // const Orders = await order
-      //   .find({ user_id: userData })
-      //   .populate("user_id")
-      //   .sort({ createdAt: -1 });
-
-      res.render("userOrders", { Orders, currentUser: req.session.user_id });
-    } else {
-      res.redirect("/login");
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const laodUsersAddress = async (req, res) => {
-  try {
-    const userData = await User.findOne({ _id: req.session.userId });
-    res.render("address", { Data: userData, currentUser: req.session.user_id });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-const addAddress = async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const userData = await User.findById(userId);
-
-    if (!userData) {
-      req.flash("error", "User not found");
-      return res.redirect("/login");
-    }
-    res.render("addAddress", {
-      currentUser: userData,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-const saveAddress = async (req, res) => {
-  try {
-    const { name, housename, city, state, phone, pincode } = req.body;
-    const newAddress = {
-      name,
-      housename,
-      city,
-      state,
-      phone,
-      pincode,
-    };
-
-    await User.findByIdAndUpdate(
-      req.session.userId,
-      { $push: { address: newAddress } },
-      { new: true }
-    );
-
-    res
-      .status(200)
-      .json({ success: true, message: "Address added successfully" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
-  }
-};
-
-const editAddress = async (req, res) => {
-  try {
-    const addressId = req.query.addressId;
-
-    const userData = await User.findOne({ _id: req.session.userId });
-
-    if (!userData) {
-      req.flash("error", "User not found");
-      return res.redirect("/login");
-    }
-
-    const addressToEdit = userData.address.find(
-      (address) => address._id.toString() === addressId
-    );
-
-    if (addressToEdit) {
-      res.render("editAddress", { addressToEdit, currentUser: userData });
-    } else {
-      res.status(404).send("Address not found");
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-const deleteAddress = async (req, res) => {
-  try {
-    const addressIdToDelete = req.params.addressId;
-    const updatedUser = await User.findByIdAndUpdate(
-      req.session.userId,
-      { $pull: { address: { _id: addressIdToDelete } } },
-      { new: true }
-    );
-    res.redirect("/profile/address");
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error");
-  }
-};
 
 const loadSingle = async (req, res) => {
   try {
@@ -719,7 +496,7 @@ const loadSingle = async (req, res) => {
     const productData = await product.findOne({ _id: id });
     res.render("productDetails", {
       product: productData,
-      currentUser: req.session.user_id,
+      currentUser: req.session.userId,
     });
   } catch (error) {
     console.log(error);
@@ -772,7 +549,6 @@ const loadCheckout = async (req, res) => {
   }
 };
 
-
 const loadCheckAdd = async (req, res) => {
   try {
     res.render("checkAdd");
@@ -793,7 +569,8 @@ const placeOrder = async (req, res) => {
     const date = new Date();
     const user_id = req.session.userId;
     const { address, paymentMethod } = req.body;
-    console.log(req.body,"boo");
+    console.log(req.body, "boo");
+
     const delivery_address = address;
 
     const cartData = await Cart.findOne({ user_id: user_id });
@@ -825,7 +602,22 @@ const placeOrder = async (req, res) => {
       });
     }
 
-    let status = paymentMethod === "COD" ? "placed" : "RazorPay";
+    console.log(userData);
+
+    if (
+      paymentMethod == "Wallet" &&
+      (!userData.wallet || userData.wallet < totalAmount)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: `Insufficent Balance`,
+      });
+    }
+
+    let status =
+      paymentMethod === "COD" || paymentMethod == "Wallet"
+        ? "placed"
+        : "pending";
 
     const delivery = new Date(date.getTime() + 10 * 24 * 60 * 60 * 1000);
     const deliveryDate = delivery
@@ -859,7 +651,7 @@ const placeOrder = async (req, res) => {
         quantity: item.quantity,
         price: item.price,
         total_price: item.total_price,
-        ordered_status: "pending",
+        ordered_status: status,
         discountPerItem: item.discountPerItem,
         cancellationReason: item.cancellationReason,
       })),
@@ -871,7 +663,7 @@ const placeOrder = async (req, res) => {
       });
     }
 
-    if (status === "RazorPay") {
+    if (status === "pending") {
       let cartDelete;
       try {
         cartDelete = await Cart.deleteOne({ user_id: user_id });
@@ -888,14 +680,14 @@ const placeOrder = async (req, res) => {
     if (status === "placed") {
       const cartDelete = await Cart.deleteOne({ user_id: user_id });
       res.json({ success: true, orderId });
-    } else if (status === "RazorPay") {
+    } else if (status === "pending") {
       var options = {
         amount: orders.total_amount * 100,
         currency: "INR",
         receipt: orderId,
       };
       instance.orders.create(options, function (err, order) {
-        res.send({ status: "razer", order: order });
+        res.send({ status: "razer", order: order, orderId });
       });
     }
   } catch (error) {
@@ -912,18 +704,30 @@ const orderConfirmation = async (req, res) => {
 
     const orderId = req.params.orderId;
     const orderDetails = await order.findById(orderId);
+    console.log(orderDetails, "dkjhkjdhkjdshkjdshjkfhds");
     if (!orderDetails) {
       return res
         .status(404)
         .json({ success: false, message: "Order not found." });
     }
-    res.render("orderConfirmation", { orderDetails, userData, currentUser: req.session.userId });
+    if (orderDetails.payment == "RazorPay") {
+      orderDetails.items.forEach(async (item) => {
+        await order.updateOne(
+          { _id: orderId, "items.product_id": item.product_id },
+          { "items.$.ordered_status": "placed" }
+        );
+      });
+    }
+    res.render("orderConfirmation", {
+      orderDetails,
+      userData,
+      currentUser: req.session.userId,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
-}; 
-
+};
 
 const loadData = async (req, res) => {
   try {
@@ -941,93 +745,10 @@ const logout = async (req, res) => {
   }
 };
 
-const cancelOrder = async (req, res) => {
-  try {
-    console.log("haiii");
-    const { productIds, orderIds } = req.body;
-    console.log(req.body);
-    const data = await order
-      .findOneAndUpdate(
-        { "items._id": orderIds },
-        { $set: { "items.$.ordered_status": "Cancelled" } },
-        { new: true }
-      )
-      .exec();
-    console.log(data);
-    return res.status(200).json({ message: "Orders cancelled successfully" });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-
-const returnOrder = async (req, res) => {
-  try {
-    const { orderId , productIds} = req.body; 
-    console.log(req.body,"orderidddd");
-    console.log(productIds);
-
-    const data = await order.findOneAndUpdate(
-      {  "items._id": orderId },
-      { $set: { "items.$.ordered_status": "Returned" } }, 
-      { new: true }
-    ).exec();
-    console.log(data,"daaa");
-
-    return res.status(200).json({ message: "Order returned successfullyyy", data });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
 
 
 
-const viewDetails = async (req, res) => {
-  try {
-    const orderId = req.query.orderId;
-    const productId = req.query.productId;
-    const userId = req.session.userId;
 
-    const orders = await order
-      .findOne(
-        { _id: orderId, user_id: userId, "items.product_id": productId },
-        {
-          _id: 1,
-          "items.$": 1,
-          user_id: 1,
-          order_id: 1,
-          delivery_address: 1,
-          total_amount: 1,
-          createdAt: 1,
-          updatedAt: 1,
-          expected_delivery: 1,
-          date: 1,
-          payment: 1,
-          coupon: 1,
-          ordered_status: 1,
-        }
-      )
-      .populate({
-        path: "items.product_id",
-        model: "product",
-      });
-
-      console.log(orders,"ooooo");
- 
-    const user = await User.findById(userId);
-
-    res.render("viewDetails", {
-      orders,
-      user,
-      currentUser: req.session.user_id,
-    });
-  } catch (error) {
-    console.log(error);
-    res.redirect("/");
-  }
-};
 
 const checkAdd = async (req, res) => {
   try {
@@ -1055,77 +776,7 @@ const checkAdd = async (req, res) => {
   }
 };
 
-const invoiceDownload = async (req, res, next) => {
-  try {
-    const { orderId } = req.query;
 
-    if (!orderId) {
-      throw new Error("Order ID is missing");
-    }
-    const isValidObjectId = mongoose.Types.ObjectId.isValid(orderId);
-    if (!isValidObjectId) {
-      throw new Error("Invalid Order ID");
-    }
-    const userId = req.session.userId;
-    let subTotal = 0;
-    const userData = await User.findById(userId);
-
-    const orderData = await order
-      .findById(orderId)
-      .populate("items.product_id");
-
-    console.log("order:", orderData);
-
-    if (!orderData || !orderData.items || orderData.items.length === 0) {
-      throw new Error("Order data or product details not found");
-    }
-
-    orderData.items.forEach((item) => {
-      const total = item.product_id.price * item.quantity;
-      subTotal += total;
-    });
-
-    const date = new Date();
-    const data = {
-      order: orderData,
-      user: userData,
-      date,
-      subTotal,
-    };
-
-    const filepathName = path.resolve(__dirname, "../views/user/invoice.ejs");
-    const html = fs.readFileSync(filepathName).toString();
-    const ejsData = ejs.render(html, data);
-
-    const browser = await puppeteer.launch({ headless: "new" });
-    const page = await browser.newPage();
-    await page.setContent(ejsData, { waitUntil: "networkidle0" });
-    const pdfBytes = await page.pdf({ format: "Letter" });
-    await browser.close();
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      "attachment; filename= orderInvoice_SHOEZzo.pdf"
-    );
-    res.send(pdfBytes);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-};
-
-const wallet = async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const user = await User.findById(userId);
-    
-    
-    res.render("wallet", { user,currentUser:user , moment}); 
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 
 module.exports = {
@@ -1139,25 +790,10 @@ module.exports = {
   loadData,
   logout,
   loadSingle,
-  loadProfile,
-  editProfile,
 
-  changePassword,
-  updateProfile,
-  userOrders,
-  viewDetails,
 
-  //invoice
-  invoiceDownload,
 
-  // ADDRESS,
-  laodUsersAddress,
-  addAddress,
-  saveAddress,
-  editAddress,
-  deleteAddress,
   loadCheckAdd,
-
   //check
   checkAdd,
 
@@ -1173,8 +809,5 @@ module.exports = {
   verifyLogin,
   resendOTP,
   generateCustomUserId,
-  cancelOrder,
-  returnOrder,
   orderConfirmation,
-  wallet
 };

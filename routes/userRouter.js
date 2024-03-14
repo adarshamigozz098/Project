@@ -1,81 +1,75 @@
-const express=require('express')
+const express = require("express");
 
-const userRouter=express()
-const userController=require('../controller/userController')
-const cartController=require('../controller/cartController')
-const couponController=require('../controller/couponController')
-const auth = require('../middleware/auth')
+const userRouter = express();
+const userController = require("../controller/userController");
+const cartController = require("../controller/cartController");
+const couponController = require("../controller/couponController");
+const auth = require("../middleware/auth");
+const profileController = require("../controller/profileController");
 
-userRouter.set('view engine','ejs')
-userRouter.set('views','./views/user')
-
-userRouter.get('/',userController.loadHome)
-userRouter.get('/shop',auth.isLogin,userController.loadShop)
-userRouter.post('/shop',auth.isLogin,userController.loadShop)
-userRouter.get('/single',auth.isLogin,userController.loadSingle)
-userRouter.get('/about',auth.isLogin,userController.loadAbout)
-userRouter.get('/contact',auth.isLogin,userController.loadContact)
-userRouter.get('/checkout',auth.isLogin,userController.loadCheckout)
-
-userRouter.post('/orderPlaced', userController.placeOrder);
-userRouter.get('/orderConfirmation/:orderId', userController.orderConfirmation);
+userRouter.set("view engine", "ejs");
+userRouter.set("views", "./views/user");
 
 
-//cart
-userRouter.get('/cart',auth.isLogin,cartController.loadCart)
-userRouter.post('/addToCart',auth.isLogin,cartController.addToCart);
-userRouter.post('/increaseQuantity', cartController.increaseQuantity);
-userRouter.delete('/cart/remove', auth.isLogin, cartController.removeProduct);
-
-
-userRouter.get('/otp',userController.loadData)
-userRouter.get('/viewDetails',auth.isLogin,userController.viewDetails)
-userRouter.get('/productDetails',auth.isLogin,userController.loadSingle)
-userRouter.post('/changePassword',userController.changePassword)
-userRouter.get('/profile',auth.isLogin,userController.loadProfile)
-userRouter.get('/editProfile',userController.editProfile)
-userRouter.post('/updateProfile', userController.updateProfile);
-
-
-userRouter.get("/profile/orders",auth.isLogin,userController.userOrders)
-userRouter.get('/profile/address',auth.isLogin,userController.laodUsersAddress)
-userRouter.get('/addAddress',auth.isLogin,userController.addAddress)
-userRouter.post('/profile/address', userController.saveAddress);
-userRouter.get('/profile/editAddress',userController.editAddress)
-
-userRouter.get('/checkAdd',userController.loadCheckAdd)
-// userRouter.post('/checkAdd',userController.saveAddress)
-userRouter.post('/profile/address/delete/:addressId', userController.deleteAddress);
-
-userRouter.get('/changePass',userController.loadForget)
-userRouter.post('/cancel-order',userController.cancelOrder);
-userRouter.post('/returnOrder',userController.returnOrder);
-
-
-userRouter.get('/login',auth.isLogout,userController.loadLogin)
-userRouter.post('/login',userController.verifyLogin);
-userRouter.get('/signup',userController.loadSign)
-userRouter.post('/signup',userController.verifySignup)
-userRouter.post('/otp',userController.verifyOtp)
-userRouter.get('/logout',auth.isLogin,userController.logout);
-
-// wallet
-userRouter.get('/profile/wallet',auth.isLogin,userController.wallet)
-
-//invoice
-userRouter.get("/invoice",auth.isLogin,userController.invoiceDownload)
+//USER
+userRouter.get("/", userController.loadHome);
+userRouter.get("/shop", auth.isLogin, userController.loadShop);
+userRouter.post("/shop", auth.isLogin, userController.loadShop);
+userRouter.get("/single", auth.isLogin, userController.loadSingle);
+userRouter.get("/productDetails", auth.isLogin, userController.loadSingle);
+userRouter.get("/about", auth.isLogin, userController.loadAbout);
+userRouter.get("/contact", auth.isLogin, userController.loadContact);
+userRouter.get("/checkout", auth.isLogin, userController.loadCheckout);
+userRouter.post("/orderPlaced", userController.placeOrder);
+userRouter.get("/orderConfirmation/:orderId", userController.orderConfirmation);
+userRouter.get("/otp", userController.loadData);
+userRouter.get("/checkAdd", userController.loadCheckAdd);
+userRouter.get("/changePass", userController.loadForget);
+userRouter.get("/login", auth.isLogout, userController.loadLogin);
+userRouter.post("/login", userController.verifyLogin);
+userRouter.get("/signup", userController.loadSign);
+userRouter.post("/signup", userController.verifySignup);
+userRouter.post("/otp", userController.verifyOtp);
+userRouter.get("/logout", auth.isLogin, userController.logout);
+userRouter.post("/applyCoupon", couponController.applyCoupon);
 
 //forget
-userRouter.get('/forget',auth.isLogout,userController.loadForget)
-userRouter.post('/forget',userController.forgetPasswordVerify)
-userRouter.get('/forgetPassword',userController.resetPasswordLoad)
-userRouter.post('/forgetPassword',userController.resetpassword)
-userRouter.post("/resendOTP",userController.resendOTP);
-userRouter.post('/applyCoupon',couponController.applyCoupon)
-
-
-module.exports=userRouter
+userRouter.get("/forget", auth.isLogout, userController.loadForget);
+userRouter.post("/forget", userController.forgetPasswordVerify);
+userRouter.get("/forgetPassword", userController.resetPasswordLoad);
+userRouter.post("/forgetPassword", userController.resetpassword);
+userRouter.post("/resendOTP", userController.resendOTP);
 
 
 
+// USER PROFILE
+userRouter.get("/profile", auth.isLogin, profileController.loadProfile);
+userRouter.get("/editProfile", profileController.editProfile);
+userRouter.post("/changePassword", profileController.changePassword);
+userRouter.post("/updateProfile", profileController.updateProfile);
+// ORDERS
+userRouter.get("/profile/orders", auth.isLogin, profileController.userOrders);
+userRouter.get("/viewDetails", auth.isLogin, profileController.viewDetails);
+userRouter.post("/cancel-order", profileController.cancelOrder);
+userRouter.post("/returnOrder", profileController.returnOrder);
+//ADDRESS
+userRouter.get("/profile/address",auth.isLogin, profileController.laodUsersAddress);
+userRouter.get("/addAddress", auth.isLogin, profileController.addAddress);
+userRouter.get("/addAddress", auth.isLogin, profileController.addAddress);
+userRouter.post( "/profile/address/delete/:addressId", profileController.deleteAddress);
+userRouter.get("/addAddress", auth.isLogin, profileController.addAddress);
+userRouter.get("/profile/editAddress", profileController.editAddress);
+userRouter.post("/profile/editAddress", profileController.saveEditedAddress);
+// wallet
+userRouter.get("/profile/wallet", auth.isLogin, profileController.wallet);
+userRouter.get("/invoice", auth.isLogin, profileController.invoiceDownload);
 
+//cart
+userRouter.get("/cart", auth.isLogin, cartController.loadCart);
+userRouter.post("/addToCart", auth.isLogin, cartController.addToCart);
+userRouter.post("/increaseQuantity", cartController.increaseQuantity);
+userRouter.delete("/cart/remove", auth.isLogin, cartController.removeProduct);
+
+
+
+module.exports = userRouter;

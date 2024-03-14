@@ -199,21 +199,18 @@
                                                                 Edit
                                                             </button>
                                                         </a>
-                                                        <a href="/admin/deleteCoupon?id=<%=coupon._id%>">
-                                                            <button style="background-color: red; color: white;"
-                                                                class="action-button delete-button" aria-label="Delete">
+                                                        <a href="#" onclick="confirmDeleteCoupon('<%= coupon._id %>');" class="delete-link">
+                                                            <button style="background-color: red; color: white;" class="action-button delete-button" aria-label="Delete">
                                                                 Delete
                                                             </button>
-                                                        </a>
+                                                        </a>                                                  
                                                     </div>
                                                 </td>
-
                                             </tr>
                                             <% }); %>
                                     </tbody>
                                 </table>
                             </div>
-
                             <!-- table-responsive.// -->
                         </div>
                     </div>
@@ -242,10 +239,10 @@
                     <script>
                         document.write(new Date().getFullYear());
                     </script>
-                    &copy; Nest - HTML Ecommerce Template .
+                    &copy;
                 </div>
                 <div class="col-sm-6">
-                    <div class="text-sm-end">All rights reserved</div>
+                    <div class="text-sm-end"></div>
                 </div>
             </div>
         </footer>
@@ -258,6 +255,63 @@
     <!-- Main Script -->
     <script src="js/main.js?v=1.1" type="text/javascript"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+      async function confirmDeleteCoupon(couponId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this action!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+              
+                deleteCoupon(couponId);
+            }
+        });
+    }
+    
+    async function deleteCoupon(couponId) {
+        console.log(couponId,"iddd");
+    try {
+        $.ajax({
+            url: `/admin/deleteCoupon?id=${couponId}`,
+            type: 'DELETE',
+            success: function(data) {
+                if (data.error) {
+                    throw new Error(data.error);
+                } else {
+                    // Coupon deleted successfully
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'Coupon has been deleted successfully.',
+                    }).then(() => {
+                        // Redirect after successful deletion
+                        window.location.href = "/admin/coupon"; // Adjust the URL if necessary
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                throw new Error(`Error deleting coupon: ${error}`);
+            }
+        });
+    } catch (error) {
+        console.error("Error deleting coupon:", error.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'An error occurred while deleting the coupon.'
+        });
+    }
+}
+
+    </script>
 </body>
 
 </html>

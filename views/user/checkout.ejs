@@ -34,6 +34,14 @@
 
 
     <style>
+
+element.style {
+    margin-left: 160px;
+    margin-top: -4px;
+}
+
+
+
       .circle {
         display: "flex";
         width: 76px;
@@ -237,13 +245,13 @@
         margin-right: 10px;
       }
 
-
       .apply-coupon-btn {
         background-color: #dbcc8f;
         color: #fff;
         border: none;
         border-radius: 45px;
         padding: 10px;
+        width: 78px;
         cursor: pointer;
       }
 
@@ -383,19 +391,22 @@
     <section class="ftco-section">
       <div class="container">
         <div class="cupon_area">
-          <div class="check_title">
-            <h2 style="font-size: 1em;">
-              <a href="#" data-toggle="modal" data-target="#couponModal"><b>AVAILABLE COUPONS</b></a>
-            </h2>
+          <div class="cupon_area">
+            <div class="check_title">
+              <h2 style="font-size: 1em;">
+                <a href="#" data-toggle="modal" data-target="#couponModal"><b>AVAILABLE COUPONS</b></a>
+              </h2>
+            </div>
+
+            <form id="coupon-form">
+              <div class="cart-coupon">
+                <input type="text" id="code" name="cart-coupon" placeholder="Coupon code">
+                <input type="hidden" id="amount" name="amount" value="<%= totalPrice %>">
+                <button type="submit" id="apply-coupon-btn" class="apply-coupon-btn">Apply Coupon</button>
+              </div>
+            </form>
           </div>
 
-          <form id="coupon-form">
-            <div class="cart-coupon">
-              <input type="text" id="code" name="cart-coupon" placeholder="Coupon code">
-              <input type="hidden" id="amount" name="amount" value="<%= totalPrice %>">
-              <button type="submit" class="apply-coupon-btn success circle arrow">Apply Coupon</button>
-            </div>
-          </form>
         </div>
         <!-- Modal -->
         <div class="modal fade" id="couponModal" tabindex="-1" role="dialog" aria-labelledby="couponModalLabel"
@@ -434,86 +445,94 @@
           </div>
         </div>
 
-        <div class="address-section">
+        <div class="address-section" style="display: flex; flex-wrap: wrap;">
           <% Data.address.forEach((item)=> { %>
-          <div class="card fade-in address-card small-address" id="address_<%= item._id %>">
-            <div class="address-details">
-              <h4><%= item.name %></h4>
-              <p>House Name: <%= item.housename %></p>
-              <p>City: <%= item.city %></p>
-              <p>State: <%= item.state %></p>
-              <p>Phone: <%= item.phone %></p>
-              <p>Pincode: <%= item.pincode %></p>
+            <div class="card fade-in address-card small-address" id="address_<%= item._id %>"
+              style="flex: 0 0 auto; margin-right: 10px;">
+              <div class="address-details">
+                <label>
+                  <span>Select Address</span>
+                  <input type="radio" name="selectedAddress" id="addressRadio" value="<%= item._id %>">
+                </label>
+                <h4>
+                  <%= item.name %>
+                </h4>
+                <p>House Name: <%= item.housename %>
+                </p>
+                <p>City: <%= item.city %>
+                </p>
+                <p>State: <%= item.state %>
+                </p>
+                <p>Phone: <%= item.phone %>
+                </p>
+                <p>Pincode: <%= item.pincode %>
+                </p>
+              </div>
             </div>
-            <label>
-              <span>Select Address</span>
-              <input type="radio" name="selectedAddress" id="addressRadio"
-                value="<%= item._id %>">
-            </label>
-          </div>
-          <% }) %>
-          <% if (Data.address.length===0) { %>
-          <div class="no-address">
-            <p>No addresses found.</p>
-          </div>
-          <% } %>
-          <div style="margin-top: -10px;"></div>
-          <button id="addAddressButton" class="btn btn-primary" style="margin-left: 160px;">Add Address</button>
+            <% }) %>
+              <% if (Data.address.length===0) { %>
+                <div class="no-address">
+                  <p>No addresses found.</p>
+                </div>
+                <% } %>
         </div>
-        
-                  <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <form id="addAddressForm">
-                            <div class="form-group">
-                              <label for="name">Name</label>
-                              <input type="text" class="form-control" id="name" name="name">
-                              <span id="nameError" class="error-message"></span>
-                            </div>
-                            <div class="form-group">
-                              <label for="housename">House Name</label>
-                              <input type="text" class="form-control" id="housename" name="housename">
-                              <span id="housenameError" class="error-message"></span>
-                            </div>
-                            <div class="form-group">
-                              <label for="city">City</label>
-                              <input type="text" class="form-control" id="city" name="city">
-                              <span id="cityError" class="error-message"></span>
-                            </div>
-                            <div class="form-group">
-                              <label for="state">State</label>
-                              <input type="text" class="form-control" id="state" name="state">
-                              <span id="stateError" class="error-message"></span>
-                            </div>
-                            <div class="form-group">
-                              <label for="phone">Phone</label>
-                              <input type="text" class="form-control" id="phone" name="phone">
-                              <span id="phoneError" class="error-message"></span>
-                            </div>
-                            <div class="form-group">
-                              <label for="pincode">Pincode</label>
-                              <input type="text" class="form-control" id="pincode" name="pincode">
-                              <span id="pincodeError" class="error-message"></span>
-                            </div>
-                          </form>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" id="saveAddressButton">Save Address</button>
-                        </div>
-                      </div>
-                    </div>
+        <button id="addAddressButton" class="btn btn-primary" style="margin-left: 210px; margin-top: -4px;">Add
+          Address</button>
+
+
+        <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="addAddressForm">
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                    <span id="nameError" class="error-message"></span>
                   </div>
-               </div>
+                  <div class="form-group">
+                    <label for="housename">House Name</label>
+                    <input type="text" class="form-control" id="housename" name="housename">
+                    <span id="housenameError" class="error-message"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city">
+                    <span id="cityError" class="error-message"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" name="state">
+                    <span id="stateError" class="error-message"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone">
+                    <span id="phoneError" class="error-message"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="pincode">Pincode</label>
+                    <input type="text" class="form-control" id="pincode" name="pincode">
+                    <span id="pincodeError" class="error-message"></span>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveAddressButton">Save Address</button>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+      </div>
 
       <div class="row justify-content-center">
         <div class="col-xl-10 ftco-animate">
@@ -590,7 +609,7 @@
             <div class="form-group">
               <div class="col-md-12">
                 <div class="radio">
-                  <label><input type="radio" name="optradio" value="Wallet" class="mr-2">   
+                  <label><input type="radio" name="optradio" value="Wallet" class="mr-2">
                     Wallet (₹ <%= currentUser.wallet %>)</label>
                 </div>
               </div>
@@ -726,8 +745,8 @@
           });
         }
         const paymentMethod = selectedPaymentMethod.value;
-        
-        if (paymentMethod == "COD") {
+
+        if ((paymentMethod == "COD") || (paymentMethod == "Wallet")) {
           try {
             const response = await fetch('/orderPlaced', {
               method: 'POST',
@@ -756,11 +775,19 @@
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Use other payment methods for orders above ₹1000",
+                text: data.message,
               });
             }
           } catch (error) {
             console.error('Error placing order:', error);
+            if (!error.response.data.success) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.response.data.message,
+              });
+              return;
+            }
             Swal.fire({
               icon: "error",
               title: "Oops...",
@@ -797,7 +824,7 @@
                 "order_id": data.order.id,
                 "handler": function (response) {
 
-                  window.location.href = `/orderConfirmation/${data.order.receipt}`;
+                  window.location.href = `/orderConfirmation/${orderId}`;
 
                 },
                 "theme": {
@@ -807,14 +834,14 @@
               var rzp1 = new Razorpay(options);
 
               rzp1.open();
-            } else  {
+            } else {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "'Failed to place  an order",
               });;
-            }  
-                
+            }
+
           } catch (error) {
             console.error('Error placing order:', error);
             Swal.fire({
@@ -825,7 +852,6 @@
           }
         }
       });
-
     </script>
 
     <!-- COUPON -->
@@ -846,7 +872,6 @@
               amount: amount
             },
             success: function (response) {
-              // Disable the submit button after applying the coupon
               $("#coupon-form button[type='submit']").prop('disabled', true);
 
               if (response.amountOkey) {
@@ -870,7 +895,6 @@
                 swal.fire('error', 'Oops! Invalid coupon');
               }
             },
-
             error: function (xhr, status, error) {
               console.error("Error:", error);
             }
@@ -902,20 +926,52 @@
       });
     </script>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const couponForm = document.getElementById("coupon-form");
+        const couponInput = document.getElementById("code");
+        const applyCouponBtn = document.getElementById("apply-coupon-btn");
+
+        couponForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+
+          const couponCode = couponInput.value.trim();
+          if (couponCode) {
+            applyCouponBtn.textContent = "Remove Coupon";
+       
+            couponInput.disabled = true;
+          }
+        });
+
+        applyCouponBtn.addEventListener("click", function () {
+          // applyCouponBtn.textContent = "Remove Coupon";
+     
+          if (applyCouponBtn.textContent === "Remove Coupon") {
+
+            couponInput.value = "";
+            applyCouponBtn.textContent = "Apply Coupon";
+            couponInput.disabled = false;
+            location.reload();
+          }
+        });
+      });
+    </script>
+
 
 
 
     <!-- MODAL ADDRESS -->
 
     <script>
-  
+
       const showModal = () => {
         $('#addAddressModal').modal('show');
       };
 
       document.getElementById('addAddressButton').addEventListener('click', showModal);
       document.getElementById('saveAddressButton').addEventListener('click', async () => {
-       
+
         const name = document.getElementById('name').value;
         const housename = document.getElementById('housename').value;
         const city = document.getElementById('city').value;
@@ -926,10 +982,10 @@
         const isValid = validateForm(name, housename, city, state, phone, pincode);
 
         if (!isValid) {
-          return; 
+          return;
         }
         try {
-         
+
           const response = await fetch('/profile/address', {
             method: 'POST',
             headers: {
@@ -937,8 +993,8 @@
             },
             body: JSON.stringify({ name, housename, city, state, phone, pincode })
           });
-       
-         const result = await response.json();     
+
+          const result = await response.json();
           if (result.success) {
             alert('Address added successfully');
             $('#addAddressModal').modal('hide');
@@ -1003,12 +1059,6 @@
       }
     </script>
 
-
-
-<script>
-  
-</script>
-
-
   </body>
+
 </html>

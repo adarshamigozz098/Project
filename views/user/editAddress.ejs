@@ -24,7 +24,7 @@
 
         <style>
             .bg-dark {
-                background-color: #08da78 !important;
+                background-color: #dbcc8f !important;
                 margin-top: -21px;
             }
         </style>
@@ -176,7 +176,7 @@
 
                 <div id="addAddressContainer">
                     <div id="editAddressContainer">
-                        <form id="editAddressForm" action="/EditAddress" method="post" onsubmit="return validateForm()">
+                        <form id="editAddressForm" action="/profile/editAddress" method="post" onsubmit="return validateForm()">
                             <% if (addressToEdit) { %>
                                 <input type="hidden" name="addressId" value="<%= addressToEdit._id %>">
 

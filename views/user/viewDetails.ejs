@@ -1,5 +1,5 @@
 <%- include('../user/layout/header') %>
-  <%- include('../user/layout/nav') %>
+<%- include('../user/layout/nav') %>
 
 
     <!DOCTYPE html>
@@ -119,10 +119,10 @@
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="/profile/wallet">
-                <i class="nc-icon nc-circle-09"></i>
-                <p><B>WALLET</B></p>
+              <i class="nc-icon nc-circle-09"></i>
+              <p><B>WALLET</B></p>
             </a>
-        </li>
+          </li>
         </ul>
       </div>
       </div>
@@ -195,7 +195,7 @@
                                   <% } %>
                             </div>
                           </div>
-                          <% if (item.ordered_status==='pending' ) { %>
+                          <%if (item.ordered_status === 'placed' || item.ordered_status === 'pending') { %>
                             <button type="button" onclick="cancel()" class="btn btn-danger">Cancel</button>
                             <% } else if (item.ordered_status==='Delivered' ) { %>
                               <button type="button" onclick="returnOrder()" class="btn btn-danger">Return</button>
@@ -208,7 +208,18 @@
                       </div>
                     </div>
                     <h5>Customer Address</h5>
-                    <span class="line">Delivery Address: </span>
+                    <% if (user && user.address && user.address.length > 0) { %>
+                      <% const selectedAddress = user.address[0]; %> 
+                      <span class="line">Name: <%= selectedAddress.name %></span><br>
+                      <span class="line">House Name: <%= selectedAddress.housename %></span><br>
+                      <span class="line">City: <%= selectedAddress.city %></span><br>
+                      <span class="line">State: <%= selectedAddress.state %></span><br>
+                      <span class="line">Phone: <%= selectedAddress.phone %></span><br>
+                   
+                    <% } else { %>
+                      <span class="line">No address found</span>
+                    <% } %>
+                    
                   </div>
                   <div class="card mb-3">
                     <b>Payment Details</b>
@@ -216,12 +227,11 @@
                       <% var subtotal=0; %>
                         <% orders.items.forEach(item=> { subtotal += item.price; }); %>
                           <span class="line">Subtotal: <%= subtotal %></span><br>
-                          <span class="line">Coupon:</span><br>
+                          <span class="line">Coupon: <%=subtotal - orders.total_amount%></span><br> 
                           <span class="line">Estimated Total: <%= orders.total_amount %></span><br>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -300,7 +310,7 @@
                   <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
                   with
                   <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                    target="_blank">Colorlib</a>
+                    target="_blank">SHOEzzo</a>
                 </p>
               </div>
             </div>

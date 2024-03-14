@@ -75,20 +75,7 @@
   <main class="main-wrap">
     <header class="main-header navbar">
       <div class="col-search">
-        <form class="searchform">
-          <div class="input-group">
-            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
-            <button class="btn btn-light bg" type="button">
-              <i class="material-icons md-search"></i>
-            </button>
-          </div>
-          <datalist id="search_terms">
-            <option value=""></option>
-            <option value=""></option>
-            <option value=""></option>
-            <option value=""></option>
-          </datalist>
-        </form>
+    
       </div>
       <div class="col-nav">
         <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
@@ -114,8 +101,6 @@
                 class="material-icons md-public"></i></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
               <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
-              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-fr.png" alt="Français" />Français</a>
-              <a class="dropdown-item" href="#"><img src="imgs/theme/flag-jp.png" alt="Français" />日本語</a>
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -136,13 +121,10 @@
     <section class="content-main">
       <div class="content-header">
         <div>
-          <h2 class="content-title card-title">Orders</h2>
+          <h2 class="content-title card-title"><B>USER ORDERS</B></h2>
           <p></p>
         </div>
-        <div>
-          <input type="text" placeholder="Search Categories" class="form-control bg-white" />
-        </div>
-      </div>
+              </div>
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="col-lg-12 stretch-card">
@@ -160,11 +142,12 @@
                         <th>Order Date</th>
                         <th>Payment Method</th>
                         <th>Status</th>
+                        <th></th>
                         <th>Items</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% Orders.forEach(order => { %>
+                      <% Orders.reverse().forEach(order => { %>
                         <% order.items.forEach(item => { %>
                           <tr>
                             <td><%= order.order_id %></td>
@@ -206,8 +189,30 @@
                         </tr>
                       <% } %>
                     </tbody>
-
-
+                    
+                    <div class="pagination-area mt-30 mb-50">
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                          <% if (currentPage > 1) { %>
+                            <li class="page-item"><a class="page-link" href="?page=1&search=<%= searchTerm %>">1</a></li>
+                          <% } %>
+                          <% for (let i = 2; i <= totalPages; i++) { %>
+                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                              <a class="page-link" href="?page=<%= i %>&search=<%= searchTerm %>"><%= i %></a>
+                            </li>
+                          <% } %>
+                          <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                              <a class="page-link" href="?page=<%= totalPages %>&search=<%= searchTerm %>">
+                                <i class="material-icons md-chevron_right"></i>
+                              </a>
+                            </li>
+                          <% } %>
+                        </ul>
+                      </nav>
+                    </div>
+                    
+             
                     <footer class="main-footer font-xs">
                       <div class="row pb-30 pt-15">
                         <div class="col-sm-6">

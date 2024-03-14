@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="/user/css/flaticon.css" />
     <link rel="stylesheet" href="/user/css/icomoon.css" />
     <link rel="stylesheet" href="/user/css/style.css" />
-    
+
     <style>
       .total p {
         margin-bottom: 10;
@@ -100,61 +100,70 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% cartProducts.forEach(cartProduct => { %>
-                  <tr class="text-center">
-                    <td class="image-prod">
-                      <% if (cartProduct.product_id && cartProduct.product_id.image && cartProduct.product_id.image[0]) { %>
-                      <img src="/images/<%= cartProduct.product_id.image[0] %>" alt="Product Image">
-                      <% } else { %>
-                      <!-- Add a placeholder image or an alternative content if there's no image -->
-                      <!-- <img src="/public/images/placeholder-image.jpg" alt="Placeholder Image"> -->
-                      <% } %>
-                    </td>
-              
-                    <td class="product-name">
-                      <h3><%= cartProduct.product_id?.name %></h3>
-                      <p><%= cartProduct.product_id?.description %></p>
-                    </td>
-              
-                    <td class="quantity">
-                      <div class="input-group mb-3">
-                        <span class="input-group-btn mr-2">
-                          <button type="button" class="quantity-left-minus btn" data-type="minus"
-                            data-productid="<%= cartProduct.product_id._id %>" data-itemId="<%= cartProducts._id %>">
-                            <i class="ion-ios-remove"></i>
-                          </button>
-                        </span>
-                        <input type="number" name="quantity" class="quantity form-control input-number" min="1" max="100"
-                          value="<%= cartProduct.quantity%>" readonly />
-                        <span class="input-group-btn ml-2">
-                          <button type="button" class="quantity-right-plus btn" data-type="plus"
-                            data-productid="<%= cartProduct.product_id._id %>" data-itemId="<%= cartProducts._id %>">
-                            <i class="ion-ios-add"></i>
-                          </button>
-                        </span>
-                      </div>
-                    </td>
-                            
-                    <td class="price" style="width: 100px;">
-                      <p><%=cartProduct.price%></p>
-                    </td>
-                    <td class="total" style="width: 100px;">
-                      <p><%=cartProduct.total_price%></p>
-                    </td>
-              
-                    <td class="product-remove">
-                      <a href="#">
-                        <% if (cartProduct.product_id && cartProduct.product_id._id) { %>
-                        <span class="remove-product" data-product-id="<%= cartProduct.product_id._id %>">❌</span>
-                        <% } else { %>
-                        <span class="remove-product" data-product-id="N/A">❌</span>
-                        <% } %>
-                      </a>
-                    </td>
-                  </tr>
-                  <% }) %>
+                  <% cartProducts.forEach(cartProduct=> { %>
+                    <tr class="text-center">
+                      <td class="image-prod">
+                        <% if (cartProduct.product_id && cartProduct.product_id.image &&
+                          cartProduct.product_id.image[0]) { %>
+                          <img src="/images/<%= cartProduct.product_id.image[0] %>" alt="Product Image">
+                          <% } else { %>
+                            <!-- Add a placeholder image or an alternative content if there's no image -->
+                            <!-- <img src="/public/images/placeholder-image.jpg" alt="Placeholder Image"> -->
+                            <% } %>
+                      </td>
+
+                      <td class="product-name">
+                        <h3>
+                          <%= cartProduct.product_id?.name %>
+                        </h3>
+                        <p>
+                          <%= cartProduct.product_id?.description %>
+                        </p>
+                      </td>
+
+                      <td class="quantity">
+                        <div class="input-group mb-3">
+                          <span class="input-group-btn mr-2">
+                            <button type="button" class="quantity-left-minus btn" data-type="minus"
+                              data-productid="<%= cartProduct.product_id._id %>" data-itemId="<%= cartProducts._id %>">
+                              <i class="ion-ios-remove"></i>
+                            </button>
+                          </span>
+                          <input type="number" name="quantity" class="quantity form-control input-number" min="1"
+                            max="100" value="<%= cartProduct.quantity%>" readonly />
+                          <span class="input-group-btn ml-2">
+                            <button type="button" class="quantity-right-plus btn" data-type="plus"
+                              data-productid="<%= cartProduct.product_id._id %>" data-itemId="<%= cartProducts._id %>">
+                              <i class="ion-ios-add"></i>
+                            </button>
+                          </span>
+                        </div>
+                      </td>
+
+                      <td class="price" style="width: 100px;">
+                        <p>
+                          <%=cartProduct.price%>
+                        </p>
+                      </td>
+                      <td class="total" style="width: 100px;">
+                        <p>
+                          <%=cartProduct.total_price%>
+                        </p>
+                      </td>
+
+                      <td class="product-remove">
+                        <a href="#">
+                          <% if (cartProduct.product_id && cartProduct.product_id._id) { %>
+                            <span class="remove-product" data-product-id="<%= cartProduct.product_id._id %>">❌</span>
+                            <% } else { %>
+                              <span class="remove-product" data-product-id="N/A">❌</span>
+                              <% } %>
+                        </a>
+                      </td>
+                    </tr>
+                    <% }) %>
                 </tbody>
-              </table>            
+              </table>
             </div>
           </div>
         </div>
@@ -174,7 +183,7 @@
               <hr>
               <p class="d-flex total-price">
                 <span>ESTIMATED TOTAL</span>
-                <span id="estimatedTotal">₹<%=totalPriceSum%></span>
+                <span id="estimatedTotal">₹<%= totalPriceSum.toFixed(2) %></span>
               </p>
             </div>
             <p class="text-center"><a href="/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
@@ -183,82 +192,8 @@
       </div>
     </section>
 
-    <footer class="ftco-footer ftco-section">
-      <div class="container">
-        <div class="row">
-          <div class="mouse">
-            <a href="#" class="mouse-icon">
-              <div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
-            </a>
-          </div>
-        </div>
-        <div class="row mb-5">
-          <div class="col-md">
-            <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Minishop</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md">
-            <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">Menu</h2>
-              <ul class="list-unstyled">
-                <li><a href="#" class="py-2 d-block">Shop</a></li>
-                <li><a href="#" class="py-2 d-block">About</a></li>
-                <li><a href="#" class="py-2 d-block">Journal</a></li>
-                <li><a href="#" class="py-2 d-block">Contact Us</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Help</h2>
-              <div class="d-flex">
-                <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
-                  <li><a href="#" class="py-2 d-block">Shipping Information</a></li>
-                  <li><a href="#" class="py-2 d-block">Returns &amp; Exchange</a></li>
-                  <li><a href="#" class="py-2 d-block">Terms &amp; Conditions</a></li>
-                  <li><a href="#" class="py-2 d-block">Privacy Policy</a></li>
-                </ul>
-                <ul class="list-unstyled">
-                  <li><a href="#" class="py-2 d-block">FAQs</a></li>
-                  <li><a href="#" class="py-2 d-block">Contact</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-md">
-            <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Have a Questions?</h2>
-              <div class="block-23 mb-3">
-                <ul>
-                  <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San
-                      Francisco, California, USA</span></li>
-                  <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a>
-                  </li>
-                  <li><a href="#"><span class="icon icon-envelope"></span><span
-                        class="text">info@yourdomain.com</span></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <p>
-              Copyright &copy;
-              <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
-              with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                target="_blank">Colorlib</a>
-            </p>
-          </div>
-        </div>
-    </footer>
+// footer
+<%- include('../user/layout/footer') %>
 
     <style>
       .image-prod img {
@@ -329,6 +264,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Quantity -->
+    
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const quantityChangeButtons = document.querySelectorAll(".quantity-left-minus, .quantity-right-plus");
@@ -355,7 +291,8 @@
                 quantityInput.value = newQuantity;
                 const price = parseFloat(priceElement.textContent);
                 const totalPrice = price * newQuantity;
-                totalElement.textContent = totalPrice.toFixed(2);
+                totalElement.textContent = totalPrice
+
               } else {
                 Swal.fire({
                   icon: 'info',
@@ -405,10 +342,6 @@
         }
       });
     </script>
-
-
-
-
   </body>
 
   </html>

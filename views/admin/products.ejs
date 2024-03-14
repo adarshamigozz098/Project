@@ -69,11 +69,10 @@
   <main class="main-wrap">
     <header class="main-header navbar">
 
-      <!-- SEARCH -->
       <div class="col-search">
-        <form class="search" onsubmit="searchProducts(event)">
+        <form id="adminSearchForm" class="search">
           <div class="input-group">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search product" />
+            <input id="adminSearchInput" type="text" class="form-control" placeholder="Search product" />
             <button class="btn btn-light bg" type="submit"><i class="material-icons md-search"></i></button>
           </div>
         </form>
@@ -156,8 +155,9 @@
                 <% if(products.length> 0) { %>
                   <% for(let i=0; i < products.length; i++) { %>
                     <tr>
-                      <td>
-                        <img src="/images/<%= products[i].image[0] %>" alt="">
+                      <td >
+                   
+                        <img src="/images/<%= products[i].image[0] %>" alt="" width="120" height="100">
                       </td>
                       <td>
                         <%= products[i].name %>
@@ -172,22 +172,22 @@
                         <%= products[i].brand %>
                       </td>
                       <td>
-                        <span id="status_<%=products[i]._id%>"
-                          class="badge rounded-pill alert-warning <%= products[i].is_listed ? 'status-listed' : 'status-unlisted' %>">
-                          <%= products[i].is_listed ? 'Listed' : 'Unlisted' %>
+                        <span id="status_<%= products[i]._id %>"
+                            class="badge rounded-pill alert-warning <%= products[i].is_listed ? 'status-listed' : 'status-unlisted' %>">
+                            <%= products[i].is_listed ? 'Listed' : 'Unlisted' %>
                         </span>
-                      </td>
-                      <td>
-                        <button
-                          class="btn product-status <%= products[i].is_listed ? 'btn-inverse-success' : 'btn-inverse-danger' %>"
-                          data-product-id="<%= products[i]._id %>"
-                          data-current-status="<%= products[i].is_listed ? 'listed' : 'unlisted' %>">
-                          <%= products[i].is_listed ? 'Unlist' : 'List' %>
+                    </td>
+                    <td>
+                        <button class="btn product-status <%= products[i].is_listed ? 'btn-success' : 'btn-danger' %> listBtn"
+                            data-product-id="<%= products[i]._id %>"
+                            data-current-status="<%= products[i].is_listed ? 'listed' : 'unlisted' %>">
+                            <%= products[i].is_listed ? 'Unlist' : 'List' %>
                         </button>
-                      </td>
+                    </td>
+                    
                       <td>
-                        <button class="btn-inverse-primary">
-                          <a href="/admin/editProduct?productsId=<%= products[i]._id %>">Edit</a>
+                        <button class="btn-inverse-primary ">
+                          <a href="/admin/editProduct?productsId=<%= products[i]._id %> ">Edit</a>
                         </button>
                       </td>
                       <td>
@@ -201,11 +201,9 @@
             </table>
           </div>
         </div>
+       
       </div>
-      </div>
-      </div>
-      </div>
-      </div>
+      
 
       <style>
         .table thead th {
@@ -234,28 +232,25 @@
   <script src="js/main.js?v=1.1" type="text/javascript"></script>
 
 
-  <script>
-    async function searchProducts(event) {
-      event.preventDefault();
-      const searchTerm = document.getElementById("searchInput").value.trim();
-      if (searchTerm === "") return;
-      try {
-        const response = await fetch(`/admin/products?search=${encodeURIComponent(searchTerm)}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const responseData = await response.text();
-        console.log(responseData);
-        const products = JSON.parse(responseData);
-        console.log(products);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    }
-  </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const adminSearchForm = document.getElementById("adminSearchForm");
+    const adminSearchInput = document.getElementById("adminSearchInput");
 
+    adminSearchForm.addEventListener("submit", function(event) {
+      event.preventDefault(); 
+      const searchValue = adminSearchInput.value.trim();
+      if (searchValue !== "") { 
+        window.location.href = "/admin/products?search=" + encodeURIComponent(searchValue); 
+      } else {
+        window.location.href = "/admin/products"; 
+      }
+    });
+  });
+</script>
 
 
 <!-- Delete  -->
@@ -277,50 +272,47 @@
   }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+  const listOrUnlistButtons = document.querySelectorAll(".listBtn");
 
-  <!-- UNLIST -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const unlistButtons = document.querySelectorAll('.product-status');
+  listOrUnlistButtons.forEach((button) => {
+    button.addEventListener("click", async function () {
+      const productId = this.dataset.productId;
 
-      unlistButtons.forEach(button => {
-        button.addEventListener('click', async function () {
-          const productId = this.getAttribute('data-product-id');
-          const currentStatus = this.getAttribute('data-current-status');
+      try {
+        const response = await axios.post(`/admin/products/${productId}/list-or-unlist`);
 
-          const response = await fetch(`/api/products/${productId}/unlist`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ status: currentStatus }),
-          });
+        const updatedProductData = response.data;
 
-          if (response.ok) {
-            const statusElement = document.getElementById(`status_${productId}`);
-            const newStatus = currentStatus === 'listed' ? 'unlisted' : 'listed';
-            const newStatusClass = newStatus === 'listed' ? 'status-listed' : 'status-unlisted';
+        if (updatedProductData.is_listed) {
+          this.textContent = "Unlist";
+          this.classList.remove("btn-danger");
+          this.classList.add("btn-success");
+        } else {
+          this.textContent = "List";
+          this.classList.remove("btn-success");
+          this.classList.add("btn-danger");
+        }
 
-            statusElement.textContent = newStatus;
-            statusElement.classList.remove('status-listed', 'status-unlisted');
-            statusElement.classList.add(newStatusClass);
+        const badge = document.getElementById(`status_${productId}`);
+        badge.textContent = updatedProductData.is_listed ? "Listed" : "Unlisted";
+        badge.classList.remove(updatedProductData.is_listed ? "status-unlisted" : "status-listed");
+        badge.classList.add(updatedProductData.is_listed ? "status-listed" : "status-unlisted");
 
-            this.textContent = newStatus === 'listed' ? 'Unlist' : 'List';
-            this.classList.remove('btn-inverse-success', 'btn-inverse-danger');
-            this.classList.add(newStatus === 'listed' ? 'btn-inverse-success' : 'btn-inverse-danger');
-
-            this.setAttribute('data-current-status', newStatus);
-          }
-        });
-      });
+      } catch (error) {
+        console.log(error);
+      }
     });
-  </script>
+  });
+});
+</script>
+
 
   <style>
-    img {
-      width: 13%;
-    }
+    
   </style>
 
 </body>

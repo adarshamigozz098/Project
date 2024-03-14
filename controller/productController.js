@@ -41,6 +41,7 @@ const loadAddProducts = async (req, res) => {
 };
 
 
+
 const addProducts = async (req, res) => {
   try {
     const existProduct = await product.findOne({ name: req.body.productName });
@@ -115,10 +116,7 @@ const loadEditProduct = async (req, res) => {
 const editProducts = async (req, res) => {
   try {
       const id = req.query.productsId;
-      const { productName, description, quantity, price, brand, category } = req.body;
-       
-      // console.log(req.body,"bodyy:");
-       
+      const { productName, description, quantity, price, brand, category } = req.body;    
       let updatedProduct = await product.findByIdAndUpdate(
           {_id: id},
           {
@@ -131,25 +129,19 @@ const editProducts = async (req, res) => {
           },
           {new: true}
       );
-
       if (!updatedProduct) {
           return res.status(404).send({message: "Product not found"});
       }
-
       if (req.files && req.files.length > 0) {
           for (const newImage of req.files) {
-              const processedImagePath = path.join(__dirname, "../public/images", `${newImage.filename}_processed`);
-
+              const processedImagePath = path.join(__dirname, "../public/images", `${newImage.filename}_processed`)
               await sharp(newImage.path)
                   .resize(800, 1200, {fit: "fill"})
                   .toFile(processedImagePath);
-
               updatedProduct.image.push(`${newImage.filename}_processed`);
           }
-
           updatedProduct = await updatedProduct.save();
       }
-
       req.flash("message", "Product updated successfully");
       res.redirect("/admin/products");
   } catch (error) {
@@ -203,6 +195,26 @@ const deleteProduct = async (req, res) => {
 };
 
 
+
+const listOrUnlistProduct = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const productData = await product.findById(productId);
+
+    if (!productData) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    productData.is_listed = !productData.is_listed;
+    await productData.save();
+
+    res.json(productData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
 module.exports = {
   loadProducts,
   loadAddProducts,
@@ -211,4 +223,5 @@ module.exports = {
   editProducts,
   deleteProduct,
   deleteImage,
+  listOrUnlistProduct
 };

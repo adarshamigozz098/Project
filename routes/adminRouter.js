@@ -34,6 +34,7 @@ adminRouter.get("/category",isAdminAuthenticated,adminController.loadCategory);
 adminRouter.post("/category",isAdminAuthenticated, adminController.addCategory);
 adminRouter.post("/category/deleteCategory", adminController.deleteCategory);
 
+
 adminRouter.post("/category/listOrUnlist", adminController.listOrUnlist);
 adminRouter.post("/block-user", adminController.blockUnblockUser);
 adminRouter.get("/edit",isAdminAuthenticated, adminController.loadeditCategory);
@@ -46,6 +47,7 @@ adminRouter.get("/editProduct", isAdminAuthenticated, productController.loadEdit
 adminRouter.post("/editProduct", upload, productController.editProducts);
 adminRouter.get("/deleteProduct", productController.deleteProduct);
 adminRouter.post("/deleteImage", productController.deleteImage);
+adminRouter.post("/products/:id/list-or-unlist", productController.listOrUnlistProduct);
 
 
 adminRouter.get("/order", isAdminAuthenticated, adminController.loadOrder);

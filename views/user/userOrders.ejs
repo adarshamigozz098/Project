@@ -2,144 +2,161 @@
 <%- include('../user/layout/nav') %>
 
 
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="/user/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="/user/img/favicon.ico">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>SHOEzzo</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    <head>
+      <meta charset="utf-8" />
+      <link rel="apple-touch-icon" sizes="76x76" href="/user/img/apple-icon.png">
+      <link rel="icon" type="image/png" href="/user/img/favicon.ico">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <title>SHOEzzo</title>
+      <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
         name='viewport' />
- 
-    <link href="/user/fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="/user/maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
- 
-    <link href="/user/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/user/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
- 
-    <link href="/user/css/demo.css" rel="stylesheet" />
-</head>
 
+      <link href="/user/fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+      <link rel="stylesheet" href="/user/maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 
-<body>
-    <style>
+      <link href="/user/css/bootstrap.min.css" rel="stylesheet" />
+      <link href="/user/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+
+      <link href="/user/css/demo.css" rel="stylesheet" />
+    </head>
+
+    <body>
+      <style>
         .bg-dark {
-    background-color:  #dbcc8f!important;
-    margin-top: -21px;
-}
-    </style>
-    <style>
+          background-color: #dbcc8f !important;
+          margin-top: -21px;
+        }
+      </style>
+      <style>
         .card {
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(64, 255, 0, 0.1);
+          margin-bottom: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(64, 255, 0, 0.1);
         }
 
         .card-header {
-            background-color: lightblue;
-            padding: 15px;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+          background-color: lightblue;
+          padding: 15px;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
         }
 
         .card-body {
-            padding: 20px;
+          padding: 20px;
         }
 
         .btn-outline-primary {
-            color: #007bff;
-            border-color: #007bff;
+          color: #007bff;
+          border-color: #007bff;
         }
 
         .btn-outline-danger {
-            color: #dc3545;
-            border-color: #dc3545;
+          color: #dc3545;
+          border-color: #dc3545;
         }
 
         .btn {
-            margin-top: 5px;
+          margin-top: 5px;
         }
 
         .mt-5 {
-            margin-top: 5px;
+          margin-top: 5px;
         }
 
         .damu {
-            margin-bottom: -48px;
-            margin-left: 4px;
+          margin-bottom: -48px;
+          margin-left: 4px;
         }
 
+        .invoice-btn {
+          display: inline-block;
+          text-decoration: none;
+          background-color: #dbcc8f;
+          border-radius: 30px;
+          padding: 15px;
+          color: #ffffff;
+          font-weight: bold;
+        }
+
+        h5 {
+          font-size: 1.00rem;
+        }
+
+        b,
+        strong {
+          font-weight: bolder;
+          margin-left: 19px;
+        }
       </style>
 
-            <div class="sidebar-wrapper" style="background-color: #f4f4f4e8;">
-                <div class="logo">
-                    <a href="http://www.creative-tim.com" class="simple-text">
-                        SHOEzzo
-                    </a>
-                </div>
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/profile">
-                            <i class="nc-icon nc-circle-09"></i>
-                            <p><B>USER PROFILE</B></p>
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/profile/orders">
-                            <i class="nc-icon nc-circle-09"></i>
-                            <p><B>ORDERS</B></p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="/profile/address">
-                            <i class="nc-icon nc-circle-09"></i>
-                            <p><B>ADDRESS</B></p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="/profile/wallet">
-                            <i class="nc-icon nc-circle-09"></i>
-                            <p><B>WALLET</B></p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+      <div class="sidebar-wrapper" style="background-color: #f4f4f4e8;">
+        <div class="logo">
+          <a href="http://www.creative-tim.com" class="simple-text">
+            SHOEzzo
+          </a>
         </div>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">
+              <i class="nc-icon nc-circle-09"></i>
+              <p><B>USER PROFILE</B></p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/profile/orders">
+              <i class="nc-icon nc-circle-09"></i>
+              <p><B>ORDERS</B></p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/profile/address">
+              <i class="nc-icon nc-circle-09"></i>
+              <p><B>ADDRESS</B></p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/profile/wallet">
+              <i class="nc-icon nc-circle-09"></i>
+              <p><B>WALLET</B></p>
+            </a>
+          </li>
+        </ul>
+      </div>
+      </div>
 
-        <div class="main-panel">
-         
-            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
-                <div class="container-fluid">
-                    <a style="color: #21ff04;" href="/"><b>HOME</b></a>
-                    <a style="margin-left: 10px;color: #1eff00;" href="/shop"><B>SHOP</B></a>
-                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-bar burger-lines"></span>
-                        <span class="navbar-toggler-bar burger-lines"></span>
-                        <span class="navbar-toggler-bar burger-lines"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        <ul class="nav navbar-nav mr-auto">
-                            <li class="nav-item">
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="navbar-nav ml-auto">
+      <div class="main-panel">
+
+        <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+          <div class="container-fluid">
+            <a style="color: #21ff04;" href="/"><b>HOME</b></a>
+            <a style="margin-left: 10px;color: #1eff00;" href="/shop"><B>SHOP</B></a>
+            <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+              aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-bar burger-lines"></span>
+              <span class="navbar-toggler-bar burger-lines"></span>
+              <span class="navbar-toggler-bar burger-lines"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation">
+              <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item">
+                  </a>
+                </li>
+              </ul>
+              <ul class="navbar-nav ml-auto">
 
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">
-                                    <span style="color: #dc3545;" class="no-icon"><B>LOGOUT</B></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-       
+                <li class="nav-item">
+                  <a class="nav-link" href="/logout">
+                    <span style="color: #dc3545;" class="no-icon"><B>LOGOUT</B></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
             <div class="middle-content">
                 <% if (Orders.length > 0) { %>
                   <div class="table-responsive">
@@ -175,6 +192,7 @@
                 <% } %>
               </div>
               
+              <%- include('../user/layout/footer') %>
               
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

@@ -77,7 +77,7 @@
   <main class="main-wrap">
     <header class="main-header navbar">
       <div class="col-search">
-        <form class="searchform">
+        <!-- <form class="searchform">
           <div class="input-group">
             <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
             <button class="btn btn-light bg" type="button">
@@ -90,7 +90,7 @@
             <option value=""></option>
             <option value=""></option>
           </datalist>
-        </form>
+        </form> -->
       </div>
       <div class="col-nav">
         <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
@@ -272,7 +272,7 @@
                           <th>Email</th>
                           <th>Mobile</th>
                           <th>Joined Date</th>
-                          <th>Action</th> <!-- Added action column for 'Add' button -->
+                        
                         </tr>
                       </thead>
                       <tbody>
@@ -283,7 +283,7 @@
                             <td><%= user.email %></td>
                             <td><%= user.phone %></td>
                             <td><%= user.createdAt.toLocaleDateString() %></td>
-                            <td><a href="#" class="btn btn-xs"><i class="material-icons md-add"></i>Add</a></td> <!-- Add button column -->
+                       
                           </tr>
                         <% }) %>
                       </tbody>
@@ -295,222 +295,7 @@
           </div>
           
         </div>
-        <!-- <div class="col-lg-7">
-                <div class="card mb-4">
-                  <article class="card-body">
-                    <h5 class="card-title">Recent activities</h5>
-                    <ul class="verti-timeline list-unstyled font-sm">
-                      <li class="event-list">
-                        <div class="event-timeline-dot">
-                          <i
-                            class="material-icons md-play_circle_outline font-xxl"
-                          ></i>
-                        </div>
-                        <div class="media">
-                          <div class="me-3">
-                            <h6>
-                              <span>Today</span>
-                              <i
-                                class="material-icons md-trending_flat text-brand ml-15 d-inline-block"
-                              ></i>
-                            </h6>
-                          </div>
-                          <div class="media-body">
-                            <div>Lorem ipsum dolor sit amet consectetur</div>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="event-list active">
-                        <div class="event-timeline-dot">
-                          <i
-                            class="material-icons md-play_circle_outline font-xxl animation-fade-right"
-                          ></i>
-                        </div>
-                        <div class="media">
-                          <div class="me-3">
-                            <h6>
-                              <span>17 May</span>
-                              <i
-                                class="material-icons md-trending_flat text-brand ml-15 d-inline-block"
-                              ></i>
-                            </h6>
-                          </div>
-                          <div class="media-body">
-                            <div>
-                              Debitis nesciunt voluptatum dicta reprehenderit
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="event-list">
-                        <div class="event-timeline-dot">
-                          <i
-                            class="material-icons md-play_circle_outline font-xxl"
-                          ></i>
-                        </div>
-                        <div class="media">
-                          <div class="me-3">
-                            <h6>
-                              <span>13 May</span>
-                              <i
-                                class="material-icons md-trending_flat text-brand ml-15 d-inline-block"
-                              ></i>
-                            </h6>
-                          </div>
-                          <div class="media-body">
-                            <div>Accusamus voluptatibus voluptas.</div>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="event-list">
-                        <div class="event-timeline-dot">
-                          <i
-                            class="material-icons md-play_circle_outline font-xxl"
-                          ></i>
-                        </div>
-                        <div class="media">
-                          <div class="me-3">
-                            <h6>
-                              <span>05 April</span>
-                              <i
-                                class="material-icons md-trending_flat text-brand ml-15 d-inline-block"
-                              ></i>
-                            </h6>
-                          </div>
-                          <div class="media-body">
-                            <div>
-                              At vero eos et accusamus et iusto odio dignissi
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="event-list">
-                        <div class="event-timeline-dot">
-                          <i
-                            class="material-icons md-play_circle_outline font-xxl"
-                          ></i>
-                        </div>
-                        <div class="media">
-                          <div class="me-3">
-                            <h6>
-                              <span>26 Mar</span>
-                              <i
-                                class="material-icons md-trending_flat text-brand ml-15 d-inline-block"
-                              ></i>
-                            </h6>
-                          </div>
-                          <div class="media-body">
-                            <div>Responded to need “Volunteer Activities</div>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </article>
-                </div>
-              </div> -->
-        <!-- </div>
-          </div> -->
-        <!-- <div class="col-xl-4 col-lg-12">
-            <div class="card mb-4">
-              <article class="card-body">
-                <h5 class="card-title">Revenue Base on Area</h5>
-                <canvas id="myChart2" height="217"></canvas>
-              </article>
-            </div>
-            <div class="card mb-4">
-              <article class="card-body">
-                <h5 class="card-title">Marketing Chanel</h5>
-                <span class="text-muted font-xs">Facebook</span>
-                <div class="progress mb-3">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 15%"
-                  >
-                    15%
-                  </div>
-                </div>
-                <span class="text-muted font-xs">Instagram</span>
-                <div class="progress mb-3">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 65%">
-                    65%
-                  </div>
-                </div>
-                <span class="text-muted font-xs">Google</span>
-                <div class="progress mb-3">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 51%"
-                  >
-                    51%
-                  </div>
-                </div>
-                <span class="text-muted font-xs">Twitter</span>
-                <div class="progress mb-3">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 80%"
-                  >
-                    80%
-                  </div>
-                </div>
-                <span class="text-muted font-xs">Other</span>
-                <div class="progress mb-3">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 80%"
-                  >
-                    80%
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div> -->
-
-      </div>
-      <div class="card mb-4">
-        <!-- <header class="card-header">
-          <h4 class="card-title">Latest orders</h4>
-          <div class="row align-items-center">
-            <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-              <div class="custom_select">
-                <select class="form-select select-nice">
-                  <option selected>All Categories</option>
-                  <option>Women's Clothing</option>
-                  <option>Men's Clothing</option>
-                  <option>Cellphones</option>
-                  <option>Computer & Office</option>
-                  <option>Consumer Electronics</option>
-                  <option>Jewelry & Accessories</option>
-                  <option>Home & Garden</option>
-                  <option>Luggage & Bags</option>
-                  <option>Shoes</option>
-                  <option>Mother & Kids</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-2 col-6">
-              <input type="date" value="02.05.2021" class="form-control" />
-            </div>
-            <div class="col-md-2 col-6">
-              <div class="custom_select">
-                <select class="form-select select-nice">
-                  <option selected>Status</option>
-                  <option>All</option>
-                  <option>Paid</option>
-                  <option>Chargeback</option>
-                  <option>Refund</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </header> -->
+       
 
         <div class="row">
           <div class="col-12 grid-margin">
@@ -527,7 +312,7 @@
                         <th>Total</th>
                         <th>Payment Status</th>
                         <th>Payment Method</th>
-                        <th>View Details</th>
+                  
                       </tr>
                     </thead>
                     <tbody>
@@ -540,12 +325,7 @@
                           <td><%= (order.items.price * order.items.quantity) - order.items.discountPerItem %></td>
                           <td><%= order.items.ordered_status %></td>
                           <td><%= order.payment %></td>
-                          <td>
-                            <a href=""
-                              style="text-decoration: none; color: red;">
-                              <div class="bg-success-light">View Details</div>
-                            </a>
-                          </td>
+                      
                         </tr>
                       <% }) %>
                     </tbody>
@@ -635,14 +415,8 @@
             <li class="page-item active">
               <a class="page-link" href="#">01</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">02</a></li>
-            <li class="page-item"><a class="page-link" href="#">03</a></li>
-            <li class="page-item">
-              <a class="page-link dot" href="#">...</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">16</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+            <li class="page-item"><a class="page-link" href="#">02</a></li>    
+            <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
             </li>
           </ul>
         </nav>
@@ -658,7 +432,7 @@
           &copy;
         </div>
         <div class="col-sm-6">
-          <div class="text-sm-end">All rights reserved</div>
+          <div class="text-sm-end"></div>
         </div>
       </div>
     </footer>
