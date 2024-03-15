@@ -168,8 +168,13 @@
 						</div>
 						<div class="w-100"></div>
 						<div class="col-md-12">
-							<p style="color: #000;"><%=product.quantity%> piece available</p>
+							<% if (product.quantity > 0) { %>
+								<p style="color: #000;"><%= product.quantity %> piece available</p>
+							<% } else { %>
+								<p style="color: #FF0000;">Out of stock</p>
+							<% } %>
 						</div>
+						
 					</div>
 				    <button class="custom-add-to-cart" data-productId="<%= product._id %>" id="addToCartBtn">Add to Cart</button>
 					<a href="/cart" class="btn btn-primary py-3 px-5">Buy now</a>

@@ -40,8 +40,6 @@ userRouter.get("/forgetPassword", userController.resetPasswordLoad);
 userRouter.post("/forgetPassword", userController.resetpassword);
 userRouter.post("/resendOTP", userController.resendOTP);
 
-
-
 // USER PROFILE
 userRouter.get("/profile", auth.isLogin, profileController.loadProfile);
 userRouter.get("/editProfile", profileController.editProfile);
@@ -55,9 +53,12 @@ userRouter.post("/returnOrder", profileController.returnOrder);
 //ADDRESS
 userRouter.get("/profile/address",auth.isLogin, profileController.laodUsersAddress);
 userRouter.get("/addAddress", auth.isLogin, profileController.addAddress);
-userRouter.get("/addAddress", auth.isLogin, profileController.addAddress);
+// Add route handler for saving address
+userRouter.post("/profile/address", auth.isLogin, profileController.saveAddress);
+
 userRouter.post( "/profile/address/delete/:addressId", profileController.deleteAddress);
-userRouter.get("/addAddress", auth.isLogin, profileController.addAddress);
+
+//user address edit 
 userRouter.get("/profile/editAddress", profileController.editAddress);
 userRouter.post("/profile/editAddress", profileController.saveEditedAddress);
 // wallet

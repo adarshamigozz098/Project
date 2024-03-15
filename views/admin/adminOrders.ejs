@@ -18,6 +18,16 @@
 </head>
 
 <body>
+<style>
+  .card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.3rem 1.3rem;
+    margin-top: -71px;
+}
+</style>
+
   <div class="screen-overlay"></div>
   <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
@@ -211,8 +221,7 @@
                         </ul>
                       </nav>
                     </div>
-                    
-             
+                     
                     <footer class="main-footer font-xs">
                       <div class="row pb-30 pt-15">
                         <div class="col-sm-6">
@@ -221,7 +230,6 @@
                       </div>
                     </footer>
   </main>
-
   <script>
     function updateOrderStatus(event) {
       var selectElement = event.target;

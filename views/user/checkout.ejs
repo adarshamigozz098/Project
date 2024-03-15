@@ -40,8 +40,6 @@ element.style {
     margin-top: -4px;
 }
 
-
-
       .circle {
         display: "flex";
         width: 76px;
@@ -862,8 +860,6 @@ element.style {
           e.preventDefault();
           const code = $("#code").val();
           const amount = $("#amount").val();
-
-
           $.ajax({
             url: "/applyCoupon",
             method: "post",
@@ -914,8 +910,6 @@ element.style {
 
           if (couponElement && estimatedTotalElement) {
             couponElement.innerText = disAmount;
-
-
             var estimatedTotal = parseFloat(estimatedTotalElement.innerText.replace('₹', ''));
             var newEstimatedTotal = estimatedTotal - parseFloat(disAmount);
             estimatedTotalElement.innerText = '₹' + newEstimatedTotal.toFixed(2);

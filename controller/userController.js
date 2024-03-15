@@ -24,6 +24,7 @@ var instance = new razorpay({
   key_secret: "2iLbGXeXJmvQGPb4dMOPlrST",
 });
 
+
 const verifySignup = async (req, res) => {
   try {
     const { username, email, phone, password, confirmPassword } = req.body;
@@ -53,6 +54,7 @@ const verifySignup = async (req, res) => {
     return res.redirect("/signup");
   }
 };
+
 
 const verifyLogin = async (req, res) => {
   try {
@@ -84,14 +86,7 @@ const verifyLogin = async (req, res) => {
   }
 };
 
-// const securePassword = async (password) => {
-//   try {
-//     const passwordHash = await bcrypt.hash(password, 10);
-//     return passwordHash;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+
 
 const sendMail = async ({ email }, res) => {
   try {
@@ -150,6 +145,8 @@ const sendMail = async ({ email }, res) => {
   }
 };
 
+
+
 const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -168,6 +165,8 @@ const verifyOtp = async (req, res) => {
     }
   } catch (error) {}
 };
+
+
 
 const resendOTP = async (req, res) => {
   try {
@@ -230,6 +229,8 @@ const resendOTP = async (req, res) => {
   }
 };
 
+
+
 // reset
 const loadForget = async (req, res) => {
   try {
@@ -238,6 +239,8 @@ const loadForget = async (req, res) => {
     console.log(error);
   }
 };
+
+
 
 const forgetPasswordVerify = async (req, res) => {
   try {
@@ -266,6 +269,8 @@ const forgetPasswordVerify = async (req, res) => {
   }
 };
 
+
+
 const sendforgetemail = async (name, email, token) => {
   try {
     let transporter = nodemailer.createTransport({
@@ -293,13 +298,13 @@ const sendforgetemail = async (name, email, token) => {
   }
 };
 
+
 const resetPasswordLoad = async (req, res) => {
   try {
     const token = req.query.token;
     const TOkenId = await User.findOne({ token: token });
     if (TOkenId) {
       res.render("resetpassword", { message: "", TOkenId: TOkenId });
-      // console.log("too", TOkenId);
     } else {
       res.redirect("/forget");
     }
@@ -307,6 +312,7 @@ const resetPasswordLoad = async (req, res) => {
     console.log(error.message);
   }
 };
+
 
 const resetpassword = async (req, res) => {
   try {
@@ -336,6 +342,7 @@ const resetpassword = async (req, res) => {
   }
 };
 
+
 const loadSign = async (req, res) => {
   try {
     res.render("signup");
@@ -343,6 +350,7 @@ const loadSign = async (req, res) => {
     console.log(error);
   }
 };
+
 
 const loadLogin = async (req, res) => {
   try {
@@ -356,6 +364,7 @@ const loadLogin = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 const loadHome = async (req, res) => {
   try {
@@ -390,7 +399,6 @@ const loadShop = async (req, res) => {
     if (req.query.search) {
       query.name = { $regex: new RegExp(req.query.search, "i") };
     }
-
     if (req.query.category) {
       const categoryId = await category
         .findOne({ name: req.query.category })
@@ -399,7 +407,6 @@ const loadShop = async (req, res) => {
         query.category = categoryId;
       }
     }
-
     if (Object.keys(query).length === 0 && query.constructor === Object) {
       query = {};
     }
@@ -745,11 +752,6 @@ const logout = async (req, res) => {
   }
 };
 
-
-
-
-
-
 const checkAdd = async (req, res) => {
   try {
     const { name, housename, city, state, phone, pincode } = req.body;
@@ -779,6 +781,7 @@ const checkAdd = async (req, res) => {
 
 
 
+
 module.exports = {
   loadHome,
   loadShop,
@@ -790,11 +793,7 @@ module.exports = {
   loadData,
   logout,
   loadSingle,
-
-
-
   loadCheckAdd,
-  //check
   checkAdd,
 
   // Login
@@ -810,4 +809,5 @@ module.exports = {
   resendOTP,
   generateCustomUserId,
   orderConfirmation,
+
 };

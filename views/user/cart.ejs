@@ -76,7 +76,7 @@
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
             <p class="breadcrumbs"><span class="mr-2"><a href=""></a></span> <span></span></p>
-            <h1 class="mb-0 bread" style="color: rgba(186, 161, 0, 0.744);">My Cart</h1>
+            <h1 class="mb-0 bread" style="color: rgba(0, 0, 0, 0.744);">My Cart</h1>
           </div>
         </div>
       </div>
@@ -192,156 +192,156 @@
       </div>
     </section>
 
-// footer
-<%- include('../user/layout/footer') %>
 
-    <style>
-      .image-prod img {
-        height: 100px;
-      }
-    </style>
+    <%- include('../user/layout/footer') %>
 
-    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
-        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-          stroke="#F96D00" />
-      </svg></div>
-
-
-    <script src="/user/js/jquery.min.js"></script>
-    <script src="/user/js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="/user/js/popper.min.js"></script>
-    <script src="/user/js/bootstrap.min.js"></script>
-    <script src="/user/js/jquery.easing.1.3.js"></script>
-    <script src="/user/js/jquery.waypoints.min.js"></script>
-    <script src="/user/js/jquery.stellar.min.js"></script>
-    <script src="/user/js/owl.carousel.min.js"></script>
-    <script src="/user/js/jquery.magnific-popup.min.js"></script>
-    <script src="/user/js/aos.js"></script>
-    <script src="/user/js/jquery.animateNumber.min.js"></script>
-    <script src="/user/js/bootstrap-datepicker.js"></script>
-    <script src="/user/js/scrollax.min.js"></script>
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
-    <!-- <script src="/user/js/google-map.js"></script> -->
-    <script src="/user/js/main.js"></script>
-
-
-    <!-- DELETE PRODUCT -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const removeButtons = document.querySelectorAll(".remove-product");
-
-        removeButtons.forEach((button) => {
-          button.addEventListener("click", async function () {
-            const productId = button.getAttribute("data-product-id");
-            try {
-              const response = await fetch("/cart/remove", {
-                method: "DELETE",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ productId }),
-              });
-
-              console.log("Response:", response);
-
-              if (response.ok) {
-                console.log("Product deleted successfully");
-                button.closest("tr").remove();
-                updateCartTotals();
-              } else {
-                console.error("Failed to delete product");
-              }
-            } catch (error) {
-              console.error("Error:", error);
-            }
-          });
-        });
-      });
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Quantity -->
-    
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const quantityChangeButtons = document.querySelectorAll(".quantity-left-minus, .quantity-right-plus");
-
-        quantityChangeButtons.forEach(function (button) {
-          button.addEventListener("click", function () {
-            const productId = this.getAttribute("data-productid");
-            const itemId = this.getAttribute("data-itemId");
-            const action = this.getAttribute("data-type");
-            const quantityInput = this.closest(".quantity").querySelector(".quantity");
-            const priceElement = this.closest("tr").querySelector(".price");
-            const totalElement = this.closest("tr").querySelector(".total");
-
-            let newQuantity = parseInt(quantityInput.value);
-
-            if (action === "minus" && newQuantity > 1) {
-              newQuantity--;
-            } else if (action === "plus") {
-              newQuantity++;
-            }
-
-            updateQuantity(productId, newQuantity, itemId, function (response) {
-              if (response.success) {
-                quantityInput.value = newQuantity;
-                const price = parseFloat(priceElement.textContent);
-                const totalPrice = price * newQuantity;
-                totalElement.textContent = totalPrice
-
-              } else {
-                Swal.fire({
-                  icon: 'info',
-                  title: 'Maximum Quantity Reached',
-                  text: 'You have reached the maximum available quantity for this product.',
-                });
-              }
-            });
-          });
-        });
-
-        function updateQuantity(productId, newQuantity, itemId, callback) {
-          const data = {
-            productId: productId,
-            quantity: newQuantity,
-            itemId: itemId
-          };
-
-          fetch('/increaseQuantity', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-
-              return response.json();
-            })
-            .then(data => {
-              callback(data);
-              if (data.success) {
-              }
-            })
-            .catch(error => {
-              console.error('Error updating quantity:', error);
-
-              Swal.fire({
-                icon: 'error',
-                title: '',
-                text: 'STOCK OUT.',
-              });
-            });
+      <style>
+        .image-prod img {
+          height: 100px;
         }
-      });
-    </script>
+      </style>
+
+      <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+          <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+          <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+            stroke="#F96D00" />
+        </svg></div>
+
+
+      <script src="/user/js/jquery.min.js"></script>
+      <script src="/user/js/jquery-migrate-3.0.1.min.js"></script>
+      <script src="/user/js/popper.min.js"></script>
+      <script src="/user/js/bootstrap.min.js"></script>
+      <script src="/user/js/jquery.easing.1.3.js"></script>
+      <script src="/user/js/jquery.waypoints.min.js"></script>
+      <script src="/user/js/jquery.stellar.min.js"></script>
+      <script src="/user/js/owl.carousel.min.js"></script>
+      <script src="/user/js/jquery.magnific-popup.min.js"></script>
+      <script src="/user/js/aos.js"></script>
+      <script src="/user/js/jquery.animateNumber.min.js"></script>
+      <script src="/user/js/bootstrap-datepicker.js"></script>
+      <script src="/user/js/scrollax.min.js"></script>
+      <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
+      <!-- <script src="/user/js/google-map.js"></script> -->
+      <script src="/user/js/main.js"></script>
+
+
+      <!-- DELETE PRODUCT -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const removeButtons = document.querySelectorAll(".remove-product");
+
+          removeButtons.forEach((button) => {
+            button.addEventListener("click", async function () {
+              const productId = button.getAttribute("data-product-id");
+              try {
+                const response = await fetch("/cart/remove", {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ productId }),
+                });
+
+                console.log("Response:", response);
+
+                if (response.ok) {
+                  console.log("Product deleted successfully");
+                  button.closest("tr").remove();
+                  updateCartTotals();
+                } else {
+                  console.error("Failed to delete product");
+                }
+              } catch (error) {
+                console.error("Error:", error);
+              }
+            });
+          });
+        });
+      </script>
+
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+      <!-- Quantity -->
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const quantityChangeButtons = document.querySelectorAll(".quantity-left-minus, .quantity-right-plus");
+
+          quantityChangeButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+              const productId = this.getAttribute("data-productid");
+              const itemId = this.getAttribute("data-itemId");
+              const action = this.getAttribute("data-type");
+              const quantityInput = this.closest(".quantity").querySelector(".quantity");
+              const priceElement = this.closest("tr").querySelector(".price");
+              const totalElement = this.closest("tr").querySelector(".total");
+
+              let newQuantity = parseInt(quantityInput.value);
+
+              if (action === "minus" && newQuantity > 1) {
+                newQuantity--;
+              } else if (action === "plus") {
+                newQuantity++;
+              }
+
+              updateQuantity(productId, newQuantity, itemId, function (response) {
+                if (response.success) {
+                  quantityInput.value = newQuantity;
+                  const price = parseFloat(priceElement.textContent);
+                  const totalPrice = price * newQuantity;
+                  totalElement.textContent = totalPrice
+
+                } else {
+                  Swal.fire({
+                    icon: 'info',
+                    title: 'Maximum Quantity Reached',
+                    text: 'You have reached the maximum available quantity for this product.',
+                  });
+                }
+              });
+            });
+          });
+
+          function updateQuantity(productId, newQuantity, itemId, callback) {
+            const data = {
+              productId: productId,
+              quantity: newQuantity,
+              itemId: itemId
+            };
+
+            fetch('/increaseQuantity', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            })
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+
+                return response.json();
+              })
+              .then(data => {
+                callback(data);
+                if (data.success) {
+                }
+              })
+              .catch(error => {
+                console.error('Error updating quantity:', error);
+
+                Swal.fire({
+                  icon: 'error',
+                  title: '',
+                  text: 'STOCK OUT.',
+                });
+              });
+          }
+        });
+      </script>
   </body>
 
   </html>

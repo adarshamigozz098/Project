@@ -30,7 +30,6 @@ const loadProducts = async (req, res) => {
 };
 
 
-
 const loadAddProducts = async (req, res) => {
   try {
     const data = await Category.find({ is_listed: true });
@@ -39,7 +38,6 @@ const loadAddProducts = async (req, res) => {
     console.log(error);
   }
 };
-
 
 
 const addProducts = async (req, res) => {
