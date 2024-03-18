@@ -212,10 +212,9 @@
                     name="username"
                     class="form-control"
                     id="username"
-                    placeholder="Enter your username"
-                    
+                    placeholder="Enter your username"             
                   />
-                  <span id="nameError" style="color: red;"></span>
+                  <span id="nameError" class="errMsg" style="color: red;"></span>
                 </div>
                 <div class="mb-3">
                   <label for="email" class="form-label">Email:</label>
@@ -227,7 +226,7 @@
                     placeholder="Enter your email"
                     
                   />
-                  <span id="emailError" style="color: red;"></span>
+                  <span id="emailError" class="errMsg" style="color: red;"></span>
                 </div>
                 <div class="mb-3">
                   <label for="phone" class="form-label">Phone Number:</label>
@@ -237,7 +236,7 @@
                     class="form-control"
                     id="phone"
                     placeholder="Enter your phone number" />
-                  <span id="phoneError" style="color: red;"></span>
+                  <span id="phoneError" class="errMsg" style="color: red;"></span>
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">Password:</label>
@@ -247,7 +246,7 @@
                     class="form-control"
                     id="password"
                     placeholder="Enter your password" />
-                  <span id="passwordError" style="color: red;"></span>
+                  <span id="passwordError" class="errMsg" style="color: red;"></span>
                 </div>
                 <div class="mb-3">
                   <label for="confirmPassword" class="form-label">Confirm Password:</label>
@@ -259,7 +258,7 @@
                     placeholder="Confirm your password"
                     
                   />
-                  <span id="confirm" style="color: red;"></span>
+                  <span id="confirm" class="errMsg" style="color: red;"></span>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block btn-custom">Signup</button>
                 <% if (messages.message) { %>
@@ -583,6 +582,16 @@
 
     return isValid;
   }
+
+  const errMsg = document.querySelectorAll('.errMsg');
+
+  const input = document.querySelectorAll('input');
+
+  input.forEach((e, i) => {
+    e.addEventListener('keydown', () => {
+      errMsg[i].innerHTML = '';
+    })
+  });
 </script>  
   </body>
 </html>

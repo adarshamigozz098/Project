@@ -53,12 +53,8 @@ userRouter.post("/returnOrder", profileController.returnOrder);
 //ADDRESS
 userRouter.get("/profile/address",auth.isLogin, profileController.laodUsersAddress);
 userRouter.get("/addAddress", auth.isLogin, profileController.addAddress);
-// Add route handler for saving address
 userRouter.post("/profile/address", auth.isLogin, profileController.saveAddress);
-
 userRouter.post( "/profile/address/delete/:addressId", profileController.deleteAddress);
-
-//user address edit 
 userRouter.get("/profile/editAddress", profileController.editAddress);
 userRouter.post("/profile/editAddress", profileController.saveEditedAddress);
 // wallet

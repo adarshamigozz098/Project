@@ -28,17 +28,13 @@
     <!-- <link rel="stylesheet" href="/user/css/flaticon.css"> -->
     <link rel="stylesheet" href="/user/css/icomoon.css">
     <link rel="stylesheet" href="/user/css/style.css">
-    <!-- dshufhu -->
-
-
 
 
     <style>
-
-element.style {
-    margin-left: 160px;
-    margin-top: -4px;
-}
+      element.style {
+        margin-left: 160px;
+        margin-top: -4px;
+      }
 
       .circle {
         display: "flex";
@@ -474,6 +470,7 @@ element.style {
                 </div>
                 <% } %>
         </div>
+
         <button id="addAddressButton" class="btn btn-primary" style="margin-left: 210px; margin-top: -4px;">Add
           Address</button>
 
@@ -631,7 +628,7 @@ element.style {
         <div class="row mb-5">
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Minishop</h2>
+              <h2 class="ftco-heading-2">SHOEzzo</h2>
               <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                 <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
@@ -691,7 +688,7 @@ element.style {
               <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
               with
               <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                target="_blank">Colorlib</a>
+                target="_blank">SHOEzzo</a>
             </p>
           </div>
         </div>
@@ -729,7 +726,7 @@ element.style {
           Swal.fire({
             icon: "error",
             title: "Select Address",
-            text: "'please select an address'",
+            text: "please select an address",
           });
           // return;
         }
@@ -739,7 +736,7 @@ element.style {
           Swal.fire({
             icon: "error",
             title: "Payment Method",
-            text: "'please select your payment Method'",
+            text: "please select your payment Method",
           });
         }
         const paymentMethod = selectedPaymentMethod.value;
@@ -855,7 +852,6 @@ element.style {
     <!-- COUPON -->
 
     <script>
-      $(document).ready(function () {
         $("#coupon-form").submit(function (e) {
           e.preventDefault();
           const code = $("#code").val();
@@ -868,7 +864,7 @@ element.style {
               amount: amount
             },
             success: function (response) {
-              $("#coupon-form button[type='submit']").prop('disabled', true);
+              
 
               if (response.amountOkey) {
                 updateCouponDetails(response.disAmount, response.disTotal);
@@ -876,7 +872,7 @@ element.style {
                 Swal.fire({
                   icon: "success",
                   title: "Coupon Applied Successfully",
-                });
+                  });
               } else if (response.user) {
                 swal.fire('warning', 'Oops! This user has already used this coupon');
               } else if (response.limit) {
@@ -917,7 +913,6 @@ element.style {
             console.error("One or more elements not found.");
           }
         }
-      });
     </script>
 
     <script>
@@ -933,30 +928,22 @@ element.style {
           const couponCode = couponInput.value.trim();
           if (couponCode) {
             applyCouponBtn.textContent = "Remove Coupon";
-       
+
             couponInput.disabled = true;
           }
         });
-
         applyCouponBtn.addEventListener("click", function () {
-          // applyCouponBtn.textContent = "Remove Coupon";
-     
           if (applyCouponBtn.textContent === "Remove Coupon") {
 
             couponInput.value = "";
             applyCouponBtn.textContent = "Apply Coupon";
-            couponInput.disabled = false;
             location.reload();
           }
         });
       });
     </script>
 
-
-
-
     <!-- MODAL ADDRESS -->
-
     <script>
 
       const showModal = () => {

@@ -221,7 +221,7 @@
                       </div>
 
 
-                    
+
                       <!-- Category -->
                       <div class="row mb-4">
                         <label class="col-lg-3 col-form-label">Category</label>
@@ -298,7 +298,7 @@
       border-radius: 4px;
     }
   </style>
->
+  >
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -323,86 +323,71 @@
   </script>
 
 
+<script>
+  function validateForm() {
+    var productName = document.getElementById("productName").value;
+    var description = document.getElementById("description").value;
+    var quantity = document.getElementById("quantity").value;
+    var price = document.getElementById("price").value;
+    var category = document.getElementById("exampleInputCity1").value;
+    var brand = document.getElementById("brand").value;
+    var isValid = true;
 
-  <script>
-    function validateForm() {
-      var productName = document.getElementById("productName").value;
-      var description = document.getElementById("description").value;
-      var quantity = document.getElementById("quantity").value;
-      var price = document.getElementById("price").value;
-      var category = document.getElementById("exampleInputCity1").value;
-      var brand = document.getElementById("brand").value;
+    // Clear previous error messages
+    document.getElementById("productNameError").innerText = "";
+    document.getElementById("descriptionError").innerText = "";
+    document.getElementById("quantityError").innerText = "";
+    document.getElementById("priceError").innerText = "";
+    document.getElementById("imageError").innerText = "";
+    document.getElementById("categoryError").innerText = "";
+    document.getElementById("brandError").innerText = "";
 
-
-      if (productName.trim() === "") {
-        document.getElementById("productNameError").innerText = "Product name is required.";
-      }
-      if (description.trim() === "") {
-        document.getElementById("descriptionError").innerText = "Description is required.";
-      }
-      if (quantity.trim() === "") {
-        document.getElementById("quantityError").innerText = "Quantity is required.";
-      }
-      if (price.trim() === "") {
-        document.getElementById("priceError").innerText = "Price is required.";
-      }
-      if (category.trim() === "") {
-        document.getElementById("categoryError").innerText = "Category is required.";
-      }
-
-      if (brand.trim() === "") {
-        document.getElementById("brandError").innerText = "Brand is required.";
-      }
-      if (
-        productName.trim() === "" ||
-        description.trim() === "" ||
-        quantity.trim() === "" ||
-        price.trim() === "" ||
-        image.trim() === "" ||
-        category.trim() === "" ||
-        brand.trim() === ""
-      ) {
-        return false;
-      }
-
-      return true;
-    }
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-  <script>
-    function countImages() {
-      return document.querySelectorAll('.image-container').length;
+    if (productName.trim() === "") {
+      document.getElementById("productNameError").innerText = "Product name is required.";
+      isValid = false;
+    } else if (productName.trim().length > 17) {
+      document.getElementById("productNameError").innerText = "Product name must be 17 characters or less.";
+      isValid = false;
     }
 
-    function showSweetAlert(message) {
-      Swal.fire({
-        title: 'Validation Error',
-        text: message,
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
+    if (description.trim() === "") {
+      document.getElementById("descriptionError").innerText = "Description is required.";
+      isValid = false;
     }
-    document.getElementById('uploadForm').addEventListener('submit', function (event) {
 
-      const numImages = countImages();
+    if (quantity.trim() === "") {
+      document.getElementById("quantityError").innerText = "Quantity is required.";
+      isValid = false;
+    } else if (parseInt(quantity) < 0) {
+      document.getElementById("quantityError").innerText = "Quantity cannot be negative.";
+      isValid = false;
+    }
 
+    if (price.trim() === "") {
+      document.getElementById("priceError").innerText = "Price is required.";
+      isValid = false;
+    } else if (isNaN(price.trim())) {
+      document.getElementById("priceError").innerText = "Price must be a number.";
+      isValid = false;
+    } else if (parseFloat(price.trim()) < 0) {
+      document.getElementById("priceError").innerText = "Price cannot be negative.";
+      isValid = false;
+    }
 
-      if (numImages < 4 || numImages > 4) {
+    if (category.trim() === "") {
+      document.getElementById("categoryError").innerText = "Category is required.";
+      isValid = false;
+    }
 
-        event.preventDefault();
+    if (brand.trim() === "") {
+      document.getElementById("brandError").innerText = "Brand is required.";
+      isValid = false;
+    }
 
-
-        showSweetAlert('You can only upload exactly 4 images');
-
-
-        window.scrollTo(0, 0);
-      }
-    });
-  </script>
+    return isValid;
+  }
+</script>
 
 
 </body>
-
 </html>

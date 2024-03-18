@@ -209,26 +209,21 @@
           <tbody>
             <tr>
               <td>Order Id:</td>
-              <td class="custom-info" id="orderId"><%= orderDetails._id %></td>
+              <td class="custom-info" id="orderId"><%=orderDetails.order_id %></td>
             </tr>
             <tr>
               <td>User Name:</td>
-              <td class="custom-info" id="userName"><%= userData.username %></td>
+              <td class="custom-info" id="userName"><%=userData.username %></td>
             </tr>
             <tr>
               <td>Address:</td>
               <td class="custom-info">
-                <strong>Name:</strong> <%= userData.address[0].name %><br>
-                <strong>House Name:</strong> <%= userData.address[0].housename %><br>
-                <strong>City:</strong> <%= userData.address[0].city %><br>
-                <strong>State:</strong> <%= userData.address[0].state %><br>
-                <strong>Phone:</strong> <%= userData.address[0].phone %><br>
-                <strong>Pincode:</strong> <%= userData.address[0].pincode %>
+                <%=orderDetails.delivery_address %>
               </td>
             </tr>
             <tr>
               <td>Payment:</td>
-              <td class="custom-info" id="payment"><%= orderDetails.payment %></td>
+              <td class="custom-info" id="payment"> <%=orderDetails.payment %></td>
             </tr>
             <tr>
               <td>Date:</td>

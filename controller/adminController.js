@@ -566,8 +566,8 @@ const addCategory = async (req, res) => {
       return res.redirect("/admin/category");
     }
     const newCategory = new category({
-      name: productName,
-      description: description,
+      name: productName.toUpperCase(),
+      description: description.toUpperCase(),
     });
 
     await newCategory.save();

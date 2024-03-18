@@ -9,8 +9,6 @@
 // const order = require("../model/order");
 // const product = require("../model/product")
 
-
-
 const User = require("../model/userModel");
 const product = require("../model/product");
 const Cart = require("../model/cart");
@@ -156,7 +154,6 @@ const laodUsersAddress = async (req, res) => {
   }
 };
 
-
 const addAddress = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -204,18 +201,14 @@ const saveAddress = async (req, res) => {
 const editAddress = async (req, res) => {
   try {
     const addressId = req.query.addressId;
-
     const userData = await User.findOne({ _id: req.session.userId });
-
     if (!userData) {
       req.flash("error", "User not found");
       return res.redirect("/login");
     }
-
     const addressToEdit = userData.address.find(
       (address) => address._id.toString() === addressId
     );
-
     if (addressToEdit) {
       res.render("editAddress", { addressToEdit, currentUser: userData });
     } else {
@@ -227,10 +220,12 @@ const editAddress = async (req, res) => {
   }
 };
 
+
 const saveEditedAddress = async (req, res) => {
   try {
     const userId = req.session.userId;
-    const { addressId, name, housename, city, state, phone, pincode } = req.body;
+    const { addressId, name, housename, city, state, phone, pincode } =
+      req.body;
     const userData = await User.findById(userId);
 
     if (!userData) {
@@ -279,6 +274,7 @@ const deleteAddress = async (req, res) => {
   }
 };
 
+
 const cancelOrder = async (req, res) => {
   try {
     const { productIds, orderIds } = req.body;
@@ -312,11 +308,9 @@ const cancelOrder = async (req, res) => {
     for (const item of data.items) {
       const Product = await product.findById(item.product_id);
       if (Product) {
- 
-        await product.findByIdAndUpdate(
-          item.product_id,
-          { $inc: { quantity: item.quantity } }
-        );
+        await product.findByIdAndUpdate(item.product_id, {
+          $inc: { quantity: item.quantity },
+        });
       }
     }
     return res.status(200).json({ message: "Orders cancelled successfully" });
@@ -326,15 +320,16 @@ const cancelOrder = async (req, res) => {
   }
 };
 
-const calculateTotalPrice = (items, productIds) => {
-  let totalPrice = 0;
-  items.forEach((item) => {
-    if (productIds.includes(item.productId)) {
-      totalPrice += item.price;
-    }
-  });
-  return totalPrice;
-};
+
+// const calculateTotalPrice = (items, productIds) => {
+//   let totalPrice = 0;
+//   items.forEach((item) => {
+//     if (productIds.includes(item.productId)) {
+//       totalPrice += item.price;
+//     }
+//   });
+//   return totalPrice;
+// };
 
 const returnOrder = async (req, res) => {
   try {
@@ -504,7 +499,7 @@ module.exports = {
   userOrders,
   viewDetails,
   laodUsersAddress,
-  addAddress ,
+  addAddress,
   saveAddress,
   editAddress,
   deleteAddress,

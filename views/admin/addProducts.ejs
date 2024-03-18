@@ -158,7 +158,6 @@
                   <section class="content-body p-xl-4">
                     <form class="forms-sample" method="post" enctype="multipart/form-data"
                       onsubmit="return validateForm()">
-
                       <div class="row mb-4">
                         <label class="col-lg-3 col-form-label">Product name</label>
                         <div class="col-lg-9">
@@ -256,7 +255,7 @@
                       </div>
                     </div>
                   </footer>
-                </main>
+  </main>
 
   <script src="js/vendors/jquery-3.6.0.min.js"></script>
   <script src="js/vendors/bootstrap.bundle.min.js"></script>
@@ -265,7 +264,7 @@
   <script src="js/vendors/jquery.fullscreen.min.js"></script>
 
   <script src="js/main.js?v=1.1" type="text/javascript"></script>
-  
+
   <script>
     function validateForm() {
 
@@ -286,31 +285,55 @@
       var category = document.getElementById("exampleInputCity1").value;
       var brand = document.getElementById("brand").value;
 
+      var productNameRegex = /^[a-zA-Z\s]+$/;
 
-      if (productName.trim() === "") {
+      // product name
+
+      if (productName === "") {
         document.getElementById("productNameError").innerText = "Product name is required.";
+        return false;
+      } else if (!productNameRegex.test(productName)) {
+        document.getElementById("productNameError").innerText = "Product name cannot contain numbers.";
+        return false;
       }
 
+      // description
       if (description.trim() === "") {
         document.getElementById("descriptionError").innerText = "Description is required.";
+        return false;
+      } else if (/^\d+$/.test(description)) {
+        document.getElementById("descriptionError").innerText = "Description cannot contain only numbers.";
+        return false;
       }
 
-      if (quantity.trim() === "") {
+      // quantity
+      if (quantity === "") {
         document.getElementById("quantityError").innerText = "Quantity is required.";
+        return false;
+      } else if (isNaN(quantity) || parseInt(quantity) < 0) {
+        document.getElementById("quantityError").innerText = "Quantity must be a non-negative number.";
+        return false;
       }
 
+      //price
       if (price.trim() === "") {
         document.getElementById("priceError").innerText = "Price is required.";
+        return false;
+      } else if (isNaN(price.trim())) {
+        document.getElementById("priceError").innerText = "Price must be a number.";
+        return false;
+      } else if (parseFloat(price.trim()) < 0) {
+        document.getElementById("priceError").innerText = "Price cannot be negative.";
+        return false;
       }
 
+      
       if (image.trim() === "") {
         document.getElementById("imageError").innerText = "Image is required.";
       }
-
       if (category.trim() === "") {
         document.getElementById("categoryError").innerText = "Category is required.";
       }
-
       if (brand.trim() === "") {
         document.getElementById("brandError").innerText = "Brand is required.";
       }

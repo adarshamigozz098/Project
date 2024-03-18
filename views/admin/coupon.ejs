@@ -199,11 +199,13 @@
                                                                 Edit
                                                             </button>
                                                         </a>
-                                                        <a href="#" onclick="confirmDeleteCoupon('<%= coupon._id %>');" class="delete-link">
-                                                            <button style="background-color: red; color: white;" class="action-button delete-button" aria-label="Delete">
+                                                        <a href="#" onclick="confirmDeleteCoupon('<%= coupon._id %>');"
+                                                            class="delete-link">
+                                                            <button style="background-color: red; color: white;"
+                                                                class="action-button delete-button" aria-label="Delete">
                                                                 Delete
                                                             </button>
-                                                        </a>                                                  
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -257,61 +259,99 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <script>
-      async function confirmDeleteCoupon(couponId) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this action!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-              
-                deleteCoupon(couponId);
-            }
-        });
-    }
-    
-    async function deleteCoupon(couponId) {
-        console.log(couponId,"iddd");
-    try {
-        $.ajax({
-            url: `/admin/deleteCoupon?id=${couponId}`,
-            type: 'DELETE',
-            success: function(data) {
-                if (data.error) {
-                    throw new Error(data.error);
-                } else {
-                    // Coupon deleted successfully
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Deleted!',
-                        text: 'Coupon has been deleted successfully.',
-                    }).then(() => {
-                        // Redirect after successful deletion
-                        window.location.href = "/admin/coupon"; // Adjust the URL if necessary
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                throw new Error(`Error deleting coupon: ${error}`);
-            }
-        });
-    } catch (error) {
-        console.error("Error deleting coupon:", error.message);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error.message || 'An error occurred while deleting the coupon.'
-        });
-    }
-}
 
+    <script>
+        async function confirmDeleteCoupon(couponId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this action!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteCoupon(couponId);
+                }
+            });
+        }
+
+        async function deleteCoupon(couponId) {
+            console.log(couponId, "iddd");
+            try {
+                $.ajax({
+                    url: `/admin/deleteCoupon?id=${couponId}`,
+                    type: 'DELETE',
+                    success: function (data) {
+                        if (data.error) {
+                            throw new Error(data.error);
+                        } else {
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Coupon has been deleted successfully.',
+                            }).then(() => {
+
+                                window.location.href = "/admin/coupon";
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        throw new Error(`Error deleting coupon: ${error}`);
+                    }
+                });
+            } catch (error) {
+                console.error("Error deleting coupon:", error.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'An error occurred while deleting the coupon.'
+                });
+            }
+        }
     </script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        document.getElementById('couponForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const discountAmount = parseFloat(document.getElementById('amount').value);
+            const cartAmount = parseFloat(document.getElementById('cartAmount').value);
+            const maxDiscountAmount = parseFloat(document.getElementById('discountAmount').value);
+            const couponCount = parseFloat(document.getElementById('couponCount').value);
+            const expiryDate = new Date(document.getElementById('date').value);
+            const currentDate = new Date();
+
+            if (discountAmount < 0 || cartAmount < 0 || maxDiscountAmount < 0 || couponCount < 0) {
+                swal({
+                    title: "Error",
+                    text: "Values cannot be less than 0",
+                    icon: "error",
+                    button: "OK",
+                });
+                return;
+            }
+
+            if (expiryDate < currentDate) {
+                swal({
+                    title: "Error",
+                    text: "Expiry date cannot be less than the current date",
+                    icon: "error",
+                    button: "OK",
+                });
+                return;
+            }
+
+            // If all validations pass, submit the form
+            this.submit();
+        });
+    </script>
+
+
 </body>
 
 </html>

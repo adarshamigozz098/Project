@@ -245,9 +245,7 @@ const loadForget = async (req, res) => {
 const forgetPasswordVerify = async (req, res) => {
   try {
     const email = req.body.email;
-    console.log("email", email);
     const details = await User.findOne({ email: email });
-    // console.log(22, details);
     if (details) {
       if (details.verified == 0) {
         res.render("forgetPassword", { message: "Please Verify your email" });
@@ -257,7 +255,6 @@ const forgetPasswordVerify = async (req, res) => {
           { email: email },
           { $set: { token: randomstring } }
         );
-        // console.log(updatedetail, 33);
         sendforgetemail(details.name, details.email, randomstring);
         res.render("forgetPassword", { message: "Please check your email" });
       }
@@ -488,15 +485,6 @@ const loadContact = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
-
 const loadSingle = async (req, res) => {
   try {
     const id = req.query.id;
@@ -543,6 +531,7 @@ const loadCheckout = async (req, res) => {
         return res.redirect("/login");
       }
     }
+    
     res.render("checkout", {
       Data: userData,
       cart: userCart,
@@ -576,9 +565,18 @@ const placeOrder = async (req, res) => {
     const date = new Date();
     const user_id = req.session.userId;
     const { address, paymentMethod } = req.body;
-    console.log(req.body, "boo");
-
-    const delivery_address = address;
+    const userValue = await User.findById(user_id);
+    console.log(userValue,"vall");
+    if (!userValue) {
+      return res.status(400).json({ success: false, message: "User not found." });
+    }   
+    const selectedAddress = userValue.address.find(addr => addr._id.toString() === address);
+    console.log(selectedAddress,"select:");
+  
+    if (!selectedAddress) {
+      return res.status(400).json({ success: false, message: "Selected address not found." });
+    }
+    const delivery_address = selectedAddress;
 
     const cartData = await Cart.findOne({ user_id: user_id });
 
@@ -587,9 +585,7 @@ const placeOrder = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Cart not found for the user." });
     }
-
     const userData = await User.findById(user_id);
-
     if (!userData) {
       return res
         .status(400)
@@ -608,9 +604,6 @@ const placeOrder = async (req, res) => {
         message: "Cash on delivery orders cannot exceed 1000 INR.",
       });
     }
-
-    console.log(userData);
-
     if (
       paymentMethod == "Wallet" &&
       (!userData.wallet || userData.wallet < totalAmount)
@@ -621,7 +614,7 @@ const placeOrder = async (req, res) => {
       });
     }
 
-    let status =
+      let status =
       paymentMethod === "COD" || paymentMethod == "Wallet"
         ? "placed"
         : "pending";
@@ -663,6 +656,7 @@ const placeOrder = async (req, res) => {
         cancellationReason: item.cancellationReason,
       })),
     });
+  
 
     for (const item of orderData.items) {
       await product.findByIdAndUpdate(item.product_id, {
@@ -707,11 +701,10 @@ const placeOrder = async (req, res) => {
 const orderConfirmation = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
-    console.log(req.params.orderId);
 
     const orderId = req.params.orderId;
     const orderDetails = await order.findById(orderId);
-    console.log(orderDetails, "dkjhkjdhkjdshkjdshjkfhds");
+   
     if (!orderDetails) {
       return res
         .status(404)
@@ -729,6 +722,7 @@ const orderConfirmation = async (req, res) => {
       orderDetails,
       userData,
       currentUser: req.session.userId,
+      
     });
   } catch (error) {
     console.log(error);
@@ -779,7 +773,23 @@ const checkAdd = async (req, res) => {
 };
 
 
+const addAddress = async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const userData = await User.findById(userId);
 
+    if (!userData) {
+      req.flash("error", "User not found");
+      return res.redirect("/login");
+    }
+    res.render("addAddress", {
+      currentUser: userData,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 
 module.exports = {
@@ -809,5 +819,5 @@ module.exports = {
   resendOTP,
   generateCustomUserId,
   orderConfirmation,
-
+  addAddress
 };
