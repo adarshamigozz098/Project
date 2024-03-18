@@ -564,11 +564,13 @@ const generateCustomUserId = () => {
   return `${prefix}${uniqueId}`;
 };
 
+
 const placeOrder = async (req, res) => {
   try {
     const date = new Date();
     const user_id = req.session.userId;
     const { address, paymentMethod } = req.body;
+    console.log(req.body,"boo");
     const userValue = await User.findById(user_id);
     console.log(userValue,"vall");
     if (!userValue) {
@@ -618,6 +620,11 @@ const placeOrder = async (req, res) => {
       });
     }
 
+    userData.wallet -= totalAmount;
+    userData.walletHistory.push({ amount: -totalAmount, type: 'debit' });
+    await userData.save();
+
+
       let status =
       paymentMethod === "COD" || paymentMethod == "Wallet"
         ? "placed"
@@ -661,13 +668,11 @@ const placeOrder = async (req, res) => {
       })),
     });
   
-
     for (const item of orderData.items) {
       await product.findByIdAndUpdate(item.product_id, {
         $inc: { quantity: -item.quantity },
       });
     }
-
     if (status === "pending") {
       let cartDelete;
       try {

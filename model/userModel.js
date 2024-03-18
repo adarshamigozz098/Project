@@ -70,15 +70,17 @@ const userSchema=new mongoose.Schema({
         amount: {
           type: Number,
         },
-        reason: {
-          type: String,
-        }
+        type: {
+            type: String,
+            enum: ['debit', 'credit'] 
+          }
     
       }],
 })
 userSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
+
 
 const User=mongoose.model('User',userSchema)
 

@@ -218,8 +218,9 @@
             <tr>
               <td>Address:</td>
               <td class="custom-info">
-                <%=orderDetails.delivery_address %>
+                <%= orders.delivery_address.name + ', ' + orders.delivery_address.housename + ', ' + orders.delivery_address.city + ', ' + orders.delivery_address.state + ', ' + orders.delivery_address.phone %>
               </td>
+              
             </tr>
             <tr>
               <td>Payment:</td>

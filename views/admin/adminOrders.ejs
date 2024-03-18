@@ -176,8 +176,8 @@
                                   <select style="text-align: center;" class="form-control status-dropdown" name="status"
                                     data-order-id="<%= order.order_id %>" data-product-id="<%= item.product_id ? item.product_id._id : '' %>"
                                     onchange="updateOrderStatus(event)">
-                                    <% ['Placed', 'Shipped' , 'Out for Delivery' , 'Delivered' , 'Requested return'
-                                      , 'Returned' , 'Requested cancellation' , 'Cancelled' , 'pending' ].forEach(status => { %>
+                                    <% ['Placed', 'Delivered' , 'Requested return'
+                                      , 'Returned' ,  'Cancelled' , 'pending' ].forEach(status => { %>
                                       <% if ((item.ordered_status==='Cancelled' || item.ordered_status==='Returned' ) && status !== item.ordered_status) { %>
                                         <option value="<%= status %>" disabled><%= status %></option>
                                       <% } else { %>
@@ -200,7 +200,7 @@
                         <% }); %>
                       <% } %>
                     </tbody>
-                    
+                      
                     
                     <div class="pagination-area mt-30 mb-50">
                       <nav aria-label="Page navigation example">

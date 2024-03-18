@@ -287,7 +287,7 @@ const cancelOrder = async (req, res) => {
       .exec();
     const totalPrice = data.total_amount;
     const userId = req.session.userId;
-    if (data.payment === "RazorPay") {
+    if (data.payment === "RazorPay" || data.payment === "Wallet" ) {
       await User.findByIdAndUpdate(
         userId,
         { $inc: { wallet: totalPrice } },
@@ -295,12 +295,12 @@ const cancelOrder = async (req, res) => {
       );
       const walletTransaction = {
         amount: totalPrice,
-        type: "Credited",
+        type: "credit", 
       };
-      const dt = await User.findById(userId);
-      if (dt) {
-        dt.walletHistory.push(walletTransaction);
-        await dt.save();
+      const user = await User.findById(userId);
+      if (user) {
+        user.walletHistory.push(walletTransaction);
+        await user.save();
       } else {
         console.log("User not found.");
       }
@@ -313,6 +313,7 @@ const cancelOrder = async (req, res) => {
         });
       }
     }
+
     return res.status(200).json({ message: "Orders cancelled successfully" });
   } catch (error) {
     console.log(error);
@@ -330,6 +331,7 @@ const cancelOrder = async (req, res) => {
 //   });
 //   return totalPrice;
 // };
+
 
 const returnOrder = async (req, res) => {
   try {
@@ -353,9 +355,9 @@ const returnOrder = async (req, res) => {
     const walletTransaction = {
       amount: totalPrice,
       reason: "Order return refund",
-
       orderId: data._id,
       timestamp: new Date(),
+      type: "credit",
     };
     await User.findByIdAndUpdate(
       userId,
@@ -485,11 +487,14 @@ const wallet = async (req, res) => {
   try {
     const userId = req.session.userId;
     const user = await User.findById(userId);
-    res.render("wallet", { user, currentUser: user, moment });
+    const debitedTransactions = user.walletHistory.filter(history => history.type === 'debit');
+    res.render("wallet", { user, currentUser: user, moment,debitedTransactions });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
+
 
 module.exports = {
   loadProfile,
