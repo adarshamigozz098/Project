@@ -157,48 +157,50 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% Orders.reverse().forEach(order => { %>
-                        <% order.items.forEach(item => { %>
-                          <tr>
-                            <td><%= order.order_id %></td>
-                            <td><%= item.product_id.name %></td>
-                            <td><%= order.username %></td>
-                            <td><%= order.total_amount %></td>
-                            <td><%= new Date(order.date).toLocaleDateString() %></td>
-                            <td><%= order.payment %></td>
-                            <td>
-                              <div class="status-dropdown-container">
-                                <select style="text-align: center;" class="form-control status-dropdown" name="status"
-                                  data-order-id="<%= order.order_id %>" data-product-id="<%= item.product_id._id %>"
-                                  onchange="updateOrderStatus(event)">
-                                  <% ['Placed', 'Shipped' , 'Out for Delivery' , 'Delivered' , 'Requested return'
-                                    , 'Returned' , 'Requested cancellation' , 'Cancelled' , 'pending' ].forEach(status => { %>
-                                    <% if ((item.ordered_status==='Cancelled' || item.ordered_status==='Returned' ) && status !== item.ordered_status) { %>
-                                      <option value="<%= status %>" disabled><%= status %></option>
-                                    <% } else { %>
-                                      <option value="<%= status %>" <%= status === item.ordered_status ? 'selected' : '' %>><%= status %></option>
-                                    <% } %>
-                                  <% }); %>
-                                </select>
-                              </div>
-                            </td>
-                            <td>
-                              <button id="save" class="btn-primary" onclick="reloadPage()">save</button>
-                            </td>
-                            <td>
-                              <a href="/admin/detail?orderId=<%= order.order_id %>">
-                                <button class="btn-primary">Detail</button>
-                              </a>
-                            </td>
-                          </tr>
-                        <% }); %>
-                      <% }); %>
                       <% if (Orders.length === 0) { %>
                         <tr>
-                          <td colspan="8">No orders found</td>
+                          <td colspan="9">No orders found</td>
                         </tr>
+                      <% } else { %>
+                        <% Orders.reverse().forEach(order => { %>
+                          <% order.items.forEach(item => { %>
+                            <tr>
+                              <td><%= order.order_id %></td>
+                              <td><%= item.product_id ? item.product_id.name : 'Product Not Available' %></td>
+                              <td><%= order.username %></td>
+                              <td><%= order.total_amount %></td>
+                              <td><%= new Date(order.date).toLocaleDateString() %></td>
+                              <td><%= order.payment %></td>
+                              <td>
+                                <div class="status-dropdown-container">
+                                  <select style="text-align: center;" class="form-control status-dropdown" name="status"
+                                    data-order-id="<%= order.order_id %>" data-product-id="<%= item.product_id ? item.product_id._id : '' %>"
+                                    onchange="updateOrderStatus(event)">
+                                    <% ['Placed', 'Shipped' , 'Out for Delivery' , 'Delivered' , 'Requested return'
+                                      , 'Returned' , 'Requested cancellation' , 'Cancelled' , 'pending' ].forEach(status => { %>
+                                      <% if ((item.ordered_status==='Cancelled' || item.ordered_status==='Returned' ) && status !== item.ordered_status) { %>
+                                        <option value="<%= status %>" disabled><%= status %></option>
+                                      <% } else { %>
+                                        <option value="<%= status %>" <%= status === item.ordered_status ? 'selected' : '' %>><%= status %></option>
+                                      <% } %>
+                                    <% }); %>
+                                  </select>
+                                </div>
+                              </td>
+                              <td>
+                                <button id="save" class="btn-primary" onclick="reloadPage()">save</button>
+                              </td>
+                              <td>
+                                <a href="/admin/detail?orderId=<%= order.order_id %>">
+                                  <button class="btn-primary">Detail</button>
+                                </a>
+                              </td>
+                            </tr>
+                          <% }); %>
+                        <% }); %>
                       <% } %>
                     </tbody>
+                    
                     
                     <div class="pagination-area mt-30 mb-50">
                       <nav aria-label="Page navigation example">

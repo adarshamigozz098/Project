@@ -164,7 +164,6 @@
 
 
     <!-- Structure -->
-
     <body>
       <div class="container">
         <h1>Order Details</h1><br>
@@ -174,13 +173,23 @@
             <div class="detail-item">
               <label>Order Id: &nbsp</label><%= Order.order_id %>
             </div><br>
-            <div class="detail-item">
-            <label>Name: &nbsp</label><%= item.product_id.name %>
-          </div><br>
-            <div class="detail-item pdimage">
-              <label></label>
-              <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
-            </div><br>
+            <% if (item.product_id && item.product_id._id) { %> <!-- Check if product_id and _id exist -->
+              <div class="detail-item">
+                <label>Name: &nbsp</label><%= item.product_id.name %>
+              </div><br>
+              <div class="detail-item pdimage">
+                <label></label>
+                <% if (item.product_id.image && item.product_id.image.length > 0) { %> <!-- Check if image array exists and is not empty -->
+                  <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
+                <% } else { %>
+                  <p>Product Image Not Available</p>
+                <% } %>
+              </div><br>
+            <% } else { %>
+              <div class="detail-item">
+                <p>Product Not Available</p>
+              </div><br>
+            <% } %>
             <div class="detail-item">
               <label>Total Price: &nbsp <%= item.total_price %></label>
             </div><br>
@@ -194,17 +203,15 @@
               <label>Expected Delivery: &nbsp<%= Order.expected_delivery%></label>
             </div><br>
             <div class="detail-item">
-            <label>Status: &nbsp<%=item.ordered_status%></label>
-          </div>
+              <label>Status: &nbsp<%=item.ordered_status%></label>
+            </div>
           </div>
           <hr>
         <% }); %>
       </div>
-
-      <style>
-       
-      </style>
     </body>
+    
+    
     
               
   

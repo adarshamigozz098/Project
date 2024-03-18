@@ -199,7 +199,7 @@
                         <label class="col-lg-3 col-form-label">File upload</label>
                         <div class="col-lg-4">
                           <div class="input-group">
-                            <input name="image" id="image" type="file" class="form-control">
+                            <input name="image" id="image" type="file" class="form-control" multiple required>
                           </div>
                           <div id="imageError" class="text-danger"></div>
                         </div>
@@ -322,7 +322,6 @@
     }
   </script>
 
-
 <script>
   function validateForm() {
     var productName = document.getElementById("productName").value;
@@ -331,6 +330,7 @@
     var price = document.getElementById("price").value;
     var category = document.getElementById("exampleInputCity1").value;
     var brand = document.getElementById("brand").value;
+    var imageFiles = document.getElementById("image").files;
     var isValid = true;
 
     // Clear previous error messages
@@ -343,12 +343,13 @@
     document.getElementById("brandError").innerText = "";
 
     if (productName.trim() === "") {
-      document.getElementById("productNameError").innerText = "Product name is required.";
-      isValid = false;
-    } else if (productName.trim().length > 17) {
-      document.getElementById("productNameError").innerText = "Product name must be 17 characters or less.";
-      isValid = false;
-    }
+  document.getElementById("productNameError").innerText = "Product name is required.";
+  isValid = false;
+} else if (productName.trim().length > 15) {
+  document.getElementById("productNameError").innerText = "Product name must be 15 characters or less.";
+  isValid = false;  
+}
+
 
     if (description.trim() === "") {
       document.getElementById("descriptionError").innerText = "Description is required.";
@@ -362,17 +363,19 @@
       document.getElementById("quantityError").innerText = "Quantity cannot be negative.";
       isValid = false;
     }
-
     if (price.trim() === "") {
-      document.getElementById("priceError").innerText = "Price is required.";
-      isValid = false;
-    } else if (isNaN(price.trim())) {
-      document.getElementById("priceError").innerText = "Price must be a number.";
-      isValid = false;
-    } else if (parseFloat(price.trim()) < 0) {
-      document.getElementById("priceError").innerText = "Price cannot be negative.";
-      isValid = false;
-    }
+  document.getElementById("priceError").innerText = "Price is required.";
+  isValid = false;
+} else if (isNaN(price.trim())) {
+  document.getElementById("priceError").innerText = "Price must be a number.";
+  isValid = false;
+} else if (parseFloat(price.trim()) < 0) {
+  document.getElementById("priceError").innerText = "Price cannot be negative.";
+  isValid = false;
+} else if (price.trim().length > 5) {
+  document.getElementById("priceError").innerText = "Price cannot have more than 5 digits.";
+  isValid = false;
+}
 
     if (category.trim() === "") {
       document.getElementById("categoryError").innerText = "Category is required.";
@@ -381,6 +384,11 @@
 
     if (brand.trim() === "") {
       document.getElementById("brandError").innerText = "Brand is required.";
+      isValid = false;
+    }
+
+    if (imageFiles.length > 4) {
+      document.getElementById("imageError").innerText = "Maximum of four images allowed.";
       isValid = false;
     }
 

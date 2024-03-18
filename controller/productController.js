@@ -118,7 +118,7 @@ const editProducts = async (req, res) => {
       let updatedProduct = await product.findByIdAndUpdate(
           {_id: id},
           {
-              name: productName.toUpperCase(),
+             name: productName.toUpperCase(),
               description,
               quantity,
               price,

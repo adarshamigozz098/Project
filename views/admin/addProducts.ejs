@@ -295,7 +295,11 @@
       } else if (!productNameRegex.test(productName)) {
         document.getElementById("productNameError").innerText = "Product name cannot contain numbers.";
         return false;
+      } else if (productName.length > 15) {
+        document.getElementById("productNameError").innerText = "Product name must be 15 characters or less.";
+        return false;
       }
+
 
       // description
       if (description.trim() === "") {
@@ -318,16 +322,20 @@
       //price
       if (price.trim() === "") {
         document.getElementById("priceError").innerText = "Price is required.";
-        return false;
+        isValid = false;
       } else if (isNaN(price.trim())) {
         document.getElementById("priceError").innerText = "Price must be a number.";
-        return false;
+        isValid = false;
       } else if (parseFloat(price.trim()) < 0) {
         document.getElementById("priceError").innerText = "Price cannot be negative.";
-        return false;
+        isValid = false;
+      } else if (price.trim().length > 5) {
+        document.getElementById("priceError").innerText = "Price cannot have more than 5 digits.";
+        isValid = false;
       }
 
-      
+
+
       if (image.trim() === "") {
         document.getElementById("imageError").innerText = "Image is required.";
       }

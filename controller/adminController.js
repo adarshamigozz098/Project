@@ -593,21 +593,27 @@ const deleteCategory = async (req, res) => {
   }
 };
 
+
 const listOrUnlist = async (req, res) => {
   try {
     const categoryId = req.query.id;
-    console.log(categoryId, "id indoo");
     const categoryData = await category.findById(categoryId);
-    console.log(categoryData, "data indoo");
     categoryData.is_listed = !categoryData.is_listed;
     await categoryData.save();
-    console.log(categoryData);
+    if (!categoryData.is_listed) {
+      await product.updateMany({ category: categoryId }, { $set: { is_hidden: true } });
+    } else {
+      
+      await product.updateMany({ category: categoryId }, { $set: { is_hidden: false } });
+    }
     res.json(categoryData);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
 
 const loadeditCategory = async (req, res) => {
   try {
@@ -705,12 +711,15 @@ const loadDetail = async (req, res) => {
     const Order = await order
       .findOne({ order_id: orderId })
       .populate("items.product_id");
-    // console.log(Order);
+    
     if (!Order) {
       return res.status(404).send("Order not found.");
     }
 
-    const productId = Order.items[0].product_id._id;
+    let productId = null;
+    if (Order.items.length > 0 && Order.items[0].product_id) {
+      productId = Order.items[0].product_id._id;
+    }
 
     res.render("adminOrderDetail", { Order: Order, productId: productId });
   } catch (error) {
@@ -718,6 +727,7 @@ const loadDetail = async (req, res) => {
     res.status(500).send("An error occurred while loading order detail.");
   }
 };
+
 
 const updateOrderStatus = async (req, res) => {
   try {

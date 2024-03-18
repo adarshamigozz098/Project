@@ -438,6 +438,8 @@ const loadShop = async (req, res) => {
       query.price = { $lte: priceTo };
     }
 
+    query.is_listed = true;
+
     const totalProducts = await product.countDocuments(query);
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
 
@@ -464,6 +466,8 @@ const loadShop = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
 
 const loadContact = async (req, res) => {
   try {
