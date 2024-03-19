@@ -173,13 +173,13 @@
             <div class="detail-item">
               <label>Order Id: &nbsp</label><%= Order.order_id %>
             </div><br>
-            <% if (item.product_id && item.product_id._id) { %> <!-- Check if product_id and _id exist -->
+            <% if (item.product_id && item.product_id._id) { %> 
               <div class="detail-item">
                 <label>Name: &nbsp</label><%= item.product_id.name %>
               </div><br>
               <div class="detail-item pdimage">
                 <label></label>
-                <% if (item.product_id.image && item.product_id.image.length > 0) { %> <!-- Check if image array exists and is not empty -->
+                <% if (item.product_id.image && item.product_id.image.length > 0) { %> 
                   <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
                 <% } else { %>
                   <p>Product Image Not Available</p>
@@ -197,8 +197,14 @@
               <label>Ordered Date: &nbsp <%= Order.date%></label>
             </div><br>
             <div class="detail-item">
-              <label>Delivery Address:&nbsp<%= Order.delivery_address%></label>
-            </div><br>
+              <label>Name: <%= Order.delivery_address.name %></label><br>
+              <label>House Name: <%= Order.delivery_address.housename %></label><br>
+              <label>City: <%= Order.delivery_address.city %></label><br>
+              <label>State: <%= Order.delivery_address.state %></label><br>
+              <label>Phone: <%= Order.delivery_address.phone %></label><br>
+              <label>Pincode: <%= Order.delivery_address.pincode %></label>
+          </div><br>
+          
             <div class="detail-item">
               <label>Expected Delivery: &nbsp<%= Order.expected_delivery%></label>
             </div><br>

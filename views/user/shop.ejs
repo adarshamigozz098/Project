@@ -6,7 +6,6 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="/user/css/open-iconic-bootstrap.min.css">
@@ -27,17 +26,17 @@
 	<link rel="stylesheet" href="/user/css/flaticon.css">
 	<link rel="stylesheet" href="/user/css/icomoon.css">
 	<link rel="stylesheet" href="/user/css/style.css">
+	<style>
+		.sidebar-box {
+			margin-left: -15px;
+			margin-bottom: 22px;
+			padding: 25px;
+			font-size: 13px;
+			width: 112%;
+			background: #fff;
+		}
+	</style>
 </head>
-<style>
-	.sidebar-box {
-		margin-left: -15px;
-		margin-bottom: 22px;
-		padding: 25px;
-		font-size: 13px;
-		width: 112%;
-		background: #fff;
-	}
-</style>
 
 <body class="goto-here">
 	<div class="py-1 bg-black">
@@ -126,7 +125,7 @@
 				<div class="col-md-8 col-lg-10 order-md-last">
 					<div class="row">
 						<div class="col-md-8 col-lg-10 order-md-last">
-							<div class="row">
+							<div class="row" id="productLIstedHello">
 								<% if (product.length> 0) { %>
 									<% product.forEach(productItem=> { %>
 										<div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex">
@@ -156,9 +155,11 @@
 															</p>
 														</div>
 													</div>
-													<h3><a href="#">
+													<h3>
+														<a href="#">
 															<%= productItem.name %>
-														</a></h3>
+														</a>
+													</h3>
 													<div class="pricing">
 														<p class="price"><span>₹<%= productItem.price %></span></p>
 													</div>
@@ -173,7 +174,7 @@
 												</div>
 											</div>
 										</div>
-										<% }); %>
+										<% }) %>
 											<% } %>
 							</div>
 						</div>
@@ -184,28 +185,43 @@
 								<ul>
 									<li><a href="/shop?page=<%= currentPage - 1 %>">&lt;</a></li>
 									<% for (let i=1; i <=totalPages; i++) { %>
-										<li <%=i===currentPage ? 'class="active"' : '' %>><a
-												href="/shop?page=<%= i %>"><span>
+										<li <%=i===currentPage ? 'class="active"' : '' %>>
+											<a href="/shop?page=<%= i %>">
+												<span>
 													<%= i %>
-												</span></a></li>
+												</span>
+											</a>
+										</li>
 										<% } %>
 											<li><a href="/shop?page=<%= currentPage + 1 %>">&gt;</a></li>
 								</ul>
 							</div>
 						</div>
 					</div>
-
 				</div>
+
 
 				<div class="col-md-4 col-lg-2">
 					<div class="sidebar">
 						<div class="sidebar-box-2">
 							<!-- search -->
 							<div class="sidebar-box">
-								<form id="searchForm" class="search-form">
+								<form id="searchForm" method="get" action="/shop" class="search-form">
 									<div class="form-group">
 										<span class="icon ion-ios-search"></span>
-										<input id="searchInput" type="text" class="form-control" placeholder="Search">
+										<input id="searchInput" name="search" type="search" class="form-control" placeholder="Search">
+
+										<% if (currentPage && currentPage != 1) { %>
+											<input type="text" name="page" value="<%= currentPage %>" hidden>
+										<% } %>
+
+										<% if(filters.priceFrom) { %>
+											<input type="number" name="priceFrom" value="<%= filters.priceFrom %>" hidden>
+										<% } %>
+
+										<% if(filters.priceTo) { %>
+											<input type="number" name="priceTo" value="<%= filters.priceTo %>" hidden>
+										<% } %>
 									</div>
 								</form>
 							</div>
@@ -224,7 +240,6 @@
 										</div>
 										<div id="collapseOne" class="panel-collapse collapse" role="tabpanel"
 											aria-labelledby="headingOne">
-
 											<div class="category">
 												<ul>
 													<% categories.forEach(category=> { %>
@@ -236,48 +251,60 @@
 														<% }) %>
 												</ul>
 											</div>
-
 										</div>
 									</div>
 								</div>
 							</div>
-
-
-							<form method="post" class="colorlib-form-2" action="/shop?min=">
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label for="priceFrom">Price from:</label>
-											<div class="form-field">
-												<i class="icon icon-arrow-down3"></i>
-												<select name="priceFrom" id="priceFrom" class="form-control">
-													<option value="1">1</option>
-													<option value="200">200</option>
-													<option value="300">300</option>
-													<option value="400">400</option>
-													<option value="1000">1000</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<label for="priceTo">Price to:</label>
-											<div class="form-field">
-												<i class="icon icon-arrow-down3"></i>
-												<select name="priceTo" id="priceTo" class="form-control">
-													<option value="2000">2000</option>
-													<option value="4000">4000</option>
-													<option value="6000">6000</option>
-													<option value="8000">8000</option>
-													<option value="10000">10000</option>
-												</select>
-											</div>
-										</div>
+						</div>
+					</div>
+					<form method="get" class="colorlib-form-2" id="filter" action="/shop">
+						<% if (filters.search) { %>
+							<input type="text" name="search" value="<%= filters.search %>" hidden>
+						<% } %>
+						<% if (currentPage && currentPage != 1) { %>
+							<input type="number" name="page" value="<%= currentPage %>" hidden>
+						<% } %>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="priceFrom">Price from:</label>
+									<div class="form-field">
+										<i class="icon icon-arrow-down3"></i>
+										<select name="priceFrom" id="priceFrom" class="form-control">
+											<option value="1" <%= (filters.priceFrom == 1)?'selected':'' %>>1</option>
+											<option value="200" <%= (filters.priceFrom == 200)?'selected':'' %>>200</option>
+											<option value="300" <%= (filters.priceFrom == 300)?'selected':'' %>>300</option>
+											<option value="400" <%= (filters.priceFrom == 400)?'selected':'' %>>400</option>
+											<option value="1000" <%= (filters.priceFrom == 1000)?'selected':'' %>>1000</option>
+										</select>
 									</div>
 								</div>
-								<button type="submit" id="filterButton" class="btn btn-primary">Apply Filter</button>
-							</form>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="priceTo">Price to:</label>
+									<div class="form-field">
+										<i class="icon icon-arrow-down3"></i>
+										<select name="priceTo" id="priceTo" class="form-control">
+											<option value="2000" <%= (filters.priceTo == 2000)?'selected':'' %>>2000</option>
+											<option value="4000" <%= (filters.priceTo == 4000)?'selected':'' %>>4000</option>
+											<option value="6000" <%= (filters.priceTo == 6000)?'selected':'' %>>6000</option>
+											<option value="8000" <%= (filters.priceTo == 8000)?'selected':'' %>>8000</option>
+											<option value="10000" <%= (filters.priceTo == 10000)?'selected':'' %>>10000</option>
+											<option value="10000+" <%= (filters.priceTo == '10000+')?'selected':'' %>>10000 Above</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="d-flex justify-content-between" style="gap: 5px;">
+							<button type="submit" id="" class="btn btn-primary">Apply Filter</button>
+							<button type="button" id="" class="btn btn-primary" onclick="location.href = '/shop'">clear Filter</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</section>
 
 
@@ -349,124 +376,106 @@
 
 	<%- include('../user/layout/footer') %>
 
-
 		<!-- loader -->
-		<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+		<div id="ftco-loader" class="show fullscreen">
+			<svg class="circular" width="48px" height="48px">
 				<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
 				<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
 					stroke="#F96D00" />
-			</svg></div>
-</body>
+			</svg>
+		</div>
 
-</html>
 
-<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		document.querySelectorAll('.add-to-cart').forEach(button => {
-			button.addEventListener('click', async (event) => {
-				event.preventDefault();
-				const productId = button.getAttribute('data-product-id');
-				const quantity = 1;
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-				try {
-					const response = await fetch('/addToCart', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({ productId, quantity }),
-					});
-					if (response.ok) {
-						Swal.fire({
-							title: 'Success!',
-							text: 'Product added to cart successfully',
-							icon: 'success',
-							showCancelButton: true,
-							confirmButtonText: 'Go to Cart',
-							cancelButtonText: 'Continue Shopping'
-						}).then((result) => {
-							if (result.isConfirmed) {
-								window.location.href = '/cart';
+		<script src="/user/js/jquery.min.js"></script>
+		<script src="/user/js/jquery-migrate-3.0.1.min.js"></script>
+		<script src="/user/js/popper.min.js"></script>
+		<script src="/user/js/bootstrap.min.js"></script>
+		<script src="/user/js/jquery.easing.1.3.js"></script>
+		<script src="/user/js/jquery.waypoints.min.js"></script>
+		<script src="/user/js/jquery.stellar.min.js"></script>
+		<script src="/user/js/owl.carousel.min.js"></script>
+		<script src="/user/js/jquery.magnific-popup.min.js"></script>
+		<script src="/user/js/aos.js"></script>
+		<script src="/user/js/jquery.animateNumber.min.js"></script>
+		<script src="/user/js/bootstrap-datepicker.js"></script>
+		<script src="/user/js/scrollax.min.js"></script>
+		<script
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+		<script src="/user/js/google-map.js"></script>
+		<script src="/user/js/main.js"></script>
+
+
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+			integrity="sha256-Uv9jf8HLbQqvwqKA18GyQ8creozGyZA4QcvXkvhGmA=" crossorigin="anonymous"></script>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				document.querySelectorAll('.add-to-cart').forEach(button => {
+					button.addEventListener('click', async (event) => {
+						event.preventDefault();
+						const productId = button.getAttribute('data-product-id');
+						const quantity = 1;
+
+						try {
+							const response = await fetch('/addToCart', {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({ productId, quantity }),
+							});
+							if (response.ok) {
+								Swal.fire({
+									title: 'Success!',
+									text: 'Product added to cart successfully',
+									icon: 'success',
+									showCancelButton: true,
+									confirmButtonText: 'Go to Cart',
+									cancelButtonText: 'Continue Shopping'
+								}).then((result) => {
+									if (result.isConfirmed) {
+										window.location.href = '/cart';
+									}
+								});
+							} else {
+								console.error('Failed to add to cart:', response.status);
+								Swal.fire({
+									icon: 'error',
+									title: 'Oops...',
+									text: 'Product already exist in cart!.'
+								});
 							}
-						});
-					} else {
-						console.error('Failed to add to cart:', response.status);
-						Swal.fire({
-							icon: 'error',
-							title: 'Oops...',
-							text: 'Product already exist in cart!.'
-						});
-					}
-				} catch (error) {
-					console.error('Error adding to cart:', error);
-					Swal.fire({
-						icon: 'error',
-						title: 'Oops...',
-						text: 'An error occurred while adding the product to cart. Please try again later.'
+						} catch (error) {
+							console.error('Error adding to cart:', error);
+							Swal.fire({
+								icon: 'error',
+								title: 'Oops...',
+								text: 'An error occurred while adding the product to cart. Please try again later.'
+							});
+						}
 					});
+				});
+			});
+		</script>
+
+
+		<script>
+			// Get the input field
+			var input = document.getElementById("searchInput");
+
+			// Execute a function when the user releases a key on the keyboard
+			input.addEventListener("keyup", function (event) {
+				// Number 13 is the "Enter" key on the keyboard
+				if (event.key === "Enter") {
+					// Cancel the default action, if needed
+					event.preventDefault();
+					// Trigger the form submission
+					document.getElementById("searchForm").submit();
 				}
 			});
-		});
-	});
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-<script src="/user/js/jquery.min.js"></script>
-<script src="/user/js/jquery-migrate-3.0.1.min.js"></script>
-<script src="/user/js/popper.min.js"></script>
-<script src="/user/js/bootstrap.min.js"></script>
-<script src="/user/js/jquery.easing.1.3.js"></script>
-<script src="/user/js/jquery.waypoints.min.js"></script>
-<script src="/user/js/jquery.stellar.min.js"></script>
-<script src="/user/js/owl.carousel.min.js"></script>
-<script src="/user/js/jquery.magnific-popup.min.js"></script>
-<script src="/user/js/aos.js"></script>
-<script src="/user/js/jquery.animateNumber.min.js"></script>
-<script src="/user/js/bootstrap-datepicker.js"></script>
-<script src="/user/js/scrollax.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="/user/js/google-map.js"></script>
-<script src="/user/js/main.js"></script>
-
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		const searchForm = document.getElementById("searchForm");
-		const searchInput = document.getElementById("searchInput");
-
-		searchForm.addEventListener("submit", function (event) {
-			event.preventDefault();
-			const searchValue = searchInput.value.trim();
-			if (searchValue !== "") {
-				window.location.href = "/shop?search=" + encodeURIComponent(searchValue);
-			} else {
-				window.location.href = "/shop";
-			}
-		});
-	});
-</script>
-
-
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		const filterButton = document.getElementById("filterButton");
-		filterButton.addEventListener("click", function (event) {
-			event.preventDefault();
-
-
-			const priceFrom = document.getElementById("priceFrom").value;
-			const priceTo = document.getElementById("priceTo").value;
-
-
-			document.getElementById("priceFrom").value = priceFrom;
-			document.getElementById("priceTo").value = priceTo;
-
-
-			document.querySelector(".colorlib-form-2").submit();
-		});
-	});
-</script>
-
+		</script>
 
 </body>
 

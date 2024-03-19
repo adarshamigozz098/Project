@@ -15,15 +15,20 @@ const loadCart = async (req, res) => {
     const userCart = await Cart.findOne({ user_id: userId }).populate(
       "items.product_id"
     );
-    const cartProducts = userCart ? userCart.items : [];
-    const totalPriceSum = cartProducts.reduce(
+    const cartProducts = userCart ? userCart.items : [];   
+    const subtotal = cartProducts.reduce(
+      (sum, item) => sum + item.product_id.price,
+      0
+    );   
+    const estimatedTotal = cartProducts.reduce(
       (sum, item) => sum + item.total_price,
       0
     );
 
     res.render("cart", {
       cartProducts,
-      totalPriceSum,
+      subtotal,
+      estimatedTotal,
       currentUser: req.session.userId,
     });
   } catch (error) {
@@ -38,9 +43,6 @@ const addToCart = async (req, res) => {
     const userId = req.user._id;
     const productId = req.body.productId;
     const quantity = req.body.quantity;
-    console.log(productId);
-    console.log(quantity);
-    console.log(userId);
 
     let userCart = await Cart.findOne({ user_id: userId });
 
@@ -51,17 +53,25 @@ const addToCart = async (req, res) => {
       });
     }
 
+    const cartProducts = userCart.items;
+    const subtotal = cartProducts.reduce(
+      (sum, item) => sum + item.product_id.price,
+      0
+    );
+
+    const estimatedTotal = cartProducts.reduce(
+      (sum, item) => sum + item.total_price,
+      0
+    );
     const existingProductIndex = userCart.items.findIndex(
       (item) => item.product_id.toString() === productId
     );
-
     if (existingProductIndex !== -1) {
       console.error(`Product with id ${productId} is already in the cart.`);
       return res
         .status(400)
         .send(`Product with id ${productId} is already in the cart.`);
     }
-
     const productToAdd = await product.findById(productId);
     if (!productToAdd) {
       console.error(`Product with id ${productId} not found.`);
@@ -90,11 +100,14 @@ const addToCart = async (req, res) => {
     const cartTotals = userCart.items.reduce(
       (sum, item) => sum + item.total_price,
       0
+      
     );
     res.render("cart", {
       cartProducts: userCart.items,
       totalPriceSum: cartTotals,
       currentUser: req.session.user_id,
+      subtotal: subtotal,
+      estimatedTotal: estimatedTotal,
     });
   } catch (error) {
     console.error("Error adding product to cart:", error);

@@ -202,6 +202,11 @@
         background-color: #f8f9fa;
         margin: 0;
         padding: 0;
+        overflow-x: hidden;
+      }
+
+      body::-webkit-scrollbar {
+        display: none;
       }
 
 
@@ -448,7 +453,9 @@
                   <span>Select Address</span>
                   <input type="radio" name="selectedAddress" id="addressRadio" value='<%= item._id %>'>
                 </label>
-                <h4><%= item.name %></h4>
+                <h4>
+                  <%= item.name %>
+                </h4>
                 <p>House Name: <%= item.housename %>
                 </p>
                 <p>City: <%= item.city %>
@@ -471,7 +478,6 @@
 
         <button id="addAddressButton" class="btn btn-primary" style="margin-left: 210px; margin-top: -4px;">Add
           Address</button>
-
 
         <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
@@ -560,10 +566,7 @@
         <div class="col-md-6 d-flex">
           <div class="cart-total mb-3">
             <h3>Cart Totals</h3>
-            <p class="d-flex">
-              <span>SUBTOTAL</span>
-              <span id="subtotal">₹<%= totalPrice %></span>
-            </p>
+
             <p class="d-flex">
               <span>COUPON AMOUNT</span>
               <span id="coupon">0</span>
@@ -850,67 +853,67 @@
     <!-- COUPON -->
 
     <script>
-        $("#coupon-form").submit(function (e) {
-          e.preventDefault();
-          const code = $("#code").val();
-          const amount = $("#amount").val();
-          $.ajax({
-            url: "/applyCoupon",
-            method: "post",
-            data: {
-              code: code,
-              amount: amount
-            },
-            success: function (response) {
-              
+      $("#coupon-form").submit(function (e) {
+        e.preventDefault();
+        const code = $("#code").val();
+        const amount = $("#amount").val();
+        $.ajax({
+          url: "/applyCoupon",
+          method: "post",
+          data: {
+            code: code,
+            amount: amount
+          },
+          success: function (response) {
 
-              if (response.amountOkey) {
-                updateCouponDetails(response.disAmount, response.disTotal);
 
-                Swal.fire({
-                  icon: "success",
-                  title: "Coupon Applied Successfully",
-                  });
-              } else if (response.user) {
-                swal.fire('warning', 'Oops! This user has already used this coupon');
-              } else if (response.limit) {
-                swal.fire('warning', 'Oops! Coupon limit exceeded');
-              } else if (response.status) {
-                swal.fire('warning', 'Oops! This coupon is not in use');
-              } else if (response.cartAmount) {
-                swal.fire('warning', "Oops! You can't use the coupon... Buy more");
-              } else if (response.date) {
-                swal.fire('warning', 'Oops! Coupon date expired');
-              } else if (response.invalid) {
-                swal.fire('error', 'Oops! Invalid coupon');
-              }
-            },
-            error: function (xhr, status, error) {
-              console.error("Error:", error);
+            if (response.amountOkey) {
+              updateCouponDetails(response.disAmount, response.disTotal);
+
+              Swal.fire({
+                icon: "success",
+                title: "Coupon Applied Successfully",
+              });
+            } else if (response.user) {
+              swal.fire('warning', 'Oops! This user has already used this coupon');
+            } else if (response.limit) {
+              swal.fire('warning', 'Oops! Coupon limit exceeded');
+            } else if (response.status) {
+              swal.fire('warning', 'Oops! This coupon is not in use');
+            } else if (response.cartAmount) {
+              swal.fire('warning', "Oops! You can't use the coupon... Buy more");
+            } else if (response.date) {
+              swal.fire('warning', 'Oops! Coupon date expired');
+            } else if (response.invalid) {
+              swal.fire('error', 'Oops! Invalid coupon');
             }
-          });
-        });
-
-        function showAlert(icon, text) {
-          Swal.fire({
-            icon: icon,
-            title: 'Oops...',
-            text: text
-          });
-        }
-        function updateCouponDetails(disAmount, disTotal) {
-          var couponElement = document.getElementById('coupon');
-          var estimatedTotalElement = document.getElementById('estimatedTotal');
-
-          if (couponElement && estimatedTotalElement) {
-            couponElement.innerText = disAmount;
-            var estimatedTotal = parseFloat(estimatedTotalElement.innerText.replace('₹', ''));
-            var newEstimatedTotal = estimatedTotal - parseFloat(disAmount);
-            estimatedTotalElement.innerText = '₹' + newEstimatedTotal.toFixed(2);
-          } else {
-            console.error("One or more elements not found.");
+          },
+          error: function (xhr, status, error) {
+            console.error("Error:", error);
           }
+        });
+      });
+
+      function showAlert(icon, text) {
+        Swal.fire({
+          icon: icon,
+          title: 'Oops...',
+          text: text
+        });
+      }
+      function updateCouponDetails(disAmount, disTotal) {
+        var couponElement = document.getElementById('coupon');
+        var estimatedTotalElement = document.getElementById('estimatedTotal');
+
+        if (couponElement && estimatedTotalElement) {
+          couponElement.innerText = disAmount;
+          var estimatedTotal = parseFloat(estimatedTotalElement.innerText.replace('₹', ''));
+          var newEstimatedTotal = estimatedTotal - parseFloat(disAmount);
+          estimatedTotalElement.innerText = '₹' + newEstimatedTotal.toFixed(2);
+        } else {
+          console.error("One or more elements not found.");
         }
+      }
     </script>
 
     <script>

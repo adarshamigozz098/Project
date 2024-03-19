@@ -212,25 +212,23 @@
                         <% }); %>
                       </div>
                     </div>
-                    <h5>Customer Address</h5>
-                    <% if (user && user.address && user.address.length > 0) { %>
-                      <% const selectedAddress = user.address[0]; %> 
-                      <span class="line">Name: <%= selectedAddress.name %></span><br>
-                      <span class="line">House Name: <%= selectedAddress.housename %></span><br>
-                      <span class="line">City: <%= selectedAddress.city %></span><br>
-                      <span class="line">State: <%= selectedAddress.state %></span><br>
-                      <span class="line">Phone: <%= selectedAddress.phone %></span><br>
-                    <% } else { %>
-                      <span class="line">No address found</span>
-                    <% } %>
+                    <h5>Customer Address</h5> 
+                  
+                    <td class="custom-info">
+                      <%= orders.delivery_address.name %>,<br> <%= orders.delivery_address.housename %>,<br> <%= orders.delivery_address.city %>, <br><%= orders.delivery_address.state %>,<br> <%= orders.delivery_address.phone %>
+                    </td>
+                                                  
                   </div>
                   <div class="card mb-3">
                     <b>Payment Details</b>
                     <div class="card-body">
-                      <% var subtotal=0; %>
-                      <% orders.items.forEach(item=> { subtotal += item.price; }); %>
+                      <% var subtotal = 0; %>
+                      <% orders.items.forEach(item => { subtotal += item.total_price; }); %>
+                      <% var couponValue = orders.coupon ? (subtotal - orders.total_amount) : 0; %> 
                       <span class="line">Subtotal: <%= subtotal %></span><br>
-                      <span class="line">Coupon: <%=subtotal - orders.total_amount%></span><br> 
+                      <% if (orders.coupon) { %> 
+                        <span class="line">Coupon: <%= couponValue %></span><br>
+                      <% } %>
                       <span class="line">Estimated Total: <%= orders.total_amount %></span><br>
                     </div>
                   </div>
@@ -240,7 +238,6 @@
           </div>
         </div>
         
-
 
         <footer class="ftco-footer ftco-section">
           <div class="container">

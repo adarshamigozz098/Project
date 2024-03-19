@@ -495,8 +495,7 @@ const loadUsers = async (req, res) => {
     
     if (searchTerm) {
       console.log("Search term:", searchTerm); // Log search term
-      // Use $regex only if you're sure about the format of the search term
-      // For now, let's use an exact match to troubleshoot
+   
       query.name = searchTerm;
       console.log("Query:", query); // Log query object
     }
@@ -666,12 +665,10 @@ const loadOrder = async (req, res) => {
       select: "name",
     });
 
-    
     if (searchTerm) {
-      query = query.where({  });
+      // Add your search logic here if needed
     }
 
-    
     const Orders = await query.skip(skip).limit(limit);
 
     for (const order of Orders) {
@@ -690,11 +687,7 @@ const loadOrder = async (req, res) => {
         order.items = [];
       }
     }
-
-
     const totalOrders = await order.countDocuments();
-
-    
     const totalPages = Math.ceil(totalOrders / limit);
 
     res.render("adminOrders", { Orders, currentPage: page, totalPages, searchTerm });

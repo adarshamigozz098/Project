@@ -134,6 +134,7 @@ const userOrders = async (req, res) => {
       //   .find({ user_id: userData })
       //   .populate("user_id")
       //   .sort({ createdAt: -1 });
+      console.log(Orders,"o");
 
       res.render("userOrders", { Orders, currentUser: req.session.userId });
     } else {

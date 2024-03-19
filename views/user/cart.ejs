@@ -174,7 +174,8 @@
               <h3>Cart Totals</h3>
               <p class="d-flex">
                 <span>SUBTOTAL</span>
-                <span id="subtotal">₹<%=totalPriceSum%></span>
+                <span id="subtotal">₹<%= subtotal %></span>
+
               </p>
               <p class="d-flex">
                 <span>SHIPPING COSTS</span>
@@ -182,8 +183,10 @@
               </p>
               <hr>
               <p class="d-flex total-price">
+                <p class="d-flex total-price">
                 <span>ESTIMATED TOTAL</span>
-                <span id="estimatedTotal">₹<%= totalPriceSum.toFixed(2) %></span>
+                <span id="estimatedTotal">₹<%= estimatedTotal %></span>
+            </p>
               </p>
             </div>
             <p class="text-center"><a href="/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
@@ -277,6 +280,8 @@
               const quantityInput = this.closest(".quantity").querySelector(".quantity");
               const priceElement = this.closest("tr").querySelector(".price");
               const totalElement = this.closest("tr").querySelector(".total");
+              const estimatedTotal = document.getElementById("estimatedTotal")
+             
 
               let newQuantity = parseInt(quantityInput.value);
 
@@ -292,6 +297,8 @@
                   const price = parseFloat(priceElement.textContent);
                   const totalPrice = price * newQuantity;
                   totalElement.textContent = totalPrice
+                  
+                  estimatedTotal.innerText=totalPrice
 
                 } else {
                   Swal.fire({
@@ -328,6 +335,7 @@
               .then(data => {
                 callback(data);
                 if (data.success) {
+                  console.log(data);
                 }
               })
               .catch(error => {

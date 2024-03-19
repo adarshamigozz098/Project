@@ -390,7 +390,7 @@ const ITEMS_PER_PAGE = 6;
 
 const loadShop = async (req, res) => {
   try {
-    const page = +req.query.page || 1;
+    const page = req.query.page || 1;
     let query = {};
 
     if (req.query.search) {
@@ -444,13 +444,44 @@ const loadShop = async (req, res) => {
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
 
     const categories = await category.distinct("name");
+      let filterQuery = {};
+      const filters = {};
+      if(Object.keys(req.query).length || Object.values(req.query).length){
+        const search = req.query?.search?.trim();
+        const priceFrom = Number(req.query.priceFrom);
+        const priceTo = Number(req.query.priceTo);
 
-    const productData = await product
-      .find(query)
-      .sort(sortOption)
-      .skip((page - 1) * ITEMS_PER_PAGE)
-      .limit(ITEMS_PER_PAGE)
-      .exec();
+        if(search){
+          filters.search = search;
+          filterQuery.name = { $regex: search, $options: 'i' };
+        }
+
+        if(req.query.priceTo?.trim() === '10000+'){
+          filters.priceTo = '10000+'
+          filterQuery.price = {$gte: 10000};
+        }else{
+          if(!isNaN(priceFrom) || !isNaN(priceTo)){
+            filterQuery.$and = [];
+          }
+  
+          if(!isNaN(priceFrom)){
+            filters.priceFrom = priceFrom;
+            const price = {price: {$gte: priceFrom}};
+            filterQuery.$and.push(price);
+          }
+  
+          if(!isNaN(priceTo)){
+            filters.priceTo = priceTo;
+            const price = {price: {$lte: priceTo}};
+            filterQuery.$and.push(price);
+          }
+        }
+
+      }
+
+      const productData = await product.find(filterQuery).skip((page - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE);
+
+      console.log(filterQuery,'dkjfkdj');
 
     res.render("shop", {
       product: productData,
@@ -460,6 +491,7 @@ const loadShop = async (req, res) => {
       currentUser,
       categories: categories,
       selectedCategory: req.query.category || "",
+      filters
     });
   } catch (error) {
     console.log(error);
@@ -516,11 +548,12 @@ const loadCheckout = async (req, res) => {
     const userCart = await Cart.findOne({ user_id: req.session.userId });
     const coupons = await coupon.find();
 
-    let totalPrice = 0;
+    let totalPrice = 0; 
+
     if (userCart && userCart.items) {
       userCart.items.forEach((item) => {
-        const itemTotal = parseFloat(item.price);
-        totalPrice += itemTotal;
+        const itemTotal = parseFloat(item.price) * item.quantity; 
+        totalPrice += itemTotal; 
       });
     }
 
@@ -535,7 +568,6 @@ const loadCheckout = async (req, res) => {
         return res.redirect("/login");
       }
     }
-    
     res.render("checkout", {
       Data: userData,
       cart: userCart,
@@ -570,14 +602,13 @@ const placeOrder = async (req, res) => {
     const date = new Date();
     const user_id = req.session.userId;
     const { address, paymentMethod } = req.body;
-    console.log(req.body,"boo");
+
     const userValue = await User.findById(user_id);
-    console.log(userValue,"vall");
+  
     if (!userValue) {
       return res.status(400).json({ success: false, message: "User not found." });
     }   
     const selectedAddress = userValue.address.find(addr => addr._id.toString() === address);
-    console.log(selectedAddress,"select:");
   
     if (!selectedAddress) {
       return res.status(400).json({ success: false, message: "Selected address not found." });
@@ -619,11 +650,12 @@ const placeOrder = async (req, res) => {
         message: `Insufficent Balance`,
       });
     }
-
-    userData.wallet -= totalAmount;
-    userData.walletHistory.push({ amount: -totalAmount, type: 'debit' });
+    if (paymentMethod === "Wallet") {
+      userData.wallet -= totalAmount;
+      userData.walletHistory.push({ amount: -totalAmount, type: 'debit' });
+    }
     await userData.save();
-
+  
 
       let status =
       paymentMethod === "COD" || paymentMethod == "Wallet"
@@ -758,7 +790,6 @@ const logout = async (req, res) => {
 const checkAdd = async (req, res) => {
   try {
     const { name, housename, city, state, phone, pincode } = req.body;
-
     const newAddress = {
       name,
       housename,
