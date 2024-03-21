@@ -157,7 +157,16 @@
             </div>
           </div>
         </nav>
-            <div class="middle-content">
+        <div class="pagination">
+          <% if (currentPage > 1) { %>
+            <a href="?page=<%= currentPage - 1 %>" class="btn btn-sm btn-outline-primary">Previous</a>
+          <% } %>
+          
+          <% if (Orders.length === 5) { %>
+            <a href="?page=<%= currentPage + 1 %>" class="btn btn-sm btn-outline-primary">Next</a>
+          <% } %>
+        </div>
+            <div class="middle-content">       
                 <% if (Orders.length > 0) { %>
                   <div class="table-responsive">
                     <table class="table table-bordered table-hover">
@@ -185,6 +194,7 @@
                       </tbody>
                     </table>
                   </div>
+                  
                 <% } else { %>
                   <div class="col-lg-9 text-center mt-4">
                     <h1>No orders found</h1>

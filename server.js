@@ -45,7 +45,7 @@ app.use("/",userRouter);
 const adminRouter = require("./routes/adminRouter");
 app.use("/admin", adminRouter);
 
-const PORT = process.env.PORT || 6003;
+const PORT = process.env.PORT || 6002;
 
 
 app.listen(PORT, () => {

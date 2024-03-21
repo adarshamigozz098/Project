@@ -151,13 +151,13 @@
                 </div>
               </div>
 
-              
+
 
               <!-- heading -->
               <h2
                 style="margin-left: 39%;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
                 <b
-                  style="font-weight: 300; color: rgb(203, 177, 177);  margin-left: -470px; ;  background-color: rgb(244 244 244);;">SALES
+                  style="font-weight: 300; color: rgb(203, 177, 177);  margin-left: -420px; ;  background-color: rgb(244 244 244);;">SALES
                   REPORT</b>
               </h2>
 
@@ -176,8 +176,8 @@
                   </div>
                 </div>
               </div>
-              
-              
+
+
 
               <!-- table -->
               <div class="table-responsive">
@@ -228,19 +228,18 @@
                                 <% }) %>
                                   <% }) %>
                       </tbody>
-
                     </table>
                     <% }else{ %>
                       <p class="text-center">No Sales</p>
                       <% } %>
                 </div>
               </div>
-            </div>     
+            </div>
           </div>
         </div>
       </div>
-      
     </div>
+
     <style>
       .form-control,
       .form-select {
@@ -282,7 +281,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
 <script>document.addEventListener('DOMContentLoaded', function () {
     const fromDateInput = document.querySelector('#fromDateInput');
@@ -332,8 +330,6 @@
 <th>Payment Method</th>
 <th>Total</th>
 <th>Status</th>
-
-
 </tr>`
 
         const reportHeader = document.getElementById("reportHeader")
@@ -348,10 +344,6 @@
 
   });
 </script>
-
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 
 <script>
@@ -399,73 +391,85 @@
     document.body.removeChild(link);
   }
 
-
-
-
-
   // excel
-  function generateExcel() {
-    const orders = document.querySelectorAll('.table tbody tr');
-    const orderData = [];
-    orders.forEach(order => {
-      const orderId = order.cells[0].innerText;
-      const Name = order.cells[1].innerText;
-      const date = order.cells[2].innerText;
-      const total = order.cells[3].innerText;
-      const paymentMethod = order.cells[4].innerText;
-      const status = order.cells[5].innerText;
+  async function generateExcel() {
+  try {
+    alert("hii")
+    let totalOrders;
+    const startDate = new Date(req.body.fromDate);
+    const endDate = new Date(req.body.toDate);
+    console.log(startDate,endDate);
+    totalOrders = await order.aggregate([
+      {
+        $match: {
+          orderDate: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        },
+      },
+      { $unwind: "$products" },
+      {
+        $group: {
+          _id: "$_id",
+          count: { $sum: 1 },
+          products: { $push: "$products" }, 
+        },
+      },
+      { $project: { count: 1, products: 1 } },
+    ]);
 
-      orderData.push([orderId, Name, date, total, paymentMethod, status]);
+    const totalUsers = await User.countDocuments();
+    const totalSales = await order.aggregate([
+      {
+        $match: {
+          orderDate: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        },
+      },
+      { $unwind: "$products" },
+      {
+        $group: {
+          _id: null,
+          sum: { $sum: "$products.price" },
+        },
+      },
+    ]);
+
+    const csvFields = ["Order ID", "Product Name", "Product Price"];
+    const csvHeader = csvFields.join(",") + "\n";
+    let csvValues = "";
+
+    totalOrders.forEach((order) => {
+      order.products.forEach((product) => {
+        csvValues += `${order._id},"${product.pname}",${product.price}\n`;
+      });
     });
 
-    const headerStyle = {
-      font: { bold: true, color: { rgb: "FFFFFF" } },
-      fill: { fgColor: { rgb: "2F75B5" } },
-      alignment: { horizontal: "center" }
-    };
+    const totalOrdersCount = totalOrders.reduce(
+      (acc, order) => acc + order.count,
+      0
+    );
 
-    const cellStyle = {
-      alignment: { horizontal: "left" }
-    };
+    csvValues += `${totalOrdersCount},${totalUsers},${
+      totalSales[0]?.sum || 0
+    }\n`;
 
-    const header = ['OrderId', "Name", 'Date', 'Total', 'Payment Method', 'Status'];
-    const data = [header, ...orderData];
+    const csvData = csvHeader + csvValues;
 
-    const ws = XLSX.utils.aoa_to_sheet(data);
-
-    XLSX.utils.format_cell(ws['A1'], headerStyle);
-    XLSX.utils.format_cell(ws['B1'], headerStyle);
-    XLSX.utils.format_cell(ws['C1'], headerStyle);
-    XLSX.utils.format_cell(ws['D1'], headerStyle);
-    XLSX.utils.format_cell(ws['E1'], headerStyle);
-    XLSX.utils.format_cell(ws['F1'], headerStyle);
-
-    data.forEach((row, rowIndex) => {
-      if (rowIndex > 0) {
-        row.forEach((cell, columnIndex) => {
-          XLSX.utils.format_cell(ws[XLSX.utils.encode_cell({ r: rowIndex, c: columnIndex })], cellStyle);
-        });
-      }
-    });
-
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sales Report');
-
-    const filename = 'Sales_Report_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.xlsx';
-
-    // Convert Excel data to a Blob
-    const blob = new Blob([s2ab(XLSX.write(wb, { type: 'binary' }))], { type: 'application/octet-stream' });
-
-    // Create download link
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment;filename=salesReport.csv"
+    );
+    res.status(200).send(csvData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal server error");
   }
-
+}
 
   function s2ab(s) {
     const buf = new ArrayBuffer(s.length);
@@ -473,7 +477,4 @@
     for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
     return buf;
   }
-
-
-
 </script>

@@ -183,6 +183,7 @@
                               <% if (item.product_id) { %>
                                 <input type="hidden" class="product-id" value="<%=item.product_id._id%>" name="productId">
                                 <input type="hidden" class="order-id" value="<%=item._id%>">
+                                <span class="line">Order Id:  <%= item._id %></span><br>
                                 <span class="line">Item Name: <%= item.product_id.name %></span><br>
                                 <span class="line">Item Price: <%= item.price %></span><br>
                                 <span class="line">Quantity: <%= item.quantity %></span><br>

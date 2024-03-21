@@ -5,7 +5,7 @@
         <!DOCTYPE html>
         <html lang="en">
 
-        <head>
+         <head>
             <meta charset="utf-8" />
             <link rel="apple-touch-icon" sizes="76x76" href="/user/img/apple-icon.png">
             <link rel="icon" type="image/png" href="/user/img/favicon.ico">
@@ -233,6 +233,28 @@
                 </nav>
 
                 <!-- End Navbar -->
+
+
+                
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        <div class="block-27">
+                            <ul>
+                                <li><a href="/wallet?page=<%= currentPage - 1 %>">&lt;</a></li>
+                                <% for (let i=1; i <= totalPages; i++) { %>
+                                    <li <%=i===currentPage ? 'class="active"' : '' %>>
+                                        <a href="/wallet?page=<%= i %>">
+                                            <span>
+                                                <%= i %>
+                                            </span>
+                                        </a>
+                                    </li>
+                                <% } %>
+                                <li><a href="/wallet?page=<%= currentPage + 1 %>">&gt;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <main>
                     <div class="wallet-card">
                         <img src="https://via.placeholder.com/150" alt="User Avatar">
@@ -275,6 +297,9 @@
                         <% }) %>
                 </main>
 
+                
+
+
             </div>
         </body>
 
@@ -293,34 +318,7 @@
 
         <script src="/user/js/demo.js"></script>
 
+      </script>
 
-        <!-- <script>
-    async function deleteAddress(event, addressId) {
-        event.preventDefault();
-        try {
-            const response = await fetch('/deleteAddress', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ addressId }),
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                console.log('Address deleted successfully');
-                window.location.reload();
-            } else {
-                console.error('Failed to delete address');
-            }
-        } catch (error) {
-            console.error('Error while deleting address', error);
-        }
-    }
-</script> -->
-        </script>
-
-
-        </html>
-        <%- include('../user/layout/footer') %>
+       </html>
+    <%- include('../user/layout/footer') %>

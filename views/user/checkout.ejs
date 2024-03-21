@@ -945,6 +945,7 @@
     </script>
 
     <!-- MODAL ADDRESS -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
       const showModal = () => {
@@ -978,10 +979,12 @@
 
           const result = await response.json();
           if (result.success) {
-            alert('Address added successfully');
-            $('#addAddressModal').modal('hide');
+            swal("Success!", "Address added successfully", "success").then(() => {
+              $('#addAddressModal').modal('hide');
+              location.reload();
+            });
           } else {
-            alert('Failed to add address');
+            swal("Error!", "Failed to add address", "error");
           }
         } catch (error) {
           console.error('Error:', error);

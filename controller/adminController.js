@@ -487,31 +487,27 @@ const verifyLogin = async (req, res) => {
   }
 };
 
-
 const loadUsers = async (req, res) => {
   try {
     let query = {};
     const searchTerm = req.query.search;
-    
+
     if (searchTerm) {
       console.log("Search term:", searchTerm); // Log search term
-   
+
       query.name = searchTerm;
       console.log("Query:", query); // Log query object
     }
-    
+
     const users = await User.find(query);
     console.log("Users:", users); // Log users array
-    
+
     res.render("users", { users });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
-
-
-
 
 const blockUnblockUser = async (req, res) => {
   try {
@@ -580,7 +576,6 @@ const addCategory = async (req, res) => {
   }
 };
 
-
 const deleteCategory = async (req, res) => {
   try {
     const categoryId = req.query.id;
@@ -592,7 +587,6 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-
 const listOrUnlist = async (req, res) => {
   try {
     const categoryId = req.query.id;
@@ -600,10 +594,15 @@ const listOrUnlist = async (req, res) => {
     categoryData.is_listed = !categoryData.is_listed;
     await categoryData.save();
     if (!categoryData.is_listed) {
-      await product.updateMany({ category: categoryId }, { $set: { is_hidden: true } });
+      await product.updateMany(
+        { category: categoryId },
+        { $set: { is_hidden: true } }
+      );
     } else {
-      
-      await product.updateMany({ category: categoryId }, { $set: { is_hidden: false } });
+      await product.updateMany(
+        { category: categoryId },
+        { $set: { is_hidden: false } }
+      );
     }
     res.json(categoryData);
   } catch (error) {
@@ -611,8 +610,6 @@ const listOrUnlist = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
 
 const loadeditCategory = async (req, res) => {
   try {
@@ -622,7 +619,6 @@ const loadeditCategory = async (req, res) => {
     console.log(error);
   }
 };
-
 
 const editCategory = async (req, res) => {
   try {
@@ -650,7 +646,6 @@ const editCategory = async (req, res) => {
   }
 };
 
-
 const loadOrder = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -659,15 +654,16 @@ const loadOrder = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
-    let query = order.find().populate({
+    let query = order.find().sort({ createdAt: -1 }).populate({
       path: "items.product_id",
       model: "product",
       select: "name",
     });
 
     if (searchTerm) {
-      // Add your search logic here if needed
     }
+    const totalOrders = await order.countDocuments();
+    const totalPages = Math.ceil(totalOrders / limit);
 
     const Orders = await query.skip(skip).limit(limit);
 
@@ -687,10 +683,13 @@ const loadOrder = async (req, res) => {
         order.items = [];
       }
     }
-    const totalOrders = await order.countDocuments();
-    const totalPages = Math.ceil(totalOrders / limit);
 
-    res.render("adminOrders", { Orders, currentPage: page, totalPages, searchTerm });
+    res.render("adminOrders", {
+      Orders,
+      currentPage: page,
+      totalPages,
+      searchTerm,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
@@ -704,7 +703,7 @@ const loadDetail = async (req, res) => {
     const Order = await order
       .findOne({ order_id: orderId })
       .populate("items.product_id");
-    
+
     if (!Order) {
       return res.status(404).send("Order not found.");
     }
@@ -720,7 +719,6 @@ const loadDetail = async (req, res) => {
     res.status(500).send("An error occurred while loading order detail.");
   }
 };
-
 
 const updateOrderStatus = async (req, res) => {
   try {
@@ -748,11 +746,13 @@ const updateOrderStatus = async (req, res) => {
 
 const salesReport = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; 
-    const perPage = 10; 
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 10;
 
-    const totalReportsCount = await order.countDocuments({ "items.ordered_status": "Delivered" }); 
-    const totalPages = Math.ceil(totalReportsCount / perPage); 
+    const totalReportsCount = await order.countDocuments({
+      "items.ordered_status": "Delivered",
+    });
+    const totalPages = Math.ceil(totalReportsCount / perPage);
     const firstOrder = await order.findOne().sort({ createdAt: 1 });
     const lastOrder = await order.findOne().sort({ createdAt: -1 });
 
@@ -761,17 +761,17 @@ const salesReport = async (req, res) => {
       .populate("user_id")
       .populate("items.product_id")
       .sort({ createdAt: -1 })
-      .skip((page - 1) * perPage) 
-      .limit(perPage); 
+      .skip((page - 1) * perPage)
+      .limit(perPage);
 
     res.render("salesReport", {
       firstOrder: moment(firstOrder.createdAt).format("YYYY-MM-DD"),
       lastOrder: moment(lastOrder.createdAt).format("YYYY-MM-DD"),
       salesReport,
       moment,
-      currentPage: page, 
-      totalPages, 
-      searchTerm: req.query.search 
+      currentPage: page,
+      totalPages,
+      searchTerm: req.query.search,
     });
   } catch (error) {
     console.error(error);

@@ -114,29 +114,25 @@ const updateProfile = async (req, res) => {
   }
 };
 
+
+
 const userOrders = async (req, res) => {
   try {
     const userData = req.session.userId;
     if (userData) {
+      const page = parseInt(req.query.page) || 1; 
+      const limit = 5;
+      const skip = (page - 1) * limit;
+
+
       const Orders = await order.aggregate([
         {
-          $unwind: {
-            path: "$items",
-          },
-        },
-        {
-          $sort: {
-            createdAt: -1,
-          },
-        },
+          $unwind: { path: "$items",},},
+        { $sort: { createdAt: -1,},},
+        { $skip: skip }, 
+        { $limit: limit }
       ]);
-      // const Orders = await order
-      //   .find({ user_id: userData })
-      //   .populate("user_id")
-      //   .sort({ createdAt: -1 });
-      console.log(Orders,"o");
-
-      res.render("userOrders", { Orders, currentUser: req.session.userId });
+      res.render("userOrders", { Orders, currentUser: req.session.userId, currentPage: page });
     } else {
       res.redirect("/login");
     }
@@ -144,6 +140,8 @@ const userOrders = async (req, res) => {
     console.log(error);
   }
 };
+
+
 
 const laodUsersAddress = async (req, res) => {
   try {
@@ -489,7 +487,16 @@ const wallet = async (req, res) => {
     const userId = req.session.userId;
     const user = await User.findById(userId);
     const debitedTransactions = user.walletHistory.filter(history => history.type === 'debit');
-    res.render("wallet", { user, currentUser: user, moment,debitedTransactions });
+
+  
+    const page = parseInt(req.query.page) || 1; 
+    const perPage = 5; 
+    const startIndex = (page - 1) * perPage;
+    const endIndex = startIndex + perPage;
+    const totalPages = Math.ceil(debitedTransactions.length / perPage);
+    const paginatedTransactions = debitedTransactions.slice(startIndex, endIndex);
+
+    res.render("wallet", { user, currentUser: user, moment, debitedTransactions: paginatedTransactions, totalPages, currentPage: page });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");

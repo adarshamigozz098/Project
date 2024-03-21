@@ -25,7 +25,7 @@
         <body>
             <style>
                 .bg-dark {
-                    background-color:#dbcc8f !important;
+                    background-color: #dbcc8f !important;
                     margin-top: -21px;
                 }
             </style>
@@ -90,7 +90,7 @@
                                 <ul class="navbar-nav ml-auto">
                                     <li class="nav-item">
                                         <a class="nav-link" href="/logout">
-                                            <span style="color: red;" class="no-icon">LOGOUT</span>
+                                            <span style="color: #dc3545;" class="no-icon"><B>LOGOUT</B></span>
                                         </a>
                                     </li>
                                 </ul>
@@ -170,7 +170,7 @@
         </div>
         </div>
 
-        
+
 
         <div id="changePasswordModal" class="modal">
             <div class="modal-content">
@@ -178,19 +178,21 @@
                 <h2><b>CHANGE PASSWORD</b></h2>
                 <form id="changePasswordForm" method="post" action="/changePassword">
                     <label for="currentPassword" style="width: 100%;">Current Password:</label>
-                    <input type="password" id="currentPassword" name="currentPassword" style="width: 100%;" required><br>
-        
+                    <input type="password" id="currentPassword" name="currentPassword" style="width: 100%;"
+                        required><br>
+
                     <label for="newPassword" style="width: 100%;">New Password:</label>
                     <input type="password" id="newPassword" name="newPassword" style="width: 100%;" required><br>
-        
+
                     <label for="confirmPassword" style="width: 100%;">Confirm Password:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" style="width: 100%;" required><br>
-        
+                    <input type="password" id="confirmPassword" name="confirmPassword" style="width: 100%;"
+                        required><br>
+
                     <input type="submit" value="Submit">
                 </form>
             </div>
         </div>
-        
+
 
         <style>
             .modal {
@@ -227,7 +229,7 @@
             }
         </style>
 
-        
+
         </body>
 
         <script>
@@ -267,7 +269,7 @@
 
         <script src="/user/js/demo.js"></script>
 
-        
+
 
         </html>
         <%- include('../user/layout/footer') %>

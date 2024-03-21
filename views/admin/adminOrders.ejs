@@ -28,6 +28,15 @@
     }
   </style>
 
+  <style>
+    .justify-content-start {
+      -webkit-box-pack: start !important;
+      -ms-flex-pack: start !important;
+      justify-content: flex-start !important;
+      margin-top: 55px;
+    }
+  </style>
+
   <div class="screen-overlay"></div>
   <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
@@ -217,11 +226,9 @@
                               <% }); %>
                                 <% }); %>
                                   <% } %>
-                        </tbody>
-
-
+                    </tbody <!-- Pagination -->
                     <div class="pagination-area mt-30 mb-50">
-                      <nav aria-label="Page navigation example">
+                      <nav aria-label="Page navigation example" style="margin-top: 10px;">
                         <ul class="pagination justify-content-start">
                           <% if (currentPage> 1) { %>
                             <li class="page-item"><a class="page-link" href="?page=1&search=<%= searchTerm %>">1</a>
@@ -236,9 +243,8 @@
                                 <% } %>
                                   <% if (currentPage < totalPages) { %>
                                     <li class="page-item">
-                                      <a class="page-link" href="?page=<%= totalPages %>&search=<%= searchTerm %>">
-                                        <i class="material-icons md-chevron_right"></i>
-                                      </a>
+                                      <a class="page-link" href="?page=<%= totalPages %>&search=<%= searchTerm %>"><i
+                                          class="material-icons md-chevron_right"></i></a>
                                     </li>
                                     <% } %>
                         </ul>
