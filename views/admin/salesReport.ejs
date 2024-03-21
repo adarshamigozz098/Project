@@ -393,83 +393,82 @@
 
   // excel
   async function generateExcel() {
-  try {
-    alert("hii")
-    let totalOrders;
-    const startDate = new Date(req.body.fromDate);
-    const endDate = new Date(req.body.toDate);
-    console.log(startDate,endDate);
-    totalOrders = await order.aggregate([
-      {
-        $match: {
-          orderDate: {
-            $gte: startDate,
-            $lte: endDate,
+    try {
+      let totalOrders;
+      const startDate = new Date(req.body.fromDate);
+      const endDate = new Date(req.body.toDate);
+      console.log(startDate, endDate);
+      totalOrders = await order.aggregate([
+        {
+          $match: {
+            orderDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
           },
         },
-      },
-      { $unwind: "$products" },
-      {
-        $group: {
-          _id: "$_id",
-          count: { $sum: 1 },
-          products: { $push: "$products" }, 
-        },
-      },
-      { $project: { count: 1, products: 1 } },
-    ]);
-
-    const totalUsers = await User.countDocuments();
-    const totalSales = await order.aggregate([
-      {
-        $match: {
-          orderDate: {
-            $gte: startDate,
-            $lte: endDate,
+        { $unwind: "$products" },
+        {
+          $group: {
+            _id: "$_id",
+            count: { $sum: 1 },
+            products: { $push: "$products" },
           },
         },
-      },
-      { $unwind: "$products" },
-      {
-        $group: {
-          _id: null,
-          sum: { $sum: "$products.price" },
+        { $project: { count: 1, products: 1 } },
+      ]);
+
+      const totalUsers = await User.countDocuments();
+      console.log(totalUsers, "us");
+      const totalSales = await order.aggregate([
+        {
+          $match: {
+            orderDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
         },
-      },
-    ]);
+        { $unwind: "$products" },
+        {
+          $group: {
+            _id: null,
+            sum: { $sum: "$products.price" },
+          },
+        },
+      ]);
 
-    const csvFields = ["Order ID", "Product Name", "Product Price"];
-    const csvHeader = csvFields.join(",") + "\n";
-    let csvValues = "";
+      const csvFields = ["Order ID", "Product Name", "Product Price"];
+      const csvHeader = csvFields.join(",") + "\n";
+      let csvValues = "";
 
-    totalOrders.forEach((order) => {
-      order.products.forEach((product) => {
-        csvValues += `${order._id},"${product.pname}",${product.price}\n`;
+      totalOrders.forEach((order) => {
+        order.products.forEach((product) => {
+          csvValues += `${order._id},"${product.pname}",${product.price}\n`;
+        });
       });
-    });
 
-    const totalOrdersCount = totalOrders.reduce(
-      (acc, order) => acc + order.count,
-      0
-    );
+      const totalOrdersCount = totalOrders.reduce(
+        (acc, order) => acc + order.count,
+        0
+      );
 
-    csvValues += `${totalOrdersCount},${totalUsers},${
-      totalSales[0]?.sum || 0
-    }\n`;
+      csvValues += `${totalOrdersCount},${totalUsers},${totalSales[0]?.sum || 0
+        }\n`;
 
-    const csvData = csvHeader + csvValues;
+      const csvData = csvHeader + csvValues;
 
-    res.setHeader("Content-Type", "text/csv");
-    res.setHeader(
-      "Content-Disposition",
-      "attachment;filename=salesReport.csv"
-    );
-    res.status(200).send(csvData);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Internal server error");
+      res.setHeader("Content-Type", "text/csv");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment;filename=salesReport.csv"
+      );
+      res.status(200).send(csvData);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Internal server error");
+    }
   }
-}
 
   function s2ab(s) {
     const buf = new ArrayBuffer(s.length);

@@ -482,26 +482,39 @@ const invoiceDownload = async (req, res, next) => {
   }
 };
 
+
 const wallet = async (req, res) => {
   try {
     const userId = req.session.userId;
     const user = await User.findById(userId);
-    const debitedTransactions = user.walletHistory.filter(history => history.type === 'debit');
+    
+    const filteredTransactions = user.walletHistory.filter(history => 
+      history.type === 'debit' || history.type === 'credit'
+    );
 
-  
+    // Pagination
     const page = parseInt(req.query.page) || 1; 
     const perPage = 5; 
     const startIndex = (page - 1) * perPage;
-    const endIndex = startIndex + perPage;
-    const totalPages = Math.ceil(debitedTransactions.length / perPage);
-    const paginatedTransactions = debitedTransactions.slice(startIndex, endIndex);
+    const endIndex = Math.min(startIndex + perPage, filteredTransactions.length);
+    const totalPages = Math.ceil(filteredTransactions.length / perPage);
+    const paginatedTransactions = filteredTransactions.slice(startIndex, endIndex);
 
-    res.render("wallet", { user, currentUser: user, moment, debitedTransactions: paginatedTransactions, totalPages, currentPage: page });
+    res.render("wallet", { 
+      user,
+      currentUser: user,
+      moment,
+      walletTransactions: paginatedTransactions,
+      totalPages,
+      currentPage: page 
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
+
+
 
 
 module.exports = {

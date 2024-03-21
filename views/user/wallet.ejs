@@ -233,28 +233,6 @@
                 </nav>
 
                 <!-- End Navbar -->
-
-
-                
-                <div class="row mt-5">
-                    <div class="col text-center">
-                        <div class="block-27">
-                            <ul>
-                                <li><a href="/wallet?page=<%= currentPage - 1 %>">&lt;</a></li>
-                                <% for (let i=1; i <= totalPages; i++) { %>
-                                    <li <%=i===currentPage ? 'class="active"' : '' %>>
-                                        <a href="/wallet?page=<%= i %>">
-                                            <span>
-                                                <%= i %>
-                                            </span>
-                                        </a>
-                                    </li>
-                                <% } %>
-                                <li><a href="/wallet?page=<%= currentPage + 1 %>">&gt;</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 <main>
                     <div class="wallet-card">
                         <img src="https://via.placeholder.com/150" alt="User Avatar">
@@ -265,16 +243,14 @@
                             <p></p>
                         </div>
                     </div>
-
+                    
                     <div class="wallet-balance">
-                        <p>Wallet Balance: <%= user.wallet %>
-                        </p>
+                        <p>Wallet Balance: <%= user.wallet %></p>
                     </div>
-
+                    
                     <h2>Transaction History</h2>
-                    <% user.walletHistory.forEach(history=> { %>
+                    <% walletTransactions.forEach(history => { %>
                         <div class="transaction-history">
-
                             <div class="transaction-item">
                                 <span>Date</span>
                                 <span class="transaction-amount">
@@ -294,13 +270,35 @@
                                 </span>
                             </div>
                         </div>
-                        <% }) %>
+                    <% }) %>
+                    
+                    <!-- Pagination Links -->
+                    <div class="row mt-5">
+                        <div class="col text-center">
+                            <div class="block-27">
+                                <ul>
+                                    <% if (currentPage > 1) { %>
+                                        <li><a href="/profile/wallet?page=<%= currentPage - 1 %>">&lt;</a></li>
+                                    <% } %>
+                                    <% for (let i=1; i <= totalPages; i++) { %>
+                                        <li <%=i===currentPage ? 'class="active"' : '' %>>
+                                            <a href="/profile/wallet?page=<%= i %>">
+                                                <span>
+                                                    <%= i %>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    <% } %>
+                                    <% if (currentPage < totalPages) { %>
+                                        <li><a href="/profile/wallet?page=<%= currentPage + 1 %>">&gt;</a></li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </main>
-
                 
-
-
-            </div>
+                
         </body>
 
         <script src="/user/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
