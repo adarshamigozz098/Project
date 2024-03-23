@@ -198,9 +198,35 @@
                       <% } %>
               </tbody>
             </table>
+
+
+            <!-- pageination -->
+            <div class="pagination-area mt-30 mb-50">
+              <nav aria-label="Page navigation example" style="margin-top: 10px;">
+                <ul class="pagination justify-content-start">
+                  <% if (currentPage > 1) { %>
+                    <li class="page-item"><a class="page-link" href="?page=1&search=<%= searchTerm %>">1</a></li>
+                  <% } %>
+                  <% for (let i = 2; i <= totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                      <a class="page-link" href="?page=<%= i %>&search=<%= searchTerm %>"><%= i %></a>
+                    </li>
+                  <% } %>
+                  <% if (currentPage < totalPages) { %>
+                    <li class="page-item">
+                      <a class="page-link" href="?page=<%= totalPages %>&search=<%= searchTerm %>">
+                        <i class="material-icons md-chevron_right"></i>
+                      </a>
+                    </li>
+                  <% } %>
+                </ul>
+              </nav>
+            </div>
+            
           </div>
         </div>     
       </div>
+    </section>
       
 
       <style>

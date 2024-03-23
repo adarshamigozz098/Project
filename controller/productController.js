@@ -8,21 +8,33 @@ const fs=require("fs")
 
 
 
+const ITEMS_PER_PAGE = 6; // Number of products per page
+
 const loadProducts = async (req, res) => {
   try {
     let productData;
     const searchTerm = req.query.search;
-    console.log(searchTerm,"search:");
+    const page = parseInt(req.query.page) || 1; // Current page number
+    const startIndex = (page - 1) * ITEMS_PER_PAGE; // Calculate the starting index of products for the current page
+
     if (searchTerm) {
       productData = await product.find({ name: { $regex: searchTerm, $options: 'i' } });
-      console.log(productData,"pro:");
     } else {
       productData = await product.find({});
     }
-    const uniqueProductNames = [...new Set(productData.map(item => item.name))];
-    const uniqueProducts = productData.filter(item => uniqueProductNames.includes(item.name));
-    console.log(uniqueProducts,"unn:");
-    res.render("products", { products: uniqueProducts });
+
+    const totalProducts = productData.length;
+    const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+
+    // Fetch products for the current page
+    const currentPageProducts = productData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+    res.render("products", {
+      products: currentPageProducts,
+      currentPage: page,
+      totalPages: totalPages,
+      searchTerm: searchTerm
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
@@ -44,7 +56,7 @@ const addProducts = async (req, res) => {
   try {
     const existProduct = await product.findOne({ name: req.body.productName });
     if (existProduct) {
-      res.status(404).send({ message: "category already exist" });
+      res.status(404).send({ message: "Product already exist" });
     } else {
       const {
         productName,
@@ -74,7 +86,7 @@ const addProducts = async (req, res) => {
           req.files[i].filename
         );
         await sharp(req.files[i].path)
-          .resize(500, 500, { fit: "fill" })
+          .resize(800, 1200, { fit: "fill" })
           .toFile(imagesPath);
         filenames.push(req.files[i].filename);
       }
@@ -133,7 +145,7 @@ const editProducts = async (req, res) => {
           for (const newImage of req.files) {
               const processedImagePath = path.join(__dirname, "../public/images", `${newImage.filename}_processed`)
               await sharp(newImage.path)
-                  .resize(500, 500, {fit: "fill"})
+                  .resize(800, 1100, {fit: "fill"})
                   .toFile(processedImagePath);
               updatedProduct.image.push(`${newImage.filename}_processed`);
           }
