@@ -6,7 +6,6 @@
 		.image-overlay {
 			position: relative;
 		}
-
 		.image-overlay::before {
 			content: '';
 			position: absolute;
@@ -23,25 +22,20 @@
 			opacity: 1;
 		}
 	</style>
-
 	<style>
 		.block-27 ul {
 			margin: 100px;
 			margin-left: -57PX;
 		}
-
 		.image {
 			overflow: hidden;
 		}
-
 		.image img {
 			transform: scale(var(--zoom, 1));
 			transform-origin: var(--x) var(--y);
 			transition: transform 0.3s ease;
-
-		}
-
-		/* Image zoom */
+			}
+	
 		.image:hover {
 			--zoom: 3;
 		}
@@ -385,7 +379,6 @@
 	</footer>
 
 
-
 	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
 			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
@@ -537,5 +530,4 @@
 
 
 </body>
-
 </html>
