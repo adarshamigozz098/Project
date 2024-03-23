@@ -438,12 +438,11 @@ const loadShop = async (req, res) => {
       query.price = { $lte: priceTo };
     }
 
-    query.is_listed = true;
-
     const totalProducts = await product.countDocuments(query);
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
-
     const categories = await category.distinct("name");
+    
+
       let filterQuery = {};
       const filters = {};
       if(Object.keys(req.query).length || Object.values(req.query).length){
@@ -476,12 +475,14 @@ const loadShop = async (req, res) => {
             filterQuery.$and.push(price);
           }
         }
-
       }
 
-      const productData = await product.find(filterQuery).skip((page - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE);
-
-      console.log(filterQuery,'dkjfkdj');
+      const allProducts = await product
+      .find(query)
+      .skip((page - 1) * ITEMS_PER_PAGE)
+      .limit(ITEMS_PER_PAGE);
+      
+      const productData = allProducts.filter(product => product.is_listed);
 
     res.render("shop", {
       product: productData,

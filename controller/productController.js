@@ -73,9 +73,8 @@ const addProducts = async (req, res) => {
           "../public/sharpImage",
           req.files[i].filename
         );
-        console.log(imagesPath);
         await sharp(req.files[i].path)
-          .resize(800, 1200, { fit: "fill" })
+          .resize(500, 500, { fit: "fill" })
           .toFile(imagesPath);
         filenames.push(req.files[i].filename);
       }
@@ -134,7 +133,7 @@ const editProducts = async (req, res) => {
           for (const newImage of req.files) {
               const processedImagePath = path.join(__dirname, "../public/images", `${newImage.filename}_processed`)
               await sharp(newImage.path)
-                  .resize(800, 1200, {fit: "fill"})
+                  .resize(500, 500, {fit: "fill"})
                   .toFile(processedImagePath);
               updatedProduct.image.push(`${newImage.filename}_processed`);
           }
@@ -203,6 +202,7 @@ const listOrUnlistProduct = async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
     productData.is_listed = !productData.is_listed;
+
     await productData.save();
 
     res.json(productData);
