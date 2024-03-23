@@ -230,38 +230,57 @@
 
 
       <!-- DELETE PRODUCT -->
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const removeButtons = document.querySelectorAll(".remove-product");
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-          removeButtons.forEach((button) => {
-            button.addEventListener("click", async function () {
-              const productId = button.getAttribute("data-product-id");
-              try {
-                const response = await fetch("/cart/remove", {
-                  method: "DELETE",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ productId }),
-                });
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const removeButtons = document.querySelectorAll(".remove-product");
 
-                console.log("Response:", response);
+    removeButtons.forEach((button) => {
+      button.addEventListener("click", async function (event) {
+        event.preventDefault(); // Prevent default action of the button
 
-                if (response.ok) {
-                  console.log("Product deleted successfully");
-                  button.closest("tr").remove();
-                  updateCartTotals();
-                } else {
-                  console.error("Failed to delete product");
-                }
-              } catch (error) {
-                console.error("Error:", error);
+        const productId = button.getAttribute("data-product-id");
+
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'You are about to delete this product!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              const response = await fetch("/cart/remove", {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ productId }),
+              });
+
+              console.log("Response:", response);
+
+              if (response.ok) {
+                console.log("Product deleted successfully");
+                button.closest("tr").remove();
+                updateCartTotals();
+              } else {
+                console.error("Failed to delete product");
               }
-            });
-          });
+            } catch (error) {
+              console.error("Error:", error);
+            }
+          }
         });
-      </script>
+      });
+    });
+  });
+</script>
+
 
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
