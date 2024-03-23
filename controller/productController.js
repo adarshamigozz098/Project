@@ -86,7 +86,7 @@ const addProducts = async (req, res) => {
           req.files[i].filename
         );
         await sharp(req.files[i].path)
-          .resize(800, 1200, { fit: "fill" })
+          .resize(800, 1000, { fit: "fill" })
           .toFile(imagesPath);
         filenames.push(req.files[i].filename);
       }
