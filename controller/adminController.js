@@ -52,7 +52,6 @@ const loadAdmin = async (req, res) => {
       ordersCount.length != 0 ? ordersCount[0].otherOrders : 0;
     const cancelOrders =
       ordersCount.length != 0 ? ordersCount[0].cancelOrders : 0;
-    // console.log("my orders count", ordersCount)
 
     // TOTAL REVENUE
     const totalSales = await order.aggregate([
@@ -654,17 +653,15 @@ const loadOrder = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
-    let query = order.find().sort({ createdAt: -1 }).populate({
+    let query = order.find().sort({ createdAt: 1 }).populate({
       path: "items.product_id",
       model: "product",
       select: "name",
     });
-
     if (searchTerm) {
     }
     const totalOrders = await order.countDocuments();
     const totalPages = Math.ceil(totalOrders / limit);
-
     const Orders = await query.skip(skip).limit(limit);
 
     for (const order of Orders) {

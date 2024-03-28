@@ -1,13 +1,3 @@
-// const User = require("../model/userModel");
-// const coupon = require("../model/coupon");
-// const moment = require("moment");
-// const mongoose = require("mongoose");
-// const path = require("path");
-// const fs = require("fs");
-// const ejs = require("ejs");
-// const puppeteer = require("puppeteer");
-// const order = require("../model/order");
-// const product = require("../model/product")
 
 const User = require("../model/userModel");
 const product = require("../model/product");

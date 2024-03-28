@@ -156,7 +156,7 @@
                   <p><b>Mobile :</b><%= user.phone %></p>
                   <p><b>Email :</b><%= user.email %></p>
                   <p><b>Payment Method :</b><%= order.payment %></p>
-                  <p><b>Address :</b><%= order.delivery_address %></p>
+                  <p><b>Address :</b> <%= order.delivery_address.name %>, <%= order.delivery_address.housename %>, <%= order.delivery_address.city %>, <%= order.delivery_address.state %>, <%= order.delivery_address.phone %>, <%= order.delivery_address.pincode %></p>
                 </div>
               </div>
             </div>

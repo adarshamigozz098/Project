@@ -322,80 +322,86 @@
     }
   </script>
 
-<script>
-  function validateForm() {
-    var productName = document.getElementById("productName").value;
-    var description = document.getElementById("description").value;
-    var quantity = document.getElementById("quantity").value;
-    var price = document.getElementById("price").value;
-    var category = document.getElementById("exampleInputCity1").value;
-    var brand = document.getElementById("brand").value;
-    var imageFiles = document.getElementById("image").files;
-    var isValid = true;
+  <script>
+    function validateForm() {
+      var productName = document.getElementById("productName").value;
+      var description = document.getElementById("description").value;
+      var quantity = document.getElementById("quantity").value;
+      var price = document.getElementById("price").value;
+      var category = document.getElementById("exampleInputCity1").value;
+      var brand = document.getElementById("brand").value;
+      var imageFiles = document.getElementById("image").files;
+      var isValid = true;
 
-    // Clear previous error messages
-    document.getElementById("productNameError").innerText = "";
-    document.getElementById("descriptionError").innerText = "";
-    document.getElementById("quantityError").innerText = "";
-    document.getElementById("priceError").innerText = "";
-    document.getElementById("imageError").innerText = "";
-    document.getElementById("categoryError").innerText = "";
-    document.getElementById("brandError").innerText = "";
+      // Clear previous error messages
+      document.getElementById("productNameError").innerText = "";
+      document.getElementById("descriptionError").innerText = "";
+      document.getElementById("quantityError").innerText = "";
+      document.getElementById("priceError").innerText = "";
+      document.getElementById("imageError").innerText = "";
+      document.getElementById("categoryError").innerText = "";
+      document.getElementById("brandError").innerText = "";
 
-    if (productName.trim() === "") {
-  document.getElementById("productNameError").innerText = "Product name is required.";
-  isValid = false;
-} else if (productName.trim().length > 15) {
-  document.getElementById("productNameError").innerText = "Product name must be 15 characters or less.";
-  isValid = false;  
-}
+      if (productName.trim() === "") {
+        document.getElementById("productNameError").innerText = "Product name is required.";
+        isValid = false;
+      } else if (productName.trim().length > 15) {
+        document.getElementById("productNameError").innerText = "Product name must be 15 characters or less.";
+        isValid = false;
+      } else if (/\d/.test(productName)) {
+        document.getElementById("productNameError").innerText = "Product name cannot contain numbers.";
+        isValid = false;
+      }
 
+      if (description.trim() === "") {
+        document.getElementById("descriptionError").innerText = "Description is required.";
+        isValid = false;
+      }
 
-    if (description.trim() === "") {
-      document.getElementById("descriptionError").innerText = "Description is required.";
-      isValid = false;
+      if (quantity.trim() === "") {
+        document.getElementById("quantityError").innerText = "Quantity is required.";
+        isValid = false;
+      } else if (!(/^\d+$/.test(quantity))) {
+        document.getElementById("quantityError").innerText = "Quantity cannot contain letters.";
+        isValid = false;
+      } else if (parseInt(quantity) < 0) {
+        document.getElementById("quantityError").innerText = "Quantity cannot be negative.";
+        isValid = false;
+      }
+      if (price.trim() === "") {
+        document.getElementById("priceError").innerText = "Price is required.";
+        isValid = false;
+      } else if (isNaN(price.trim())) {
+        document.getElementById("priceError").innerText = "Price must be a number.";
+        isValid = false;
+      } else if (parseFloat(price.trim()) < 0) {
+        document.getElementById("priceError").innerText = "Price cannot be negative.";
+        isValid = false;
+      } else if (price.trim().length > 5) {
+        document.getElementById("priceError").innerText = "Price cannot have more than 5 digits.";
+        isValid = false;
+      }
+
+      if (category.trim() === "") {
+        document.getElementById("categoryError").innerText = "Category is required.";
+        isValid = false;
+      }
+
+      if (brand.trim() === "") {
+        document.getElementById("brandError").innerText = "Brand is required.";
+        isValid = false;
+      }
+
+      if (imageFiles.length > 4) {
+        document.getElementById("imageError").innerText = "Maximum of four images allowed.";
+        isValid = false;
+      }
+
+      return isValid;
     }
-
-    if (quantity.trim() === "") {
-      document.getElementById("quantityError").innerText = "Quantity is required.";
-      isValid = false;
-    } else if (parseInt(quantity) < 0) {
-      document.getElementById("quantityError").innerText = "Quantity cannot be negative.";
-      isValid = false;
-    }
-    if (price.trim() === "") {
-  document.getElementById("priceError").innerText = "Price is required.";
-  isValid = false;
-} else if (isNaN(price.trim())) {
-  document.getElementById("priceError").innerText = "Price must be a number.";
-  isValid = false;
-} else if (parseFloat(price.trim()) < 0) {
-  document.getElementById("priceError").innerText = "Price cannot be negative.";
-  isValid = false;
-} else if (price.trim().length > 5) {
-  document.getElementById("priceError").innerText = "Price cannot have more than 5 digits.";
-  isValid = false;
-}
-
-    if (category.trim() === "") {
-      document.getElementById("categoryError").innerText = "Category is required.";
-      isValid = false;
-    }
-
-    if (brand.trim() === "") {
-      document.getElementById("brandError").innerText = "Brand is required.";
-      isValid = false;
-    }
-
-    if (imageFiles.length > 4) {
-      document.getElementById("imageError").innerText = "Maximum of four images allowed.";
-      isValid = false;
-    }
-
-    return isValid;
-  }
-</script>
+  </script>
 
 
 </body>
+
 </html>
