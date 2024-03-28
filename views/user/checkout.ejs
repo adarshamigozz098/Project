@@ -712,7 +712,7 @@
     <script src="/user/js/google-map.js"></script>
     <script src="/user/js/main.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
@@ -760,7 +760,7 @@
             if (data.success) {
               const orderId = data.orderId;
 
-              swal.fire({
+              Swal.fire({
                 title: "Success",
                 text: "Order placed successfully!",
                 icon: "success",
@@ -792,7 +792,7 @@
             });;
           }
         } else if (paymentMethod == "RazorPay") {
-       
+
           try {
             const response = await fetch('/orderPlaced', {
               method: 'POST',
@@ -808,7 +808,7 @@
 
             if (data.status == "razer") {
               const orderId = data.orderId;
-           
+
 
               var options = {
 
@@ -996,26 +996,35 @@
 
         clearErrors();
         let isValid = true;
-
         if (name.trim() === '') {
-          displayError('nameError', 'Please enter a name.');
+          displayError('nameError', 'Please enter your name.');
+          isValid = false;
+        } else if (!/^[a-zA-Z]+$/.test(name.trim())) {
+          displayError('nameError', 'Name can only contain letters.');
           isValid = false;
         }
-
         if (housename.trim() === '') {
-          displayError('housenameError', 'Please enter a house name.');
+          displayError('housenameError', 'Please enter your house name.');
+          isValid = false;
+        } else if (/\d/.test(housename.trim())) {
+          displayError('housenameError', 'House name cannot contain numbers.');
           isValid = false;
         }
-
         if (city.trim() === '') {
-          displayError('cityError', 'Please enter a city.');
+          displayError('cityError', 'Please enter your city.');
+          isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(city.trim())) {
+          displayError('cityError', 'City name can only contain letters.');
+          isValid = false;
+        }
+        if (state.trim() === '') {
+          displayError('stateError', 'Please enter your state.');
+          isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(state.trim())) {
+          displayError('stateError', 'State name can only contain letters.');
           isValid = false;
         }
 
-        if (state.trim() === '') {
-          displayError('stateError', 'Please enter a state.');
-          isValid = false;
-        }
 
         if (phone.trim() === '' || isNaN(phone) || phone.length !== 10) {
           displayError('phoneError', 'Please enter a valid phone number (10 digits).');
@@ -1023,7 +1032,7 @@
         }
 
         if (pincode.trim() === '' || isNaN(pincode) || pincode.length !== 6) {
-          displayError('pincodeError', 'Please enter a valid pincode (6 digits).');
+          displayError('pincodeError', 'Please enter valid pincode (6 digits).');
           isValid = false;
         }
 

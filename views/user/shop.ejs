@@ -37,12 +37,44 @@
 		}
 
 		.block-27 ul {
-		padding: 0;
-		margin: 0;
-		margin-left: -200px;
-	}
+			padding: 0;
+			margin: 0;
+			margin-left: -200px;
+		}
 	</style>
-	
+
+
+	<!-- sort -->
+	<style>
+		#sortOptions {
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			padding: 8px 12px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			font-size: 14px;
+			background-color: #fff;
+			width: 100%;
+			max-width: 200px;
+			box-sizing: border-box;
+			margin-bottom: 10px;
+		}
+
+		#sortOptions::after {
+			content: '\25BC';
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			transform: translateY(-50%);
+			pointer-events: none;
+		}
+
+		#sortOptions:hover {
+			border-color: #999;
+		}
+	</style>
+
 </head>
 
 <body class="goto-here">
@@ -90,8 +122,7 @@
 							aria-haspopup="true" aria-expanded="false">ACCOUNT</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown04">
 							<% if (currentUser) { %>
-								<div class="dropdown-item">Welcome, <%= currentUser.username %>
-								</div>
+
 								<a class="dropdown-item" href="/profile">User Profile</a>
 								<a class="dropdown-item" href="/checkout">Checkout</a>
 								<a class="dropdown-item" href="/logout">Logout</a>
@@ -175,8 +206,7 @@
 															data-product-id="<%= productItem.id %>">
 															<span>Add to cart <i class="ion-ios-add ml-1"></i></span>
 														</a>
-														<a href="/checkout" class="buy-now text-center py-2">Buy
-															now<span><i class="ion-ios-cart ml-1"></i></span></a>
+														
 													</p>
 												</div>
 											</div>
@@ -216,19 +246,22 @@
 								<form id="searchForm" method="get" action="/shop" class="search-form">
 									<div class="form-group">
 										<span class="icon ion-ios-search"></span>
-										<input id="searchInput" name="search" type="search" class="form-control" placeholder="Search">
+										<input id="searchInput" name="search" type="search" class="form-control"
+											placeholder="Search">
 
-										<% if (currentPage && currentPage != 1) { %>
+										<% if (currentPage && currentPage !=1) { %>
 											<input type="text" name="page" value="<%= currentPage %>" hidden>
-										<% } %>
+											<% } %>
 
-										<% if(filters.priceFrom) { %>
-											<input type="number" name="priceFrom" value="<%= filters.priceFrom %>" hidden>
-										<% } %>
+												<% if(filters.priceFrom) { %>
+													<input type="number" name="priceFrom"
+														value="<%= filters.priceFrom %>" hidden>
+													<% } %>
 
-										<% if(filters.priceTo) { %>
-											<input type="number" name="priceTo" value="<%= filters.priceTo %>" hidden>
-										<% } %>
+														<% if(filters.priceTo) { %>
+															<input type="number" name="priceTo"
+																value="<%= filters.priceTo %>" hidden>
+															<% } %>
 									</div>
 								</form>
 							</div>
@@ -264,50 +297,50 @@
 							</div>
 						</div>
 					</div>
+
+					<!-- sort -->
+					<select id="sortOptions" onchange="applySort()">
+						<option value="">Sort By</option>
+						<option value="price_asc" <%=(sort==="price_asc" ) ? 'selected' : '' %>>Price: Low to High
+						</option>
+						<option value="price_desc" <%=(sort==="price_desc" ) ? 'selected' : '' %>>Price: High to Low
+						</option>
+					</select>
+
+
 					<form method="get" class="colorlib-form-2" id="filter" action="/shop">
 						<% if (filters.search) { %>
 							<input type="text" name="search" value="<%= filters.search %>" hidden>
-						<% } %>
-						<% if (currentPage && currentPage != 1) { %>
-							<input type="number" name="page" value="<%= currentPage %>" hidden>
-						<% } %>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="priceFrom">Price from:</label>
-									<div class="form-field">
-										<i class="icon icon-arrow-down3"></i>
-										<select name="priceFrom" id="priceFrom" class="form-control">
-											<option value="1" <%= (filters.priceFrom == 1)?'selected':'' %>>1</option>
-											<option value="200" <%= (filters.priceFrom == 200)?'selected':'' %>>200</option>
-											<option value="300" <%= (filters.priceFrom == 300)?'selected':'' %>>300</option>
-											<option value="400" <%= (filters.priceFrom == 400)?'selected':'' %>>400</option>
-											<option value="1000" <%= (filters.priceFrom == 1000)?'selected':'' %>>1000</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="priceTo">Price to:</label>
-									<div class="form-field">
-										<i class="icon icon-arrow-down3"></i>
-										<select name="priceTo" id="priceTo" class="form-control">
-											<option value="2000" <%= (filters.priceTo == 2000)?'selected':'' %>>2000</option>
-											<option value="4000" <%= (filters.priceTo == 4000)?'selected':'' %>>4000</option>
-											<option value="6000" <%= (filters.priceTo == 6000)?'selected':'' %>>6000</option>
-											<option value="8000" <%= (filters.priceTo == 8000)?'selected':'' %>>8000</option>
-											<option value="10000" <%= (filters.priceTo == 10000)?'selected':'' %>>10000</option>
-											<option value="10000+" <%= (filters.priceTo == '10000+')?'selected':'' %>>10000 Above</option>
-										</select>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="d-flex justify-content-between" style="gap: 5px;">
-							<button type="submit" id="" class="btn btn-primary">Apply Filter</button>
-							<button type="button" id="" class="btn btn-primary" onclick="location.href = '/shop'">clear Filter</button>
-						</div>
+							<% } %>
+								<% if (currentPage && currentPage !=1) { %>
+									<input type="number" name="page" value="<%= currentPage %>" hidden>
+									<% } %>
+										<input type="hidden" name="sort" value="<%= sort %>">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="customPriceFrom">Price from:</label>
+													<div class="form-field">
+														<input type="text" name="customPriceFrom" id="customPriceFrom"
+															class="form-control" value="<%= filters.customPriceFrom %>">
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="customPriceTo">Price to:</label>
+													<div class="form-field">
+														<input type="text" name="customPriceTo" id="customPriceTo"
+															class="form-control" value="<%= filters.customPriceTo %>">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="d-flex justify-content-between" style="gap: 5px;">
+											<button type="submit" id="" class="btn btn-primary">Apply Filter</button>
+											<button type="button" id="" class="btn btn-primary"
+												onclick="location.href = '/shop'">Clear Filter</button>
+										</div>
 					</form>
 				</div>
 			</div>
@@ -469,20 +502,25 @@
 
 
 		<script>
-			// Get the input field
 			var input = document.getElementById("searchInput");
-
-			// Execute a function when the user releases a key on the keyboard
 			input.addEventListener("keyup", function (event) {
-				// Number 13 is the "Enter" key on the keyboard
 				if (event.key === "Enter") {
-					// Cancel the default action, if needed
 					event.preventDefault();
-					// Trigger the form submission
 					document.getElementById("searchForm").submit();
 				}
 			});
 		</script>
+
+		<!-- sort -->
+		<script>
+			function applySort() {
+				const selectedSortOption = document.getElementById('sortOptions').value;
+				const currentUrl = new URL(window.location.href);
+				currentUrl.searchParams.set('sort', selectedSortOption);
+				window.location.href = currentUrl;
+			}
+		</script>
+
 
 </body>
 

@@ -396,11 +396,14 @@ const viewDetails = async (req, res) => {
           coupon: 1,
           ordered_status: 1,
         }
+        
       )
+      
       .populate({
         path: "items.product_id",
         model: "product",
       });
+      console.log(orders,"ordersrsrrs");
 
     const user = await User.findById(userId);
 

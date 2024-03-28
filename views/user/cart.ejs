@@ -238,11 +238,10 @@
 
     removeButtons.forEach((button) => {
       button.addEventListener("click", async function (event) {
-        event.preventDefault(); // Prevent default action of the button
+        event.preventDefault(); 
 
         const productId = button.getAttribute("data-product-id");
 
-        // Show SweetAlert confirmation dialog
         Swal.fire({
           title: 'Are you sure?',
           text: 'You are about to delete this product!',

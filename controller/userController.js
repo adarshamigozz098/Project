@@ -387,7 +387,6 @@ const loadHome = async (req, res) => {
 
 // shop
 const ITEMS_PER_PAGE = 6;
-
 const loadShop = async (req, res) => {
   try {
     const page = req.query.page || 1;
@@ -397,9 +396,7 @@ const loadShop = async (req, res) => {
       query.name = { $regex: new RegExp(req.query.search, "i") };
     }
     if (req.query.category) {
-      const categoryId = await category
-        .findOne({ name: req.query.category })
-        .select("_id");
+      const categoryId = await category.findOne({ name: req.query.category }).select("_id");
       if (categoryId) {
         query.category = categoryId;
       }
@@ -412,77 +409,45 @@ const loadShop = async (req, res) => {
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);
       if (currentUser && currentUser.isBlocked) {
-        req.flash(
-          "error",
-          "Your account has been blocked. Please login again."
-        );
+        req.flash("error", "Your account has been blocked. Please login again.");
         return res.redirect("/login");
       }
     }
 
     let sortOption = {};
-    if (req.query.sort === "lowToHigh") {
-      sortOption.price = 1;
-    } else if (req.query.sort === "highToLow") {
-      sortOption.price = -1;
-    }
+        if (req.query.sort === "price_asc") {
+            sortOption.price = 1;
+        } else if (req.query.sort === "price_desc") {
+            sortOption.price = -1;
+        }
+    
+    let customPriceFrom = parseInt(req.query.customPriceFrom);
+    let customPriceTo = parseInt(req.query.customPriceTo);
 
-    let priceFrom = parseInt(req.query.priceFrom);
-    let priceTo = parseInt(req.query.priceTo);
+    customPriceFrom = isNaN(customPriceFrom) ? undefined : customPriceFrom;
+    customPriceTo = isNaN(customPriceTo) ? undefined : customPriceTo;
 
-    if (!isNaN(priceFrom) && !isNaN(priceTo)) {
-      query.price = { $gte: priceFrom, $lte: priceTo };
-    } else if (!isNaN(priceFrom)) {
-      query.price = { $gte: priceFrom };
-    } else if (!isNaN(priceTo)) {
-      query.price = { $lte: priceTo };
+   
+    if (customPriceFrom !== undefined || customPriceTo !== undefined) {
+      query.price = {};
+      if (customPriceFrom !== undefined) {
+        query.price.$gte = customPriceFrom;
+      }
+      if (customPriceTo !== undefined) {
+        query.price.$lte = customPriceTo;
+      }
     }
 
     const totalProducts = await product.countDocuments(query);
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
     const categories = await category.distinct("name");
-    
 
-      let filterQuery = {};
-      const filters = {};
-      if(Object.keys(req.query).length || Object.values(req.query).length){
-        const search = req.query?.search?.trim();
-        const priceFrom = Number(req.query.priceFrom);
-        const priceTo = Number(req.query.priceTo);
-
-        if(search){
-          filters.search = search;
-          filterQuery.name = { $regex: search, $options: 'i' };
-        }
-
-        if(req.query.priceTo?.trim() === '10000+'){
-          filters.priceTo = '10000+'
-          filterQuery.price = {$gte: 10000};
-        }else{
-          if(!isNaN(priceFrom) || !isNaN(priceTo)){
-            filterQuery.$and = [];
-          }
-  
-          if(!isNaN(priceFrom)){
-            filters.priceFrom = priceFrom;
-            const price = {price: {$gte: priceFrom}};
-            filterQuery.$and.push(price);
-          }
-  
-          if(!isNaN(priceTo)){
-            filters.priceTo = priceTo;
-            const price = {price: {$lte: priceTo}};
-            filterQuery.$and.push(price);
-          }
-        }
-      }
-
-      const allProducts = await product
-      .find(query)
+    const allProducts = await product.find(query)
+      .sort(sortOption)
       .skip((page - 1) * ITEMS_PER_PAGE)
       .limit(ITEMS_PER_PAGE);
-      
-      const productData = allProducts.filter(product => product.is_listed);
+
+    const productData = allProducts.filter(product => product.is_listed);
 
     res.render("shop", {
       product: productData,
@@ -492,7 +457,11 @@ const loadShop = async (req, res) => {
       currentUser,
       categories: categories,
       selectedCategory: req.query.category || "",
-      filters
+      filters: {
+        customPriceFrom: customPriceFrom !== undefined ? customPriceFrom : "",
+        customPriceTo: customPriceTo !== undefined ? customPriceTo : "",
+        search: req.query.search || "",
+      }
     });
   } catch (error) {
     console.log(error);
