@@ -41,6 +41,16 @@
 		}
 	</style>
 
+	<style>
+		.btn.btn-primary {
+    background: #dbcc8f;
+    border: 1px solid #dbcc8f;
+    color: #fff;
+    margin-inline: 130px;
+    margin-top: -63px;
+}
+	</style>
+
 	<title> SHOEzzo</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -111,7 +121,7 @@
 							aria-haspopup="true" aria-expanded="false">ACCOUNT</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown04">
 							<% if (currentUser) { %>
-								<div class="dropdown-item">Welcome, <%= currentUser.username %>
+								<div class="dropdown-item">Welcome<%= currentUser.username %>
 								</div>
 								<a class="dropdown-item" href="/profile">User Profile</a>
 								<a class="dropdown-item" href="/checkout">Checkout</a>
@@ -427,16 +437,7 @@
 		})
 	</script>
 
-	<style>
-		.btn.btn-primary {
-			background: #dbcc8f;
-			border: 1px solid #dbcc8f;
-			color: #fff;
-			margin-inline: 150px;
-			margin-top: -80px;
-		}
-	</style>
-
+	
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
