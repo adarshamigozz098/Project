@@ -6,6 +6,7 @@
 		.image-overlay {
 			position: relative;
 		}
+
 		.image-overlay::before {
 			content: '';
 			position: absolute;
@@ -27,15 +28,17 @@
 			margin: 100px;
 			margin-left: -57PX;
 		}
+
 		.image {
 			overflow: hidden;
 		}
+
 		.image img {
 			transform: scale(var(--zoom, 1));
 			transform-origin: var(--x) var(--y);
 			transition: transform 0.3s ease;
-			}
-	
+		}
+
 		.image:hover {
 			--zoom: 3;
 		}
@@ -43,12 +46,12 @@
 
 	<style>
 		.btn.btn-primary {
-    background: #dbcc8f;
-    border: 1px solid #dbcc8f;
-    color: #fff;
-    margin-inline: 130px;
-    margin-top: -63px;
-}
+			background: #dbcc8f;
+			border: 1px solid #dbcc8f;
+			color: #fff;
+			margin-inline: 130px;
+			margin-top: -63px;
+		}
 	</style>
 
 	<title> SHOEzzo</title>
@@ -223,7 +226,7 @@
 					</div>
 					<button class="custom-add-to-cart" data-productId="<%= product._id %>" id="addToCartBtn">Add to
 						Cart</button>
-				
+
 					<!-- additional images -->
 					<div class="row mt-5">
 						<div class="col-lg-12">
@@ -372,7 +375,7 @@
 						Copyright &copy;
 						<script>document.write(new Date().getFullYear());</script> All rights reserved | This template
 						is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a
-							href="https://colorlib.com" target="_blank">Colorlib</a>						
+							href="https://colorlib.com" target="_blank">Colorlib</a>
 					</p>
 				</div>
 			</div>
@@ -428,7 +431,7 @@
 		})
 	</script>
 
-	
+
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -522,4 +525,5 @@
 
 
 </body>
+
 </html>

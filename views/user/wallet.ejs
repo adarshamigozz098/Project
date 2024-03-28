@@ -5,7 +5,7 @@
         <!DOCTYPE html>
         <html lang="en">
 
-         <head>
+        <head>
             <meta charset="utf-8" />
             <link rel="apple-touch-icon" sizes="76x76" href="/user/img/apple-icon.png">
             <link rel="icon" type="image/png" href="/user/img/favicon.ico">
@@ -243,13 +243,14 @@
                             <p></p>
                         </div>
                     </div>
-                    
+
                     <div class="wallet-balance">
-                        <p>Wallet Balance: <%= user.wallet %></p>
+                        <p>Wallet Balance: <%= user.wallet %>
+                        </p>
                     </div>
-                    
+
                     <h2>Transaction History</h2>
-                    <% walletTransactions.forEach(history => { %>
+                    <% walletTransactions.forEach(history=> { %>
                         <div class="transaction-history">
                             <div class="transaction-item">
                                 <span>Date</span>
@@ -270,35 +271,37 @@
                                 </span>
                             </div>
                         </div>
-                    <% }) %>
-                    
-                    <!-- Pagination Links -->
-                    <div class="row mt-5">
-                        <div class="col text-center">
-                            <div class="block-27">
-                                <ul>
-                                    <% if (currentPage > 1) { %>
-                                        <li><a href="/profile/wallet?page=<%= currentPage - 1 %>">&lt;</a></li>
-                                    <% } %>
-                                    <% for (let i=1; i <= totalPages; i++) { %>
-                                        <li <%=i===currentPage ? 'class="active"' : '' %>>
-                                            <a href="/profile/wallet?page=<%= i %>">
-                                                <span>
-                                                    <%= i %>
-                                                </span>
-                                            </a>
-                                        </li>
-                                    <% } %>
-                                    <% if (currentPage < totalPages) { %>
-                                        <li><a href="/profile/wallet?page=<%= currentPage + 1 %>">&gt;</a></li>
-                                    <% } %>
-                                </ul>
+                        <% }) %>
+
+                            <!-- Pagination Links -->
+                            <div class="row mt-5">
+                                <div class="col text-center">
+                                    <div class="block-27">
+                                        <ul>
+                                            <% if (currentPage> 1) { %>
+                                                <li><a href="/profile/wallet?page=<%= currentPage - 1 %>">&lt;</a></li>
+                                                <% } %>
+                                                    <% for (let i=1; i <=totalPages; i++) { %>
+                                                        <li <%=i===currentPage ? 'class="active"' : '' %>>
+                                                            <a href="/profile/wallet?page=<%= i %>">
+                                                                <span>
+                                                                    <%= i %>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        <% } %>
+                                                            <% if (currentPage < totalPages) { %>
+                                                                <li><a
+                                                                        href="/profile/wallet?page=<%= currentPage + 1 %>">&gt;</a>
+                                                                </li>
+                                                                <% } %>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
                 </main>
-                
-                
+
+
         </body>
 
         <script src="/user/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
@@ -316,7 +319,7 @@
 
         <script src="/user/js/demo.js"></script>
 
-      </script>
+        </script>
 
-       </html>
-    <%- include('../user/layout/footer') %>
+        </html>
+        <%- include('../user/layout/footer') %>

@@ -55,18 +55,18 @@
 
         #name {
             width: 50%;
-            
+
         }
 
         #housename {
             width: 100%;
-          
+
         }
 
         #city,
         #state {
             width: 50%;
-           
+
         }
 
         #phone {
@@ -75,7 +75,7 @@
 
         #pincode {
             width: 30%;
-          
+
         }
 
         button {
@@ -97,7 +97,7 @@
             display: none;
         }
     </style>
-    
+
     <style>
         .hero-wrap.hero-bread {
             padding: 5em 0;
@@ -172,27 +172,27 @@
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
                     <span class="error" id="nameError">Please enter a valid name</span>
-            
+
                     <label for="housename">House Name:</label>
                     <input type="text" id="housename" name="housename" required>
                     <span class="error" id="housenameError">Please enter a valid house name</span>
-            
+
                     <label for="city">City:</label>
                     <input type="text" id="city" name="city" required>
                     <span class="error" id="cityError">Please enter a valid city</span>
-            
+
                     <label for="state">State:</label>
                     <input type="text" id="state" name="state" required>
                     <span class="error" id="stateError">Please enter a valid state</span>
-            
+
                     <label for="phone">Phone:</label>
                     <input type="text" id="phone" name="phone" required>
                     <span class="error" id="phoneError">Please enter a valid phone number</span>
-            
+
                     <label for="pincode">Pincode:</label>
                     <input type="text" id="pincode" name="pincode" required>
                     <span class="error" id="pincodeError">Please enter a valid pincode</span>
-            
+
                     <button id="submitAddressBtn" type="submit">Add Address</button>
                 </form>
             </div>
@@ -268,41 +268,41 @@
 
 
 <script>
-$(document).ready(function() {
-    $('#addAddressForm').on('submit', function(event) {
-      event.preventDefault();
-      var formData = $(this).serialize();
-      
-      $.ajax({
-        url: '/profile/address',
-        method: 'POST',
-        data: formData,
-        success: function(response) {
-      
-          Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: response.message
-          }).then((result) => {
-           
-            if (result.isConfirmed) {
-              window.location.href = '/checkout'; 
-            }
-          });
-        },
-        error: function(xhr, status, error) {
-       
-            
-          Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: xhr.responseJSON.message || 'Internal Server Error'
-          });
-        }
-      });
+    $(document).ready(function () {
+        $('#addAddressForm').on('submit', function (event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: '/profile/address',
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message
+                    }).then((result) => {
+
+                        if (result.isConfirmed) {
+                            window.location.href = '/checkout';
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: xhr.responseJSON.message || 'Internal Server Error'
+                    });
+                }
+            });
+        });
     });
-  });
-</script>  
+</script>
 
 
 </html>

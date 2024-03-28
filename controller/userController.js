@@ -24,7 +24,6 @@ var instance = new razorpay({
   key_secret: "2iLbGXeXJmvQGPb4dMOPlrST",
 });
 
-
 const verifySignup = async (req, res) => {
   try {
     const { username, email, phone, password, confirmPassword } = req.body;
@@ -55,7 +54,6 @@ const verifySignup = async (req, res) => {
   }
 };
 
-
 const verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -85,8 +83,6 @@ const verifyLogin = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
-
-
 
 const sendMail = async ({ email }, res) => {
   try {
@@ -145,8 +141,6 @@ const sendMail = async ({ email }, res) => {
   }
 };
 
-
-
 const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -165,8 +159,6 @@ const verifyOtp = async (req, res) => {
     }
   } catch (error) {}
 };
-
-
 
 const resendOTP = async (req, res) => {
   try {
@@ -229,8 +221,6 @@ const resendOTP = async (req, res) => {
   }
 };
 
-
-
 // reset
 const loadForget = async (req, res) => {
   try {
@@ -239,8 +229,6 @@ const loadForget = async (req, res) => {
     console.log(error);
   }
 };
-
-
 
 const forgetPasswordVerify = async (req, res) => {
   try {
@@ -265,8 +253,6 @@ const forgetPasswordVerify = async (req, res) => {
     console.log(error.message);
   }
 };
-
-
 
 const sendforgetemail = async (name, email, token) => {
   try {
@@ -295,7 +281,6 @@ const sendforgetemail = async (name, email, token) => {
   }
 };
 
-
 const resetPasswordLoad = async (req, res) => {
   try {
     const token = req.query.token;
@@ -309,7 +294,6 @@ const resetPasswordLoad = async (req, res) => {
     console.log(error.message);
   }
 };
-
 
 const resetpassword = async (req, res) => {
   try {
@@ -339,7 +323,6 @@ const resetpassword = async (req, res) => {
   }
 };
 
-
 const loadSign = async (req, res) => {
   try {
     res.render("signup");
@@ -347,7 +330,6 @@ const loadSign = async (req, res) => {
     console.log(error);
   }
 };
-
 
 const loadLogin = async (req, res) => {
   try {
@@ -361,7 +343,6 @@ const loadLogin = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
 
 const loadHome = async (req, res) => {
   try {
@@ -396,7 +377,9 @@ const loadShop = async (req, res) => {
       query.name = { $regex: new RegExp(req.query.search, "i") };
     }
     if (req.query.category) {
-      const categoryId = await category.findOne({ name: req.query.category }).select("_id");
+      const categoryId = await category
+        .findOne({ name: req.query.category })
+        .select("_id");
       if (categoryId) {
         query.category = categoryId;
       }
@@ -409,25 +392,27 @@ const loadShop = async (req, res) => {
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);
       if (currentUser && currentUser.isBlocked) {
-        req.flash("error", "Your account has been blocked. Please login again.");
+        req.flash(
+          "error",
+          "Your account has been blocked. Please login again."
+        );
         return res.redirect("/login");
       }
     }
 
     let sortOption = {};
-        if (req.query.sort === "price_asc") {
-            sortOption.price = 1;
-        } else if (req.query.sort === "price_desc") {
-            sortOption.price = -1;
-        }
-    
+    if (req.query.sort === "price_asc") {
+      sortOption.price = 1;
+    } else if (req.query.sort === "price_desc") {
+      sortOption.price = -1;
+    }
+
     let customPriceFrom = parseInt(req.query.customPriceFrom);
     let customPriceTo = parseInt(req.query.customPriceTo);
 
     customPriceFrom = isNaN(customPriceFrom) ? undefined : customPriceFrom;
     customPriceTo = isNaN(customPriceTo) ? undefined : customPriceTo;
 
-   
     if (customPriceFrom !== undefined || customPriceTo !== undefined) {
       query.price = {};
       if (customPriceFrom !== undefined) {
@@ -442,12 +427,13 @@ const loadShop = async (req, res) => {
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
     const categories = await category.distinct("name");
 
-    const allProducts = await product.find(query)
+    const allProducts = await product
+      .find(query)
       .sort(sortOption)
       .skip((page - 1) * ITEMS_PER_PAGE)
       .limit(ITEMS_PER_PAGE);
 
-    const productData = allProducts.filter(product => product.is_listed);
+    const productData = allProducts.filter((product) => product.is_listed);
 
     res.render("shop", {
       product: productData,
@@ -461,15 +447,13 @@ const loadShop = async (req, res) => {
         customPriceFrom: customPriceFrom !== undefined ? customPriceFrom : "",
         customPriceTo: customPriceTo !== undefined ? customPriceTo : "",
         search: req.query.search || "",
-      }
+      },
     });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
-
-
 
 const loadContact = async (req, res) => {
   try {
@@ -489,7 +473,6 @@ const loadContact = async (req, res) => {
     console.log(error);
   }
 };
-
 
 const loadSingle = async (req, res) => {
   try {
@@ -518,12 +501,12 @@ const loadCheckout = async (req, res) => {
     const userCart = await Cart.findOne({ user_id: req.session.userId });
     const coupons = await coupon.find();
 
-    let totalPrice = 0; 
+    let totalPrice = 0;
 
     if (userCart && userCart.items) {
       userCart.items.forEach((item) => {
-        const itemTotal = parseFloat(item.price) * item.quantity; 
-        totalPrice += itemTotal; 
+        const itemTotal = parseFloat(item.price) * item.quantity;
+        totalPrice += itemTotal;
       });
     }
 
@@ -566,7 +549,6 @@ const generateCustomUserId = () => {
   return `${prefix}${uniqueId}`;
 };
 
-
 const placeOrder = async (req, res) => {
   try {
     const date = new Date();
@@ -574,14 +556,20 @@ const placeOrder = async (req, res) => {
     const { address, paymentMethod } = req.body;
 
     const userValue = await User.findById(user_id);
-  
+
     if (!userValue) {
-      return res.status(400).json({ success: false, message: "User not found." });
-    }   
-    const selectedAddress = userValue.address.find(addr => addr._id.toString() === address);
-  
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found." });
+    }
+    const selectedAddress = userValue.address.find(
+      (addr) => addr._id.toString() === address
+    );
+
     if (!selectedAddress) {
-      return res.status(400).json({ success: false, message: "Selected address not found." });
+      return res
+        .status(400)
+        .json({ success: false, message: "Selected address not found." });
     }
     const delivery_address = selectedAddress;
 
@@ -622,12 +610,11 @@ const placeOrder = async (req, res) => {
     }
     if (paymentMethod === "Wallet") {
       userData.wallet -= totalAmount;
-      userData.walletHistory.push({ amount: -totalAmount, type: 'debit' });
+      userData.walletHistory.push({ amount: -totalAmount, type: "debit" });
     }
     await userData.save();
-  
 
-      let status =
+    let status =
       paymentMethod === "COD" || paymentMethod == "Wallet"
         ? "placed"
         : "pending";
@@ -669,7 +656,7 @@ const placeOrder = async (req, res) => {
         cancellationReason: item.cancellationReason,
       })),
     });
-  
+
     for (const item of orderData.items) {
       await product.findByIdAndUpdate(item.product_id, {
         $inc: { quantity: -item.quantity },
@@ -708,14 +695,13 @@ const placeOrder = async (req, res) => {
   }
 };
 
-
 const orderConfirmation = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.userId });
 
     const orderId = req.params.orderId;
     const orderDetails = await order.findById(orderId);
-   
+
     if (!orderDetails) {
       return res
         .status(404)
@@ -733,7 +719,6 @@ const orderConfirmation = async (req, res) => {
       orderDetails,
       userData,
       currentUser: req.session.userId,
-      
     });
   } catch (error) {
     console.log(error);
@@ -782,7 +767,6 @@ const checkAdd = async (req, res) => {
   }
 };
 
-
 const addAddress = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -800,7 +784,6 @@ const addAddress = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
 
 module.exports = {
   loadHome,
@@ -829,5 +812,5 @@ module.exports = {
   resendOTP,
   generateCustomUserId,
   orderConfirmation,
-  addAddress
+  addAddress,
 };

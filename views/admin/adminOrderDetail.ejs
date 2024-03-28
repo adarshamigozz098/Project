@@ -40,12 +40,12 @@
             <span class="text">Users</span>
           </a>
 
-          <li class="menu-item ">
-            <a class="menu-link" href="/admin/category">
-              <i class="icon material-icons md-shopping_cart"></i>
-              <span class="text">Catgeory</span>
-            </a>
-          </li>
+        <li class="menu-item ">
+          <a class="menu-link" href="/admin/category">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Catgeory</span>
+          </a>
+        </li>
         </li>
         <li class="menu-item ">
           <a class="menu-link" href="/admin/products">
@@ -131,93 +131,107 @@
           border-radius: 5px;
         }
       </style>
-       
-       <style>
-      .container {
-    max-width: 1249px;
-    margin: initial;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    margin-right: 437px;
-}
+
+      <style>
+        .container {
+          max-width: 1249px;
+          margin: initial;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          background-color: #f9f9f9;
+          margin-right: 437px;
+        }
+
         h3 {
-            margin-top: 0;
+          margin-top: 0;
         }
+
         .detail-item {
-            margin-bottom: 10px;
+          margin-bottom: 10px;
         }
+
         .detail-item label {
-            font-weight: bold;
+          font-weight: bold;
         }
-    </style>
-    <style>
-      img {
-    max-width: 35%;
-    border-radius: 5px;
-    margin-left: 30px;
-}
-    </style>
+      </style>
+      <style>
+        img {
+          max-width: 35%;
+          border-radius: 5px;
+          margin-left: 30px;
+        }
+      </style>
     </header>
 
 
 
     <!-- Structure -->
-   <body>
-  <div class="container">
-    <h1>Order Details</h1><br>
-    <% Order.items.forEach((item, index) => { %>
-      <div class="order-detail-<%= index %> <% if(item.ordered_status === 'Cancelled' || item.ordered_status === 'Returned') { %>cancelled<% } %>">
-        <h2># <%= index + 1 %></h2>
-        <div class="detail-item">
-          <label>Order Id: &nbsp</label><%= Order.order_id %>
-        </div><br>
-        <% if (item.product_id && item.product_id._id) { %> 
-          <div class="detail-item">
-            <label>Name: &nbsp</label><%= item.product_id.name %>
-          </div><br>
-          <div class="detail-item pdimage">
-            <label></label>
-            <% if (item.product_id.image && item.product_id.image.length > 0) { %> 
-              <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
-            <% } else { %>
-              <p>Product Image Not Available</p>
-            <% } %>
-          </div><br>
-        <% } else { %>
-          <div class="detail-item">
-            <p>Product Not Available</p>
-          </div><br>
-        <% } %>
-        <div class="detail-item">
-          <label>Total Price: &nbsp <%= item.total_price %></label>
-        </div><br>
-        <div class="detail-item">
-          <label>Ordered Date: &nbsp <%= Order.date%></label>
-        </div><br>
-        <div class="detail-item">
-          <label> <%= Order.delivery_address.name %></label>
-          <label> <%= Order.delivery_address.housename %></label>
-          <label><%= Order.delivery_address.city %></label>
-          <label> <%= Order.delivery_address.state %></label>
-          <label> <%= Order.delivery_address.phone %></label>
-          <label><%= Order.delivery_address.pincode %></label>
-        </div>
-        <div class="detail-item">
-          <label>Expected Delivery: &nbsp<%= Order.expected_delivery%></label>
-        </div>
-        <div class="detail-item">
-          <label>Status: &nbsp<%=item.ordered_status%></label>
-        </div>
-      </div>
-      <hr>
-    <% }); %>
-  </div>
-</body>
 
-    
-    
-    
-              
-  
+    <body>
+      <div class="container">
+        <h1>Order Details</h1><br>
+        <% Order.items.forEach((item, index)=> { %>
+          <div
+            class="order-detail-<%= index %> <% if(item.ordered_status === 'Cancelled' || item.ordered_status === 'Returned') { %>cancelled<% } %>">
+            <h2># <%= index + 1 %>
+            </h2>
+            <div class="detail-item">
+              <label>Order Id: &nbsp</label>
+              <%= Order.order_id %>
+            </div><br>
+            <% if (item.product_id && item.product_id._id) { %>
+              <div class="detail-item">
+                <label>Name: &nbsp</label>
+                <%= item.product_id.name %>
+              </div><br>
+              <div class="detail-item pdimage">
+                <label></label>
+                <% if (item.product_id.image && item.product_id.image.length> 0) { %>
+                  <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
+                  <% } else { %>
+                    <p>Product Image Not Available</p>
+                    <% } %>
+              </div><br>
+              <% } else { %>
+                <div class="detail-item">
+                  <p>Product Not Available</p>
+                </div><br>
+                <% } %>
+                  <div class="detail-item">
+                    <label>Total Price: &nbsp <%= item.total_price %></label>
+                  </div><br>
+                  <div class="detail-item">
+                    <label>Ordered Date: &nbsp <%= Order.date%></label>
+                  </div><br>
+                  <div class="detail-item">
+                    <label>
+                      <%= Order.delivery_address.name %>
+                    </label>
+                    <label>
+                      <%= Order.delivery_address.housename %>
+                    </label>
+                    <label>
+                      <%= Order.delivery_address.city %>
+                    </label>
+                    <label>
+                      <%= Order.delivery_address.state %>
+                    </label>
+                    <label>
+                      <%= Order.delivery_address.phone %>
+                    </label>
+                    <label>
+                      <%= Order.delivery_address.pincode %>
+                    </label>
+                  </div>
+                  <div class="detail-item">
+                    <label>Expected Delivery: &nbsp<%= Order.expected_delivery%></label>
+                  </div>
+                  <div class="detail-item">
+                    <label>Status: &nbsp<%=item.ordered_status%></label>
+                  </div>
+          </div>
+          <hr>
+          <% }); %>
+      </div>
+    </body>

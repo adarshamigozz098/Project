@@ -1,331 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>SHOEzzo</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:title" content="" />
-    <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
-  
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="imgs/theme/favicon.svg"/>
-  
-    <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
-  </head>
 
-  <body>
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-      <div class="aside-top">
-        <a class="navbar-brand" href="/">SHOEzzo</a>
-        <div>
-          <button class="btn btn-icon btn-aside-minimize">
-            <i class="text-muted material-icons md-menu_open"></i>
-          </button>
-        </div>
+<head>
+  <meta charset="utf-8" />
+  <title>SHOEzzo</title>
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="imgs/theme/favicon.svg" />
+
+  <link href="css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+      <a class="navbar-brand" href="/">SHOEzzo</a>
+      <div>
+        <button class="btn btn-icon btn-aside-minimize">
+          <i class="text-muted material-icons md-menu_open"></i>
+        </button>
       </div>
-      <nav>
-        <ul class="menu-aside">
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/dashboard">
-              <i class="icon material-icons md-home"></i>
-              <span class="text">Dashboard</span>
-            </a>
-          </li>
-          <li class="menu-item active">
-            <a class="menu-link" href="/admin/users">
-              <i class="icon material-icons md-shopping_bag"></i>
-              <span class="text">Users</span>
-            </a>
-          </li>
+    </div>
+    <nav>
+      <ul class="menu-aside">
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/dashboard">
+            <i class="icon material-icons md-home"></i>
+            <span class="text">Dashboard</span>
+          </a>
+        </li>
+        <li class="menu-item active">
+          <a class="menu-link" href="/admin/users">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Users</span>
+          </a>
+        </li>
 
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/category">
-              <i class="icon material-icons md-shopping_cart"></i>
-              <span class="text">Catgeory</span>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/category">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Catgeory</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/products">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Products</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/order">
+            <i class="icon material-icons md-shopping_cart"></i>
+            <span class="text">Orders</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" href="/admin/coupon">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Coupons</span>
+          </a>
+        </li>
+      </ul>
+      <br />
+      <br />
+    </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside">
+          <i class="material-icons md-apps"></i>
+        </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon" href="#">
+              <i class="material-icons md-notifications animation-shake"></i>
+              <span class="badge rounded-pill">3</span>
             </a>
           </li>
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/products">
-              <i class="icon material-icons md-shopping_bag"></i>
-              <span class="text">Products</span>
+          <li class="nav-item">
+            <a class="nav-link btn-icon darkmode" href="#">
+              <i class="material-icons md-nights_stay"></i>
             </a>
           </li>
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/order">
-              <i class="icon material-icons md-shopping_cart"></i>
-              <span class="text">Orders</span>
-            </a>
+          <li class="nav-item">
+            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
           </li>
-          <li class="menu-item">
-            <a class="menu-link" href="/admin/coupon">
-              <i class="icon material-icons md-shopping_bag"></i>
-              <span class="text">Coupons</span>
-            </a>
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i
+                class="material-icons md-public"></i></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+              <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
+            </div>
           </li>
-        </ul>
-        <br />
-        <br />
-      </nav>
-    </aside>
-    <main class="main-wrap">
-      <header class="main-header navbar">
-        <div class="col-search">
-       
-        </div>
-        <div class="col-nav">
-          <button
-            class="btn btn-icon btn-mobile me-auto"
-            data-trigger="#offcanvas_aside"
-          >
-            <i class="material-icons md-apps"></i>
-          </button>
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link btn-icon" href="#">
-                <i class="material-icons md-notifications animation-shake"></i>
-                <span class="badge rounded-pill">3</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link btn-icon darkmode" href="#">
-                <i class="material-icons md-nights_stay"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="requestfullscreen nav-link btn-icon"
-                ><i class="material-icons md-cast"></i
-              ></a>
-            </li>
-            <li class="dropdown nav-item">
-              <a
-                class="dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                id="dropdownLanguage"
-                aria-expanded="false"
-                ><i class="material-icons md-public"></i
-              ></a>
-              <div
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownLanguage"
-              >
-                <a class="dropdown-item text-brand" href="#"
-                  ><img src="imgs/theme/flag-us.png" alt="English" />English</a
-                >
-              </div>
-            </li>
-            <li class="dropdown nav-item">
-              <a
-                class="dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                id="dropdownAccount"
-                aria-expanded="false"
-              >
-                <img
-                  class="img-xs rounded-circle"
-                  src="imgs/people/avatar-2.png"
-                  alt="User"
-              /></a>
-              <div
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownAccount"
-              >
-           
+          <li class="dropdown nav-item">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+              <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+
               <div class="dropdown-divider"></div>
               <a class="dropdown-item text-danger" href="/admin/logout">
                 <i class="material-icons md-exit_to_app"></i>Logout
               </a>
-              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <section class="content-main">
+      <div class="content-header">
+        <div>
+          <h2 class="content-title card-title">USERS</h2>
+          <p></p>
+        </div>
+        <!-- search -->
+
+
+      </div>
+      <div class="card mb-4">
+        <header class="card-header">
+          <div class="row gx-3">
+            <div class="col-lg-4 col-md-6 me-auto">
+              <input type="text" id="searchInput" placeholder="Search..." class="form-control" />
+            </div>
+          </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>no</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th class="text-end">Action</th>
+                </tr>
+              </thead>
+              <% if(users.length> 0 ){ %>
+                <tbody>
+                  <% users.forEach((user,i)=>{ %>
+                    <tr>
+                      <td>
+                        <%= 1+i %>
+                      </td>
+                      <td><b>
+                          <%= user.username %>
+                        </b></td>
+                      <td>
+                        <%= user.email %>
+                      </td>
+                      <td>
+                        <%= user.phone %>
+                      </td>
+                      <td>
+                        <% if (user.isBlocked) { %>
+                          <span class="badge bg-danger">Blocked</span>
+                          <% } else { %>
+                            <span class="badge bg-success">Active</span>
+                            <% } %>
+                      </td>
+                      <td class="text-end">
+                        <form action="/admin/block-user" method="POST">
+                          <input type="hidden" name="userId" value="<%= user._id %>" />
+                          <% if (user.isBlocked) { %>
+                            <button type="submit" class="btn btn-success btn-sm">
+                              Unblock
+                            </button>
+                            <% } else { %>
+                              <button type="submit" class="btn btn-danger btn-sm">
+                                Block
+                              </button>
+                              <% } %>
+                        </form>
+                      </td>
+                    </tr>
+
+                    <%}) %>
+                      <% }else{ %>
+
+                        <tr>
+                          <td>user not found</td>
+                        </tr>
+
+                        <% } %>
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-start">
+            <li class="page-item active">
+              <a class="page-link" href="#">01</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">02</a></li>
+
+            </li>
+
+            <li class="page-item">
+              <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
             </li>
           </ul>
+        </nav>
+      </div>
+    </section>
+    <!-- content-main end// -->
+    <footer class="main-footer font-xs">
+      <div class="row pb-30 pt-15">
+        <div class="col-sm-6">
         </div>
-      </header>
-      <section class="content-main">
-        <div class="content-header">
-          <div>
-            <h2 class="content-title card-title">USERS</h2>
-            <p></p>
-          </div>
-          <!-- search -->
-         
-          
-        </div>
-        <div class="card mb-4">
-          <header class="card-header">
-            <div class="row gx-3">
-              <div class="col-lg-4 col-md-6 me-auto">
-                <input
-                  type="text"
-                  id="searchInput"
-                  placeholder="Search..."
-                  class="form-control"
-                />
-              </div>
-            </div>
-          </header>
-          <!-- card-header end// -->
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>no</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th class="text-end">Action</th>
-                  </tr>
-                </thead>
-                <% if(users.length > 0 ){ %>
-                <tbody>
-                  <% users.forEach((user,i) =>{ %>
-                  <tr>
-                    <td><%= 1+i %></td>
-                    <td><b><%= user.username %></b></td>
-                    <td><%= user.email %></td>
-                    <td><%= user.phone %></td>
-                    <td>
-                      <% if (user.isBlocked) { %>
-                      <span class="badge bg-danger">Blocked</span>
-                      <% } else { %>
-                      <span class="badge bg-success">Active</span>
-                      <% } %>
-                    </td>
-                    <td class="text-end">
-                      <form action="/admin/block-user" method="POST">
-                        <input
-                          type="hidden"
-                          name="userId"
-                          value="<%= user._id %>"
-                        />
-                        <% if (user.isBlocked) { %>
-                        <button type="submit" class="btn btn-success btn-sm">
-                          Unblock
-                        </button>
-                        <% } else { %>
-                        <button type="submit" class="btn btn-danger btn-sm">
-                          Block
-                        </button>
-                        <% } %>
-                      </form>
-                    </td>
-                  </tr>
+    </footer>
+  </main>
+  <script src="js/vendors/jquery-3.6.0.min.js"></script>
+  <script src="js/vendors/bootstrap.bundle.min.js"></script>
+  <script src="js/vendors/select2.min.js"></script>
+  <script src="js/vendors/perfect-scrollbar.js"></script>
+  <script src="js/vendors/jquery.fullscreen.min.js"></script>
+  <!-- Main Script -->
+  <script src="js/main.js?v=1.1" type="text/javascript"></script>
 
-                  <%}) %> <% }else{ %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const searchInput = document.getElementById("searchInput");
 
-                  <tr>
-                    <td>user not found</td>
-                  </tr>
-
-                  <% } %>
-                </tbody>
-              </table>
-            </div>    
-          </div> 
-        </div>
-        <div class="pagination-area mt-30 mb-50">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-              <li class="page-item active">
-                <a class="page-link" href="#">01</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">02</a></li>
-            
-              </li>
-             
-              <li class="page-item">
-                <a class="page-link" href="#"
-                  ><i class="material-icons md-chevron_right"></i
-                ></a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </section>
-      <!-- content-main end// -->
-      <footer class="main-footer font-xs">
-        <div class="row pb-30 pt-15">
-          <div class="col-sm-6">
-        </div>
-      </footer>
-    </main>
-    <script src="js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="js/vendors/select2.min.js"></script>
-    <script src="js/vendors/perfect-scrollbar.js"></script>
-    <script src="js/vendors/jquery.fullscreen.min.js"></script>
-    <!-- Main Script -->
-    <script src="js/main.js?v=1.1" type="text/javascript"></script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const searchInput = document.getElementById("searchInput");
-    
-        searchInput.addEventListener("keypress", function(event) {
-          if (event.key === 'Enter') {
-            const searchTerm = searchInput.value.trim();
-            const searchUrl = "/admin/users?search=" + encodeURIComponent(searchTerm);
-            window.location.href = searchUrl;
-          }
-        });
-    
-     
-        const searchButton = document.getElementById("searchButton");
-        searchButton.addEventListener("click", function() {
+      searchInput.addEventListener("keypress", function (event) {
+        if (event.key === 'Enter') {
           const searchTerm = searchInput.value.trim();
           const searchUrl = "/admin/users?search=" + encodeURIComponent(searchTerm);
           window.location.href = searchUrl;
+        }
+      });
+
+
+      const searchButton = document.getElementById("searchButton");
+      searchButton.addEventListener("click", function () {
+        const searchTerm = searchInput.value.trim();
+        const searchUrl = "/admin/users?search=" + encodeURIComponent(searchTerm);
+        window.location.href = searchUrl;
+      });
+    });
+  </script>
+
+
+
+
+
+
+
+  <script src="js/main.js">
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+      document.querySelectorAll('.block-unblock-btn').forEach(button => {
+        button.addEventListener('click', function () {
+          const userId = this.dataset.userId;
+
+          fetch('/block-user', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              if (data.success) {
+                alert('User status updated successfully!');
+                window.location.reload()
+              } else {
+                alert('Error updating user status.');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
         });
       });
-    </script>
-    
-    
-    
-    
+    });
 
+  </script>
+</body>
 
-
-    <script src="js/main.js">
-      
-              document.addEventListener('DOMContentLoaded', function () {
-                
-                  document.querySelectorAll('.block-unblock-btn').forEach(button => {
-                      button.addEventListener('click', function () {
-                          const userId = this.dataset.userId;
-
-                          fetch('/block-user', {
-                              method: 'POST',
-                              headers: {
-                                  'Content-Type': 'application/json',
-                              },
-                              body: JSON.stringify({ userId }),
-                          })
-                              .then(response => response.json())
-                              .then(data => {
-                                  console.log(data);
-                                  if (data.success) {
-                                      alert('User status updated successfully!');
-                                      window.location.reload()
-                                  } else {
-                                      alert('Error updating user status.');
-                                  }
-                              })
-                              .catch(error => {
-                                  console.error('Error:', error);
-                              });
-                      });
-                  });
-              });
-          
-    </script>
-  </body>
 </html>

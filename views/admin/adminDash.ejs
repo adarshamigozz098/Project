@@ -104,10 +104,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn-icon darkmode always-dark" href="#">  <i class="material-icons md-nights_stay"></i>
+            <a class="nav-link btn-icon darkmode always-dark" href="#"> <i class="material-icons md-nights_stay"></i>
             </a>
           </li>
-          
+
           <li class="nav-item">
             <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
           </li>
@@ -115,8 +115,7 @@
             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i
                 class="material-icons md-public"></i></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-              <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png"
-                  alt="English" />English</a>
+              <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
             </div>
           </li>
           <li class="dropdown nav-item">
@@ -139,7 +138,7 @@
           <h2 class="content-title card-title">Dashboard</h2>
           <p>Whole data about your business here</p>
         </div>
-   
+
       </div>
       <div class="row">
         <div class="col-lg-3">
@@ -177,7 +176,9 @@
                   class="text-warning material-icons md-qr_code"></i></span>
               <div class="text">
                 <h6 class="mb-1 card-title">Products</h6>
-                <span><%= productCount%></span>
+                <span>
+                  <%= productCount%>
+                </span>
                 <span class="text-sm"> In <%= categoryCount%> Categories </span>
               </div>
             </article>
@@ -229,13 +230,13 @@
             <i class="text-muted material-icons md-post_add"></i>Sales Report
           </a>
         </div>
-        
+
       </div>
 
       <div class="row">
 
-       
- <!-- MONTHLY CHART -->
+
+        <!-- MONTHLY CHART -->
         <div class="col-lg-6 grid-margin stretch-card">
           <div class="card mb-4">
             <article class="card-body">
@@ -244,15 +245,15 @@
             </article>
           </div>
         </div>
-       <!-- YEAR -->
-       <div class="col-lg-6 grid-margin stretch-card">
-        <div class="card mb-4">
-          <article class="card-body">
-            <h5 class="card-title">YEARLY</h5>
-            <canvas id="myChart2" height="120px"></canvas>
-          </article>
+        <!-- YEAR -->
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card mb-4">
+            <article class="card-body">
+              <h5 class="card-title">YEARLY</h5>
+              <canvas id="myChart2" height="120px"></canvas>
+            </article>
+          </div>
         </div>
-      </div>
       </div>
       </div>
 
@@ -272,20 +273,30 @@
                           <th>Email</th>
                           <th>Mobile</th>
                           <th>Joined Date</th>
-                        
+
                         </tr>
                       </thead>
                       <tbody>
-                        <% latestUsers.forEach((user, index) => { %>
+                        <% latestUsers.forEach((user, index)=> { %>
                           <tr>
-                            <td><%= index + 1 %></td>
-                            <td><%= user.username %></td>
-                            <td><%= user.email %></td>
-                            <td><%= user.phone %></td>
-                            <td><%= user.createdAt.toLocaleDateString() %></td>
-                       
+                            <td>
+                              <%= index + 1 %>
+                            </td>
+                            <td>
+                              <%= user.username %>
+                            </td>
+                            <td>
+                              <%= user.email %>
+                            </td>
+                            <td>
+                              <%= user.phone %>
+                            </td>
+                            <td>
+                              <%= user.createdAt.toLocaleDateString() %>
+                            </td>
+
                           </tr>
-                        <% }) %>
+                          <% }) %>
                       </tbody>
                     </table>
                   </div>
@@ -293,9 +304,9 @@
               </div>
             </div>
           </div>
-          
+
         </div>
-       
+
 
         <div class="row">
           <div class="col-12 grid-margin">
@@ -312,22 +323,34 @@
                         <th>Total</th>
                         <th>Payment Status</th>
                         <th>Payment Method</th>
-                  
+
                       </tr>
                     </thead>
                     <tbody>
-                    
-                      <% latestOrders.forEach((order,index) => { %>
+
+                      <% latestOrders.forEach((order,index)=> { %>
                         <tr>
-                          <td><%= index + 1 %></td>
-                          <td><%= order.order_id %></td>
-                          <td><%= moment(order.date).format('DD MMM, YYYY') %></td>
-                          <td><%= (order.items.price * order.items.quantity) - order.items.discountPerItem %></td>
-                          <td><%= order.items.ordered_status %></td>
-                          <td><%= order.payment %></td>
-                      
+                          <td>
+                            <%= index + 1 %>
+                          </td>
+                          <td>
+                            <%= order.order_id %>
+                          </td>
+                          <td>
+                            <%= moment(order.date).format('DD MMM, YYYY') %>
+                          </td>
+                          <td>
+                            <%= (order.items.price * order.items.quantity) - order.items.discountPerItem %>
+                          </td>
+                          <td>
+                            <%= order.items.ordered_status %>
+                          </td>
+                          <td>
+                            <%= order.payment %>
+                          </td>
+
                         </tr>
-                      <% }) %>
+                        <% }) %>
                     </tbody>
                   </table>
                 </div>
@@ -335,79 +358,79 @@
             </div>
           </div>
         </div>
-        
-
-          <!-- =====================sales================================================== -->
-          <input type="hidden" value="<%= updatedYearlyValues[0].total%>" id="2018">
-          <input type="hidden" value="<%= updatedYearlyValues[1].total%>" id="2019">
-          <input type="hidden" value="<%= updatedYearlyValues[2].total%>" id="2020">
-          <input type="hidden" value="<%= updatedYearlyValues[3].total%>" id="2021">
-          <input type="hidden" value="<%= updatedYearlyValues[4].total%>" id="2022">
-          <input type="hidden" value="<%= updatedYearlyValues[5].total%>" id="2023">
-          <input type="hidden" value="<%= updatedYearlyValues[6].total%>" id="2024">
-
-          <input type="hidden" value="<%= updatedMonthlyValues[0].total%>" id="Jan">
-          <input type="hidden" value="<%= updatedMonthlyValues[1].total%>" id="Feb">
-          <input type="hidden" value="<%= updatedMonthlyValues[2].total%>" id="Mar">
-          <input type="hidden" value="<%= updatedMonthlyValues[3].total%>" id="Apr">
-          <input type="hidden" value="<%= updatedMonthlyValues[4].total%>" id="May">
-          <input type="hidden" value="<%= updatedMonthlyValues[5].total%>" id="Jun">
-          <input type="hidden" value="<%= updatedMonthlyValues[6].total%>" id="Jul">
-          <input type="hidden" value="<%= updatedMonthlyValues[7].total%>" id="Aug">
-          <input type="hidden" value="<%= updatedMonthlyValues[8].total%>" id="Sep">
-          <input type="hidden" value="<%= updatedMonthlyValues[9].total%>" id="Oct">
-          <input type="hidden" value="<%= updatedMonthlyValues[10].total%>" id="Nov">
-          <input type="hidden" value="<%= updatedMonthlyValues[11].total%>" id="Dec">
 
 
-          <!-- ===========================orders=========================================  -->
+        <!-- =====================sales================================================== -->
+        <input type="hidden" value="<%= updatedYearlyValues[0].total%>" id="2018">
+        <input type="hidden" value="<%= updatedYearlyValues[1].total%>" id="2019">
+        <input type="hidden" value="<%= updatedYearlyValues[2].total%>" id="2020">
+        <input type="hidden" value="<%= updatedYearlyValues[3].total%>" id="2021">
+        <input type="hidden" value="<%= updatedYearlyValues[4].total%>" id="2022">
+        <input type="hidden" value="<%= updatedYearlyValues[5].total%>" id="2023">
+        <input type="hidden" value="<%= updatedYearlyValues[6].total%>" id="2024">
 
-          <input type="hidden" value="<%= updatedYearlyOrders[0].totalOrders%>" id="order2018">
-          <input type="hidden" value="<%= updatedYearlyOrders[1].totalOrders%>" id="order2019">
-          <input type="hidden" value="<%= updatedYearlyOrders[2].totalOrders%>" id="order2020">
-          <input type="hidden" value="<%= updatedYearlyOrders[3].totalOrders%>" id="order2021">
-          <input type="hidden" value="<%= updatedYearlyOrders[4].totalOrders%>" id="order2022">
-          <input type="hidden" value="<%= updatedYearlyOrders[5].totalOrders%>" id="order2023">
-          <input type="hidden" value="<%= updatedYearlyOrders[6].totalOrders%>" id="order2024">
-
-          <input type="hidden" value="<%= updatedMonthlyOrders[0].totalOrders%>" id="jan">
-          <input type="hidden" value="<%= updatedMonthlyOrders[1].totalOrders%>" id="feb">
-          <input type="hidden" value="<%= updatedMonthlyOrders[2].totalOrders%>" id="mar">
-          <input type="hidden" value="<%= updatedMonthlyOrders[3].totalOrders%>" id="apr">
-          <input type="hidden" value="<%= updatedMonthlyOrders[4].totalOrders%>" id="may">
-          <input type="hidden" value="<%= updatedMonthlyOrders[5].totalOrders%>" id="jun">
-          <input type="hidden" value="<%= updatedMonthlyOrders[6].totalOrders%>" id="jul">
-          <input type="hidden" value="<%= updatedMonthlyOrders[7].totalOrders%>" id="aug">
-          <input type="hidden" value="<%= updatedMonthlyOrders[8].totalOrders%>" id="sep">
-          <input type="hidden" value="<%= updatedMonthlyOrders[9].totalOrders%>" id="oct">
-          <input type="hidden" value="<%= updatedMonthlyOrders[10].totalOrders%>" id="nov">
-          <input type="hidden" value="<%= updatedMonthlyOrders[11].totalOrders%>" id="dec">
-
-
-          <!-- ====================================users======================================== -->
-          <input type="hidden" value="<%= updatedYearlyUsers[0].totalUsers%>" id="users2018">
-          <input type="hidden" value="<%= updatedYearlyUsers[1].totalUsers%>" id="users2019">
-          <input type="hidden" value="<%= updatedYearlyUsers[2].totalUsers%>" id="users2020">
-          <input type="hidden" value="<%= updatedYearlyUsers[3].totalUsers%>" id="users2021">
-          <input type="hidden" value="<%= updatedYearlyUsers[4].totalUsers%>" id="users2022">
-          <input type="hidden" value="<%= updatedYearlyUsers[5].totalUsers%>" id="users2023">
-          <input type="hidden" value="<%= updatedYearlyUsers[6].totalUsers%>" id="users2024">
+        <input type="hidden" value="<%= updatedMonthlyValues[0].total%>" id="Jan">
+        <input type="hidden" value="<%= updatedMonthlyValues[1].total%>" id="Feb">
+        <input type="hidden" value="<%= updatedMonthlyValues[2].total%>" id="Mar">
+        <input type="hidden" value="<%= updatedMonthlyValues[3].total%>" id="Apr">
+        <input type="hidden" value="<%= updatedMonthlyValues[4].total%>" id="May">
+        <input type="hidden" value="<%= updatedMonthlyValues[5].total%>" id="Jun">
+        <input type="hidden" value="<%= updatedMonthlyValues[6].total%>" id="Jul">
+        <input type="hidden" value="<%= updatedMonthlyValues[7].total%>" id="Aug">
+        <input type="hidden" value="<%= updatedMonthlyValues[8].total%>" id="Sep">
+        <input type="hidden" value="<%= updatedMonthlyValues[9].total%>" id="Oct">
+        <input type="hidden" value="<%= updatedMonthlyValues[10].total%>" id="Nov">
+        <input type="hidden" value="<%= updatedMonthlyValues[11].total%>" id="Dec">
 
 
-          <input type="hidden" value="<%= updatedMonthlyUsers[0].totalUsers%>" id="JAN">
-          <input type="hidden" value="<%= updatedMonthlyUsers[1].totalUsers%>" id="FEB">
-          <input type="hidden" value="<%= updatedMonthlyUsers[2].totalUsers%>" id="MAR">
-          <input type="hidden" value="<%= updatedMonthlyUsers[3].totalUsers%>" id="APR">
-          <input type="hidden" value="<%= updatedMonthlyUsers[4].totalUsers%>" id="MAY">
-          <input type="hidden" value="<%= updatedMonthlyUsers[5].totalUsers%>" id="JUN">
-          <input type="hidden" value="<%= updatedMonthlyUsers[6].totalUsers%>" id="JUL">
-          <input type="hidden" value="<%= updatedMonthlyUsers[7].totalUsers%>" id="AUG">
-          <input type="hidden" value="<%= updatedMonthlyUsers[8].totalUsers%>" id="SEP">
-          <input type="hidden" value="<%= updatedMonthlyUsers[9].totalUsers%>" id="OCT">
-          <input type="hidden" value="<%= updatedMonthlyUsers[10].totalUsers%>" id="NOV">
-          <input type="hidden" value="<%= updatedMonthlyUsers[11].totalUsers%>" id="DEC">
-          <!-- table-responsive end// -->
-        </div>
+        <!-- ===========================orders=========================================  -->
+
+        <input type="hidden" value="<%= updatedYearlyOrders[0].totalOrders%>" id="order2018">
+        <input type="hidden" value="<%= updatedYearlyOrders[1].totalOrders%>" id="order2019">
+        <input type="hidden" value="<%= updatedYearlyOrders[2].totalOrders%>" id="order2020">
+        <input type="hidden" value="<%= updatedYearlyOrders[3].totalOrders%>" id="order2021">
+        <input type="hidden" value="<%= updatedYearlyOrders[4].totalOrders%>" id="order2022">
+        <input type="hidden" value="<%= updatedYearlyOrders[5].totalOrders%>" id="order2023">
+        <input type="hidden" value="<%= updatedYearlyOrders[6].totalOrders%>" id="order2024">
+
+        <input type="hidden" value="<%= updatedMonthlyOrders[0].totalOrders%>" id="jan">
+        <input type="hidden" value="<%= updatedMonthlyOrders[1].totalOrders%>" id="feb">
+        <input type="hidden" value="<%= updatedMonthlyOrders[2].totalOrders%>" id="mar">
+        <input type="hidden" value="<%= updatedMonthlyOrders[3].totalOrders%>" id="apr">
+        <input type="hidden" value="<%= updatedMonthlyOrders[4].totalOrders%>" id="may">
+        <input type="hidden" value="<%= updatedMonthlyOrders[5].totalOrders%>" id="jun">
+        <input type="hidden" value="<%= updatedMonthlyOrders[6].totalOrders%>" id="jul">
+        <input type="hidden" value="<%= updatedMonthlyOrders[7].totalOrders%>" id="aug">
+        <input type="hidden" value="<%= updatedMonthlyOrders[8].totalOrders%>" id="sep">
+        <input type="hidden" value="<%= updatedMonthlyOrders[9].totalOrders%>" id="oct">
+        <input type="hidden" value="<%= updatedMonthlyOrders[10].totalOrders%>" id="nov">
+        <input type="hidden" value="<%= updatedMonthlyOrders[11].totalOrders%>" id="dec">
+
+
+        <!-- ====================================users======================================== -->
+        <input type="hidden" value="<%= updatedYearlyUsers[0].totalUsers%>" id="users2018">
+        <input type="hidden" value="<%= updatedYearlyUsers[1].totalUsers%>" id="users2019">
+        <input type="hidden" value="<%= updatedYearlyUsers[2].totalUsers%>" id="users2020">
+        <input type="hidden" value="<%= updatedYearlyUsers[3].totalUsers%>" id="users2021">
+        <input type="hidden" value="<%= updatedYearlyUsers[4].totalUsers%>" id="users2022">
+        <input type="hidden" value="<%= updatedYearlyUsers[5].totalUsers%>" id="users2023">
+        <input type="hidden" value="<%= updatedYearlyUsers[6].totalUsers%>" id="users2024">
+
+
+        <input type="hidden" value="<%= updatedMonthlyUsers[0].totalUsers%>" id="JAN">
+        <input type="hidden" value="<%= updatedMonthlyUsers[1].totalUsers%>" id="FEB">
+        <input type="hidden" value="<%= updatedMonthlyUsers[2].totalUsers%>" id="MAR">
+        <input type="hidden" value="<%= updatedMonthlyUsers[3].totalUsers%>" id="APR">
+        <input type="hidden" value="<%= updatedMonthlyUsers[4].totalUsers%>" id="MAY">
+        <input type="hidden" value="<%= updatedMonthlyUsers[5].totalUsers%>" id="JUN">
+        <input type="hidden" value="<%= updatedMonthlyUsers[6].totalUsers%>" id="JUL">
+        <input type="hidden" value="<%= updatedMonthlyUsers[7].totalUsers%>" id="AUG">
+        <input type="hidden" value="<%= updatedMonthlyUsers[8].totalUsers%>" id="SEP">
+        <input type="hidden" value="<%= updatedMonthlyUsers[9].totalUsers%>" id="OCT">
+        <input type="hidden" value="<%= updatedMonthlyUsers[10].totalUsers%>" id="NOV">
+        <input type="hidden" value="<%= updatedMonthlyUsers[11].totalUsers%>" id="DEC">
+        <!-- table-responsive end// -->
+      </div>
       </div>
       <div class="pagination-area mt-30 mb-50">
         <nav aria-label="Page navigation example">
@@ -415,7 +438,7 @@
             <li class="page-item active">
               <a class="page-link" href="#">01</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">02</a></li>    
+            <li class="page-item"><a class="page-link" href="#">02</a></li>
             <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
             </li>
           </ul>
@@ -502,32 +525,32 @@
 
   <script>
     // =======================yearly====================================
-  // sales
-  let year1 = document.getElementById("2018").value
-  let year2 = document.getElementById("2019").value
-  let year3 = document.getElementById("2020").value
-  let year4 = document.getElementById("2021").value
-  let year5 = document.getElementById("2022").value
-  let year6 = document.getElementById("2023").value
-  let year7 = document.getElementById("2024").value
+    // sales
+    let year1 = document.getElementById("2018").value
+    let year2 = document.getElementById("2019").value
+    let year3 = document.getElementById("2020").value
+    let year4 = document.getElementById("2021").value
+    let year5 = document.getElementById("2022").value
+    let year6 = document.getElementById("2023").value
+    let year7 = document.getElementById("2024").value
 
-  // orders
-  let order2018 = document.getElementById("order2018").value
-  let order2019 = document.getElementById("order2019").value
-  let order2020 = document.getElementById("order2020").value
-  let order2021 = document.getElementById("order2021").value
-  let order2022 = document.getElementById("order2022").value
-  let order2023 = document.getElementById("order2023").value
-  let order2024 = document.getElementById("order2024").value
+    // orders
+    let order2018 = document.getElementById("order2018").value
+    let order2019 = document.getElementById("order2019").value
+    let order2020 = document.getElementById("order2020").value
+    let order2021 = document.getElementById("order2021").value
+    let order2022 = document.getElementById("order2022").value
+    let order2023 = document.getElementById("order2023").value
+    let order2024 = document.getElementById("order2024").value
 
-  // users
-  let users2018 = document.getElementById("users2018").value
-  let users2019 = document.getElementById("users2019").value
-  let users2020 = document.getElementById("users2020").value
-  let users2021 = document.getElementById("users2021").value
-  let users2022 = document.getElementById("users2022").value
-  let users2023 = document.getElementById("users2023").value
-  let users2024 = document.getElementById("users2024").value
+    // users
+    let users2018 = document.getElementById("users2018").value
+    let users2019 = document.getElementById("users2019").value
+    let users2020 = document.getElementById("users2020").value
+    let users2021 = document.getElementById("users2021").value
+    let users2022 = document.getElementById("users2022").value
+    let users2023 = document.getElementById("users2023").value
+    let users2024 = document.getElementById("users2024").value
   </script>
 
 
@@ -551,8 +574,8 @@
                   backgroundColor: 'rgba(44, 120, 220, 0.2)',
                   borderColor: 'rgba(44, 120, 220)',
                   data: [
-                  jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
-               
+                    jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
+
                   ]
                 },
                 {
@@ -562,7 +585,7 @@
                   backgroundColor: 'rgba(4, 209, 130, 0.2)',
                   borderColor: 'rgb(4, 209, 130)',
                   data: [
-                  Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+                    Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
                   ]
                 },
                 {
@@ -594,120 +617,121 @@
 
 
 
-<script>
-  (function ($) {
-    "use strict";
-  
-// CHART 2
-    if ($('#myChart2').length) {
-      var ctx = document.getElementById('myChart2').getContext('2d');
-      var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: [2018 , 2019 , 2020, 2021, 2022, 2023, 2024],
-          datasets: [
-            {
-              label: 'Sales',
-              tension: 0.3,
-              fill: true,
-              backgroundColor: 'rgba(44, 120, 220, 0.2)',
-              borderColor: 'rgba(44, 120, 220)',
-              data: [
-                year1 , year2 , year3, year4, year5, year6, year7
-              ]
-            },
-            {
-              label: 'Orders',
-              tension: 0.3,
-              fill: true,
-              backgroundColor: 'rgba(4, 209, 130, 0.2)',
-              borderColor: 'rgb(4, 209, 130)',
-               data: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
-            },
-            {
-              label: 'Users',
-              tension: 0.3,
-              fill: true,
-              backgroundColor: 'rgba(380, 200, 230, 0.2)',
-              borderColor: 'rgb(380, 200, 230)',
-              data: [
-               users2018, users2019, users2020, users2021, users2022, users2023, users2024
-              ]
-            }
-          ]
-        },
-        options: {
-          plugins: {
-            legend: {
-              labels: {
-                usePointStyle: true,
+  <script>
+    (function ($) {
+      "use strict";
+
+      // CHART 2
+      if ($('#myChart2').length) {
+        var ctx = document.getElementById('myChart2').getContext('2d');
+        var chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: [2018, 2019, 2020, 2021, 2022, 2023, 2024],
+            datasets: [
+              {
+                label: 'Sales',
+                tension: 0.3,
+                fill: true,
+                backgroundColor: 'rgba(44, 120, 220, 0.2)',
+                borderColor: 'rgba(44, 120, 220)',
+                data: [
+                  year1, year2, year3, year4, year5, year6, year7
+                ]
               },
+              {
+                label: 'Orders',
+                tension: 0.3,
+                fill: true,
+                backgroundColor: 'rgba(4, 209, 130, 0.2)',
+                borderColor: 'rgb(4, 209, 130)',
+                data: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+              },
+              {
+                label: 'Users',
+                tension: 0.3,
+                fill: true,
+                backgroundColor: 'rgba(380, 200, 230, 0.2)',
+                borderColor: 'rgb(380, 200, 230)',
+                data: [
+                  users2018, users2019, users2020, users2021, users2022, users2023, users2024
+                ]
+              }
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
+                labels: {
+                  usePointStyle: true,
+                },
+              }
             }
           }
-        }
-      });
+        });
+      }
     }
-  }
-  )(jQuery);
-</script>
+    )(jQuery);
+  </script>
 
 
-<script>
-  (function ($) {
-    "use strict";
-  
-// CHART 2
-    if ($('#myChart3').length) {
-      var ctx = document.getElementById('myChart3').getContext('2d');
-      var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ["TODAY"],
-          datasets: [
-            {
-              label: 'Sales',
-              tension: 0.3,
-              fill: true,
-              backgroundColor: 'rgba(44, 120, 220, 0.2)',
-              borderColor: 'rgba(44, 120, 220)',
-              data: [
-               
-              ]
-            },
-            {
-              label: 'Orders',
-              tension: 0.3,
-              fill: true,
-              backgroundColor: 'rgba(4, 209, 130, 0.2)',
-              borderColor: 'rgb(4, 209, 130)',
-               data: []
-            },
-            {
-              label: 'Users',
-              tension: 0.3,
-              fill: true,
-              backgroundColor: 'rgba(380, 200, 230, 0.2)',
-              borderColor: 'rgb(380, 200, 230)',
-              data: [
-             
-              ]
-            }
-          ]
-        },
-        options: {
-          plugins: {
-            legend: {
-              labels: {
-                usePointStyle: true,
+  <script>
+    (function ($) {
+      "use strict";
+
+      // CHART 2
+      if ($('#myChart3').length) {
+        var ctx = document.getElementById('myChart3').getContext('2d');
+        var chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ["TODAY"],
+            datasets: [
+              {
+                label: 'Sales',
+                tension: 0.3,
+                fill: true,
+                backgroundColor: 'rgba(44, 120, 220, 0.2)',
+                borderColor: 'rgba(44, 120, 220)',
+                data: [
+
+                ]
               },
+              {
+                label: 'Orders',
+                tension: 0.3,
+                fill: true,
+                backgroundColor: 'rgba(4, 209, 130, 0.2)',
+                borderColor: 'rgb(4, 209, 130)',
+                data: []
+              },
+              {
+                label: 'Users',
+                tension: 0.3,
+                fill: true,
+                backgroundColor: 'rgba(380, 200, 230, 0.2)',
+                borderColor: 'rgb(380, 200, 230)',
+                data: [
+
+                ]
+              }
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
+                labels: {
+                  usePointStyle: true,
+                },
+              }
             }
           }
-        }
-      });
+        });
+      }
     }
-  }
-  )(jQuery);
-</script>
+    )(jQuery);
+  </script>
 
 </body>
+
 </html>

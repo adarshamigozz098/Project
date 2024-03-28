@@ -393,56 +393,56 @@
 
   // excel
   function generateExcel() {
-            const orders = document.querySelectorAll('.table tbody tr');
+    const orders = document.querySelectorAll('.table tbody tr');
 
-            const orderData = [];
-            orders.forEach(order => {
-                const orderId = order.cells[0].innerText;
-                const Name = order.cells[1].innerText;
-                const date = order.cells[2].innerText;
-                const total = order.cells[3].innerText;
-                const paymentMethod = order.cells[4].innerText;
-                const status = order.cells[5].innerText;
+    const orderData = [];
+    orders.forEach(order => {
+      const orderId = order.cells[0].innerText;
+      const Name = order.cells[1].innerText;
+      const date = order.cells[2].innerText;
+      const total = order.cells[3].innerText;
+      const paymentMethod = order.cells[4].innerText;
+      const status = order.cells[5].innerText;
 
-                orderData.push([orderId, Name, date, total, paymentMethod, status]);
-            });
+      orderData.push([orderId, Name, date, total, paymentMethod, status]);
+    });
 
-            const headerStyle = {
-                font: { bold: true, color: { rgb: "FFFFFF" } },
-                fill: { fgColor: { rgb: "2F75B5" } },
-                alignment: { horizontal: "center" }
-            };
+    const headerStyle = {
+      font: { bold: true, color: { rgb: "FFFFFF" } },
+      fill: { fgColor: { rgb: "2F75B5" } },
+      alignment: { horizontal: "center" }
+    };
 
-            const cellStyle = {
-                alignment: { horizontal: "left" }
-            };
+    const cellStyle = {
+      alignment: { horizontal: "left" }
+    };
 
-            const header = ['OrderId', "Name", 'Date', 'Total', 'Payment Method', 'Status'];
-            const data = [header, ...orderData];
+    const header = ['OrderId', "Name", 'Date', 'Total', 'Payment Method', 'Status'];
+    const data = [header, ...orderData];
 
-            const ws = XLSX.utils.aoa_to_sheet(data);
+    const ws = XLSX.utils.aoa_to_sheet(data);
 
-            XLSX.utils.format_cell(ws['A1'], headerStyle);
-            XLSX.utils.format_cell(ws['B1'], headerStyle);
-            XLSX.utils.format_cell(ws['C1'], headerStyle);
-            XLSX.utils.format_cell(ws['D1'], headerStyle);
-            XLSX.utils.format_cell(ws['E1'], headerStyle);
-            XLSX.utils.format_cell(ws['F1'], headerStyle);
+    XLSX.utils.format_cell(ws['A1'], headerStyle);
+    XLSX.utils.format_cell(ws['B1'], headerStyle);
+    XLSX.utils.format_cell(ws['C1'], headerStyle);
+    XLSX.utils.format_cell(ws['D1'], headerStyle);
+    XLSX.utils.format_cell(ws['E1'], headerStyle);
+    XLSX.utils.format_cell(ws['F1'], headerStyle);
 
-            data.forEach((row, rowIndex) => {
-                if (rowIndex > 0) {
-                    row.forEach((cell, columnIndex) => {
-                        XLSX.utils.format_cell(ws[XLSX.utils.encode_cell({ r: rowIndex, c: columnIndex })], cellStyle);
-                    });
-                }
-            });
+    data.forEach((row, rowIndex) => {
+      if (rowIndex > 0) {
+        row.forEach((cell, columnIndex) => {
+          XLSX.utils.format_cell(ws[XLSX.utils.encode_cell({ r: rowIndex, c: columnIndex })], cellStyle);
+        });
+      }
+    });
 
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Sales Report');
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sales Report');
 
-            const filename = 'Sales_Report_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.xlsx';
+    const filename = 'Sales_Report_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.xlsx';
 
-            XLSX.writeFile(wb, filename);
-        }
+    XLSX.writeFile(wb, filename);
+  }
 
 </script>

@@ -18,7 +18,7 @@
         }
 
         .forgot-password-container {
-            background-color:#dbcc8f;
+            background-color: #dbcc8f;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -72,20 +72,19 @@
 <body>
     <div class="forgot-password-container">
         <h2>Forgot Password</h2>
-       
+
         <form method="post" action="/forget">
             <div class="mb-3">
-                <input class="form-control" placeholder="Username or email" type="email" name="email"
-                    id="email" />
+                <input class="form-control" placeholder="Username or email" type="email" name="email" id="email" />
             </div>
             <div class="mb-4">
                 <button type="submit" class="btn btn-primary w-100">Verify Email</button>
             </div>
-            <% if (typeof message !== 'undefined') { %>
+            <% if (typeof message !=='undefined' ) { %>
                 <h5 style="color: brown;">
                     <%= message %>
                 </h5>
-            <% } %>
+                <% } %>
         </form>
     </div>
 </body>

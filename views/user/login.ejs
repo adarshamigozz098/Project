@@ -1,517 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>SHOEzzo</title>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
-      rel="stylesheet"/>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="/user/css/animate.css" />
-    <link rel="stylesheet" href="/user/css/open-iconic-bootstrap.min.css" />
-    <link rel="stylesheet" href="/user/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="/user/css/owl.theme.default.min.css" />
-    <link rel="stylesheet" href="/user/css/magnific-popup.css" />
+<head>
+  <title>SHOEzzo</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link rel="stylesheet" href="/user/css/aos.css" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/user/css/animate.css" />
+  <link rel="stylesheet" href="/user/css/open-iconic-bootstrap.min.css" />
+  <link rel="stylesheet" href="/user/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="/user/css/owl.theme.default.min.css" />
+  <link rel="stylesheet" href="/user/css/magnific-popup.css" />
 
-    <link rel="stylesheet" href="/user/css/ionicons.min.css" />
+  <link rel="stylesheet" href="/user/css/aos.css" />
 
-    <link rel="stylesheet" href="/user/css/bootstrap-datepicker.css" />
-    <link rel="stylesheet" href="/user/css/jquery.timepicker.css" />
+  <link rel="stylesheet" href="/user/css/ionicons.min.css" />
 
-    <link rel="stylesheet" href="/user/css/flaticon.css" />
-    <link rel="stylesheet" href="/user/css/icomoon.css" />
-    <link rel="stylesheet" href="/user/css/style.css" />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
+  <link rel="stylesheet" href="/user/css/bootstrap-datepicker.css" />
+  <link rel="stylesheet" href="/user/css/jquery.timepicker.css" />
 
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-      }
+  <link rel="stylesheet" href="/user/css/flaticon.css" />
+  <link rel="stylesheet" href="/user/css/icomoon.css" />
+  <link rel="stylesheet" href="/user/css/style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-      .nav-item {
-        position: relative;
-      }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
 
-      .nav-item a {
-        text-decoration: none;
-        color: black;
-        padding: 15px;
-        display: block;
-      }
+    .nav-item {
+      position: relative;
+    }
 
-      .nav-item:hover .dropdown {
-        display: block;
-      }
+    .nav-item a {
+      text-decoration: none;
+      color: black;
+      padding: 15px;
+      display: block;
+    }
 
-      .dropdown {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: #fff;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
+    .nav-item:hover .dropdown {
+      display: block;
+    }
 
-      .dropdown a {
-        color: black;
-        padding: 12px 16px;
-        display: block;
-        text-decoration: none;
-      }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #fff;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
 
-      .fa-user {
-        margin-top: 22px;
-        color: black;
-      }
-    </style>
-    <style>
-        .card {
-          border: 1px solid #ddd; /* Set your desired border color */
-          border-radius: 8px; /* Set your desired border radius */
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Set your desired box shadow */
-        }
-      
-        .card-body {
-          padding: 20px; /* Set your desired padding */
-        }
-      
-        .btn-custom {
-          background-color: #007bff; /* Set your desired background color */
-          color: #fff; /* Set your desired text color */
-          font-weight: bold;
-          margin-top: 15px; /* Add spacing between the form fields and the button */
-        }
-      
-        .btn-custom:hover {
-          background-color: #0056b3; /* Set your desired hover background color */
-        }
-      </style>
-      
-      <style>
-        .btn.btn-primary {
-    background: #dbcc8f;
-    border: 1px solid #dbcc8f;
-    color: #fff;
-    margin-top: 40px;
-    margin-bottom: 36px;
-}
-      </style>
+    .dropdown a {
+      color: black;
+      padding: 12px 16px;
+      display: block;
+      text-decoration: none;
+    }
+
+    .fa-user {
+      margin-top: 22px;
+      color: black;
+    }
+  </style>
+  <style>
+    .card {
+      border: 1px solid #ddd;
+      /* Set your desired border color */
+      border-radius: 8px;
+      /* Set your desired border radius */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      /* Set your desired box shadow */
+    }
+
+    .card-body {
+      padding: 20px;
+      /* Set your desired padding */
+    }
+
+    .btn-custom {
+      background-color: #007bff;
+      /* Set your desired background color */
+      color: #fff;
+      /* Set your desired text color */
+      font-weight: bold;
+      margin-top: 15px;
+      /* Add spacing between the form fields and the button */
+    }
+
+    .btn-custom:hover {
+      background-color: #0056b3;
+      /* Set your desired hover background color */
+    }
+  </style>
+
+  <style>
+    .btn.btn-primary {
+      background: #dbcc8f;
+      border: 1px solid #dbcc8f;
+      color: #fff;
+      margin-top: 40px;
+      margin-bottom: 36px;
+    }
+  </style>
 
 
   <style>
-  .card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-  .card-body {
-    padding: 20px;
-  }
+    .card-body {
+      padding: 20px;
+    }
 
-  h2.text-center {
-    color: #333;
-  }
+    h2.text-center {
+      color: #333;
+    }
 
-  .form-group label {
-    color: #333;
-  }
+    .form-group label {
+      color: #333;
+    }
 
-  .btn-custom {
-    background-color: #3498db;
-    color: #fff;
-    border: 1px solid #3498db;
-  }
+    .btn-custom {
+      background-color: #3498db;
+      color: #fff;
+      border: 1px solid #3498db;
+    }
 
-  .btn-custom:hover {
-    background-color: #2980b9;
-    border: 1px solid #2980b9;
-  }
+    .btn-custom:hover {
+      background-color: #2980b9;
+      border: 1px solid #2980b9;
+    }
 
-  span.error-message {
-    color: red;
-    font-size: small;
-    text-align: center;
-    display: block;
-    margin-top: 10px;
-  }
+    span.error-message {
+      color: red;
+      font-size: small;
+      text-align: center;
+      display: block;
+      margin-top: 10px;
+    }
 
-  p.text-center {
-    color: #333;
-    margin-top: 10px;
-  }
+    p.text-center {
+      color: #333;
+      margin-top: 10px;
+    }
 
-  a {
-    color: #3498db;
-  }
+    a {
+      color: #3498db;
+    }
 
-  a:hover {
-    color: #2980b9;
-  }
-</style>
+    a:hover {
+      color: #2980b9;
+    }
+  </style>
 
 
 
-  </head>
-  <body class="goto-here">
-    <div class="py-1 bg-black">
-      <div class="container">
-        <div
-          class="row no-gutters d-flex align-items-start align-items-center px-md-0"
-        >
-          <div class="col-lg-12 d-block">
-            <div class="row d-flex">
-              <div class="col-md pr-4 d-flex topper align-items-center">
-                <div
-                  class="icon mr-2 d-flex justify-content-center align-items-center"
-                >
-                  <span class="icon-phone2"></span>
-                </div>
-                <span class="text">+ 1235 2355 98</span>
+</head>
+
+<body class="goto-here">
+  <div class="py-1 bg-black">
+    <div class="container">
+      <div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
+        <div class="col-lg-12 d-block">
+          <div class="row d-flex">
+            <div class="col-md pr-4 d-flex topper align-items-center">
+              <div class="icon mr-2 d-flex justify-content-center align-items-center">
+                <span class="icon-phone2"></span>
               </div>
-              <div class="col-md pr-4 d-flex topper align-items-center">
-                <div
-                  class="icon mr-2 d-flex justify-content-center align-items-center"
-                >
-                  <span class="icon-paper-plane"></span>
-                </div>
-                <span class="text">youremail@email.com</span>
+              <span class="text">+ 1235 2355 98</span>
+            </div>
+            <div class="col-md pr-4 d-flex topper align-items-center">
+              <div class="icon mr-2 d-flex justify-content-center align-items-center">
+                <span class="icon-paper-plane"></span>
               </div>
-              <div
-                class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right"
-              >
-                <span class="text"
-                  >3-5 Business days delivery &amp; Free Returns</span
-                >
-              </div>
+              <span class="text">youremail@email.com</span>
+            </div>
+            <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
+              <span class="text">3-5 Business days delivery &amp; Free Returns</span>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-   
-
-
-    <!-- NAVBAR -->
- 
-
-<!-- Login Form -->
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6" style="margin-top: 100px;">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="text-center mb-4"><b style="color: #dbcc8f;">LOGIN</b></h2>
-          <form id="loginForm" method="post">
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block btn-custom">Login</button>
-
-            <% if (messages.error && messages.error.length > 0) { %>
-              <span class="error-message"><%= messages.error %></span>
-            <% } %>
-            
-            <% if (messages.success && messages.success.length > 0) { %>
-              <span class="success-message"><%= messages.success %></span>
-            <% } %>
-            
-          </form>
-          <p class="mt-3 text-center">
-            Don't have an account? 
-            <a href="/signup">Register here</a>
-          </p>
-          <p class="mt-2 text-center">
-            <a href="/forget">Forgot your password?</a>
-          </p>
         </div>
       </div>
     </div>
   </div>
-</div>
-  
-    <section class="ftco-gallery" style="margin-top: 200px;">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-md-8 heading-section text-center mb-4 ftco-animate">
-              <h2 class="mb-4">Follow Us On Instagram</h2>
-              <p>
-                Far far away, behind the word mountains, far from the countries
-                Vokalia and Consonantia, there live the blind texts. Separated
-                they live in
-              </p>
-            </div>
+
+
+
+  <!-- NAVBAR -->
+
+
+  <!-- Login Form -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6" style="margin-top: 100px;">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="text-center mb-4"><b style="color: #dbcc8f;">LOGIN</b></h2>
+            <form id="loginForm" method="post">
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password"
+                  placeholder="Enter your password" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block btn-custom">Login</button>
+
+              <% if (messages.error && messages.error.length> 0) { %>
+                <span class="error-message">
+                  <%= messages.error %>
+                </span>
+                <% } %>
+
+                  <% if (messages.success && messages.success.length> 0) { %>
+                    <span class="success-message">
+                      <%= messages.success %>
+                    </span>
+                    <% } %>
+
+            </form>
+            <p class="mt-3 text-center">
+              Don't have an account?
+              <a href="/signup">Register here</a>
+            </p>
+            <p class="mt-2 text-center">
+              <a href="/forget">Forgot your password?</a>
+            </p>
           </div>
         </div>
-        <div class="container-fluid px-0">
-          <div class="row no-gutters">
-            <div class="col-md-4 col-lg-2 ftco-animate">
-              <a
-                href="/user/images/gallery-1.jpg"
-                class="gallery image-popup img d-flex align-items-center"
-                style="background-image: url(images/gallery-1.jpg)"
-              >
-                <div
-                  class="icon mb-4 d-flex align-items-center justify-content-center"
-                >
-                  <span class="icon-instagram"></span>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-4 col-lg-2 ftco-animate">
-              <a
-                href="/user/images/gallery-2.jpg"
-                class="gallery image-popup img d-flex align-items-center"
-                style="background-image: url(images/gallery-2.jpg)"
-              >
-                <div
-                  class="icon mb-4 d-flex align-items-center justify-content-center"
-                >
-                  <span class="icon-instagram"></span>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-4 col-lg-2 ftco-animate">
-              <a
-                href="/user/images/gallery-3.jpg"
-                class="gallery image-popup img d-flex align-items-center"
-                style="background-image: url(images/gallery-3.jpg)">
-                <div
-                  class="icon mb-4 d-flex align-items-center justify-content-center">
-                  <span class="icon-instagram"></span>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-4 col-lg-2 ftco-animate">
-              <a
-                href="/user/images/gallery-4.jpg"
-                class="gallery image-popup img d-flex align-items-center"
-                style="background-image: url(images/gallery-4.jpg)">
-                <div
-                  class="icon mb-4 d-flex align-items-center justify-content-center">
-                  <span class="icon-instagram"></span>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-4 col-lg-2 ftco-animate">
-              <a
-                href="/user/mages/gallery-5.jpg"
-                class="gallery image-popup img d-flex align-items-center"
-                style="background-image: url(images/gallery-5.jpg)">
-                <div
-                  class="icon mb-4 d-flex align-items-center justify-content-center">
-                  <span class="icon-instagram"></span>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-4 col-lg-2 ftco-animate">
-              <a
-                href="/user/images/gallery-6.jpg"
-                class="gallery image-popup img d-flex align-items-center"
-                style="background-image: url(images/gallery-6.jpg)">
-                <div
-                  class="icon mb-4 d-flex align-items-center justify-content-center">
-                  <span class="icon-instagram"></span>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-  
-      <footer class="ftco-footer ftco-section">
-        <div class="container">
-          <div class="row">
-            <div class="mouse">
-              <a href="#" class="mouse-icon">
-                <div class="mouse-wheel">
-                  <span class="ion-ios-arrow-up"></span>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="row mb-5">
-            <div class="col-md">
-              <div class="ftco-footer-widget mb-4">
-                <h2 class="ftco-heading-2">Minishop</h2>
-                <p>
-                  Far far away, behind the word mountains, far from the countries
-                  Vokalia and Consonantia.
-                </p>
-                <ul
-                  class="ftco-footer-social list-unstyled float-md-left float-lft mt-5" >
-                  <li class="ftco-animate">
-                    <a href="#"><span class="icon-twitter"></span></a>
-                  </li>
-                  <li class="ftco-animate">
-                    <a href="#"><span class="icon-facebook"></span></a>
-                  </li>
-                  <li class="ftco-animate">
-                    <a href="#"><span class="icon-instagram"></span></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-md">
-              <div class="ftco-footer-widget mb-4 ml-md-5">
-                <h2 class="ftco-heading-2">Menu</h2>
-                <ul class="list-unstyled">
-                  <li><a href="#" class="py-2 d-block">Shop</a></li>
-                  <li><a href="#" class="py-2 d-block">About</a></li>
-                  <li><a href="#" class="py-2 d-block">Journal</a></li>
-                  <li><a href="#" class="py-2 d-block">Contact Us</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="ftco-footer-widget mb-4">
-                <h2 class="ftco-heading-2">Help</h2>
-                <div class="d-flex">
-                  <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
-                    <li>
-                      <a href="#" class="py-2 d-block">Shipping Information</a>
-                    </li>
-                    <li>
-                      <a href="#" class="py-2 d-block">Returns &amp; Exchange</a>
-                    </li>
-                    <li>
-                      <a href="#" class="py-2 d-block">Terms &amp; Conditions</a>
-                    </li>
-                    <li><a href="#" class="py-2 d-block">Privacy Policy</a></li>
-                  </ul>
-                  <ul class="list-unstyled">
-                    <li><a href="#" class="py-2 d-block">FAQs</a></li>
-                    <li><a href="#" class="py-2 d-block">Contact</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-md">
-              <div class="ftco-footer-widget mb-4">
-                <h2 class="ftco-heading-2">Have a Questions?</h2>
-                <div class="block-23 mb-3">
-                  <ul>
-                    <li>
-                      <span class="icon icon-map-marker"></span
-                      ><span class="text"
-                        >203 Fake St. Mountain View, San Francisco, California,
-                        USA</span>
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><span class="icon icon-phone"></span
-                        ><span class="text">+2 392 3929 210</span></a>
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><span class="icon icon-envelope"></span
-                        ><span class="text">info@yourdomain.com</span></a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 text-center">
-              <p>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                All rights reserved | This template is made with
-                <i class="icon-heart color-danger" aria-hidden="true"></i> by
-                <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
-  
-      <!-- loader -->
-      <div id="ftco-loader" class="show fullscreen">
-        <svg class="circular" width="48px" height="48px">
-          <circle
-            class="path-bg"
-            cx="24"
-            cy="24"
-            r="22"
-            fill="none"
-            stroke-width="4"
-            stroke="#eeeeee"
-          />
-          <circle
-            class="path"
-            cx="24"
-            cy="24"
-            r="22"
-            fill="none"
-            stroke-width="4"
-            stroke-miterlimit="10"
-            stroke="#F96D00"
-          />
-        </svg>
       </div>
+    </div>
+  </div>
+
+  <section class="ftco-gallery" style="margin-top: 200px;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 heading-section text-center mb-4 ftco-animate">
+          <h2 class="mb-4">Follow Us On Instagram</h2>
+          <p>
+            Far far away, behind the word mountains, far from the countries
+            Vokalia and Consonantia, there live the blind texts. Separated
+            they live in
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid px-0">
+      <div class="row no-gutters">
+        <div class="col-md-4 col-lg-2 ftco-animate">
+          <a href="/user/images/gallery-1.jpg" class="gallery image-popup img d-flex align-items-center"
+            style="background-image: url(images/gallery-1.jpg)">
+            <div class="icon mb-4 d-flex align-items-center justify-content-center">
+              <span class="icon-instagram"></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-lg-2 ftco-animate">
+          <a href="/user/images/gallery-2.jpg" class="gallery image-popup img d-flex align-items-center"
+            style="background-image: url(images/gallery-2.jpg)">
+            <div class="icon mb-4 d-flex align-items-center justify-content-center">
+              <span class="icon-instagram"></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-lg-2 ftco-animate">
+          <a href="/user/images/gallery-3.jpg" class="gallery image-popup img d-flex align-items-center"
+            style="background-image: url(images/gallery-3.jpg)">
+            <div class="icon mb-4 d-flex align-items-center justify-content-center">
+              <span class="icon-instagram"></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-lg-2 ftco-animate">
+          <a href="/user/images/gallery-4.jpg" class="gallery image-popup img d-flex align-items-center"
+            style="background-image: url(images/gallery-4.jpg)">
+            <div class="icon mb-4 d-flex align-items-center justify-content-center">
+              <span class="icon-instagram"></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-lg-2 ftco-animate">
+          <a href="/user/mages/gallery-5.jpg" class="gallery image-popup img d-flex align-items-center"
+            style="background-image: url(images/gallery-5.jpg)">
+            <div class="icon mb-4 d-flex align-items-center justify-content-center">
+              <span class="icon-instagram"></span>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-lg-2 ftco-animate">
+          <a href="/user/images/gallery-6.jpg" class="gallery image-popup img d-flex align-items-center"
+            style="background-image: url(images/gallery-6.jpg)">
+            <div class="icon mb-4 d-flex align-items-center justify-content-center">
+              <span class="icon-instagram"></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftco-footer ftco-section">
+    <div class="container">
+      <div class="row">
+        <div class="mouse">
+          <a href="#" class="mouse-icon">
+            <div class="mouse-wheel">
+              <span class="ion-ios-arrow-up"></span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Minishop</h2>
+            <p>
+              Far far away, behind the word mountains, far from the countries
+              Vokalia and Consonantia.
+            </p>
+            <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+              <li class="ftco-animate">
+                <a href="#"><span class="icon-twitter"></span></a>
+              </li>
+              <li class="ftco-animate">
+                <a href="#"><span class="icon-facebook"></span></a>
+              </li>
+              <li class="ftco-animate">
+                <a href="#"><span class="icon-instagram"></span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4 ml-md-5">
+            <h2 class="ftco-heading-2">Menu</h2>
+            <ul class="list-unstyled">
+              <li><a href="#" class="py-2 d-block">Shop</a></li>
+              <li><a href="#" class="py-2 d-block">About</a></li>
+              <li><a href="#" class="py-2 d-block">Journal</a></li>
+              <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Help</h2>
+            <div class="d-flex">
+              <ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
+                <li>
+                  <a href="#" class="py-2 d-block">Shipping Information</a>
+                </li>
+                <li>
+                  <a href="#" class="py-2 d-block">Returns &amp; Exchange</a>
+                </li>
+                <li>
+                  <a href="#" class="py-2 d-block">Terms &amp; Conditions</a>
+                </li>
+                <li><a href="#" class="py-2 d-block">Privacy Policy</a></li>
+              </ul>
+              <ul class="list-unstyled">
+                <li><a href="#" class="py-2 d-block">FAQs</a></li>
+                <li><a href="#" class="py-2 d-block">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Have a Questions?</h2>
+            <div class="block-23 mb-3">
+              <ul>
+                <li>
+                  <span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San
+                    Francisco, California,
+                    USA</span>
+                </li>
+                <li>
+                  <a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            All rights reserved | This template is made with
+            <i class="icon-heart color-danger" aria-hidden="true"></i> by
+            <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px">
+      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+        stroke="#F96D00" />
+    </svg>
+  </div>
 
 
-    
-      <script src="/user/js/jquery.min.js"></script>
-      <script src="/user/js/jquery-migrate-3.0.1.min.js"></script>
-      <script src="/user/js/popper.min.js"></script>
-      <script src="/user/js/bootstrap.min.js"></script>
-      <script src="/user/js/jquery.easing.1.3.js"></script>
-      <script src="/user/js/jquery.waypoints.min.js"></script>
-      <script src="/user/js/jquery.stellar.min.js"></script>
-      <script src="/user/js/owl.carousel.min.js"></script>
-      <script src="/user/js/jquery.magnific-popup.min.js"></script>
-      <script src="/user/js/aos.js"></script>
-      <script src="/user/js/jquery.animateNumber.min.js"></script>
-      <script src="/user/js/bootstrap-datepicker.js"></script>
-      <script src="/user/js/scrollax.min.js"></script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-      <script src="/user/js/google-map.js"></script>
-      <script src="/user/js/main.js"></script>
-   
 
-      <style>
- .success-message {
-        color: green;
-        margin-left: 141px;
-        font-family: inherit;
+  <script src="/user/js/jquery.min.js"></script>
+  <script src="/user/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="/user/js/popper.min.js"></script>
+  <script src="/user/js/bootstrap.min.js"></script>
+  <script src="/user/js/jquery.easing.1.3.js"></script>
+  <script src="/user/js/jquery.waypoints.min.js"></script>
+  <script src="/user/js/jquery.stellar.min.js"></script>
+  <script src="/user/js/owl.carousel.min.js"></script>
+  <script src="/user/js/jquery.magnific-popup.min.js"></script>
+  <script src="/user/js/aos.js"></script>
+  <script src="/user/js/jquery.animateNumber.min.js"></script>
+  <script src="/user/js/bootstrap-datepicker.js"></script>
+  <script src="/user/js/scrollax.min.js"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="/user/js/google-map.js"></script>
+  <script src="/user/js/main.js"></script>
+
+
+  <style>
+    .success-message {
+      color: green;
+      margin-left: 141px;
+      font-family: inherit;
     }
-      </style>
-     
-      
-   
+  </style>
 
-    </body>
-  </html>
-  
+
+
+
+</body>
+
+</html>

@@ -1,4 +1,3 @@
-
 const User = require("../model/userModel");
 const product = require("../model/product");
 const Cart = require("../model/cart");
@@ -104,25 +103,27 @@ const updateProfile = async (req, res) => {
   }
 };
 
-
-
 const userOrders = async (req, res) => {
   try {
     const userData = req.session.userId;
     if (userData) {
-      const page = parseInt(req.query.page) || 1; 
+      const page = parseInt(req.query.page) || 1;
       const limit = 5;
       const skip = (page - 1) * limit;
 
-
       const Orders = await order.aggregate([
         {
-          $unwind: { path: "$items",},},
-        { $sort: { createdAt: -1,},},
-        { $skip: skip }, 
-        { $limit: limit }
+          $unwind: { path: "$items" },
+        },
+        { $sort: { createdAt: -1 } },
+        { $skip: skip },
+        { $limit: limit },
       ]);
-      res.render("userOrders", { Orders, currentUser: req.session.userId, currentPage: page });
+      res.render("userOrders", {
+        Orders,
+        currentUser: req.session.userId,
+        currentPage: page,
+      });
     } else {
       res.redirect("/login");
     }
@@ -130,8 +131,6 @@ const userOrders = async (req, res) => {
     console.log(error);
   }
 };
-
-
 
 const laodUsersAddress = async (req, res) => {
   try {
@@ -209,7 +208,6 @@ const editAddress = async (req, res) => {
   }
 };
 
-
 const saveEditedAddress = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -263,7 +261,6 @@ const deleteAddress = async (req, res) => {
   }
 };
 
-
 const cancelOrder = async (req, res) => {
   try {
     const { productIds, orderIds } = req.body;
@@ -276,7 +273,7 @@ const cancelOrder = async (req, res) => {
       .exec();
     const totalPrice = data.total_amount;
     const userId = req.session.userId;
-    if (data.payment === "RazorPay" || data.payment === "Wallet" ) {
+    if (data.payment === "RazorPay" || data.payment === "Wallet") {
       await User.findByIdAndUpdate(
         userId,
         { $inc: { wallet: totalPrice } },
@@ -284,7 +281,7 @@ const cancelOrder = async (req, res) => {
       );
       const walletTransaction = {
         amount: totalPrice,
-        type: "credit", 
+        type: "credit",
       };
       const user = await User.findById(userId);
       if (user) {
@@ -310,7 +307,6 @@ const cancelOrder = async (req, res) => {
   }
 };
 
-
 // const calculateTotalPrice = (items, productIds) => {
 //   let totalPrice = 0;
 //   items.forEach((item) => {
@@ -320,7 +316,6 @@ const cancelOrder = async (req, res) => {
 //   });
 //   return totalPrice;
 // };
-
 
 const returnOrder = async (req, res) => {
   try {
@@ -386,14 +381,13 @@ const viewDetails = async (req, res) => {
           coupon: 1,
           ordered_status: 1,
         }
-        
       )
-      
+
       .populate({
         path: "items.product_id",
         model: "product",
       });
-      console.log(orders,"ordersrsrrs");
+    console.log(orders, "ordersrsrrs");
 
     const user = await User.findById(userId);
 
@@ -475,39 +469,42 @@ const invoiceDownload = async (req, res, next) => {
   }
 };
 
-
 const wallet = async (req, res) => {
   try {
     const userId = req.session.userId;
     const user = await User.findById(userId);
-    
-    const filteredTransactions = user.walletHistory.filter(history => 
-      history.type === 'debit' || history.type === 'credit'
+
+    const filteredTransactions = user.walletHistory.filter(
+      (history) => history.type === "debit" || history.type === "credit"
     );
 
     // Pagination
-    const page = parseInt(req.query.page) || 1; 
-    const perPage = 5; 
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 5;
     const startIndex = (page - 1) * perPage;
-    const endIndex = Math.min(startIndex + perPage, filteredTransactions.length);
+    const endIndex = Math.min(
+      startIndex + perPage,
+      filteredTransactions.length
+    );
     const totalPages = Math.ceil(filteredTransactions.length / perPage);
-    const paginatedTransactions = filteredTransactions.slice(startIndex, endIndex);
+    const paginatedTransactions = filteredTransactions.slice(
+      startIndex,
+      endIndex
+    );
 
-    res.render("wallet", { 
+    res.render("wallet", {
       user,
       currentUser: user,
       moment,
       walletTransactions: paginatedTransactions,
       totalPages,
-      currentPage: page 
+      currentPage: page,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
-
-
 
 module.exports = {
   loadProfile,

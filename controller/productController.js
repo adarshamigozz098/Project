@@ -3,10 +3,8 @@ const Category = require("../model/category");
 const sharp = require("sharp");
 const path = require("path");
 const { log } = require("console");
-const mongoose = require('mongoose');
-const fs=require("fs")
-
-
+const mongoose = require("mongoose");
+const fs = require("fs");
 
 const ITEMS_PER_PAGE = 6; // Number of products per page
 
@@ -18,7 +16,9 @@ const loadProducts = async (req, res) => {
     const startIndex = (page - 1) * ITEMS_PER_PAGE; // Calculate the starting index of products for the current page
 
     if (searchTerm) {
-      productData = await product.find({ name: { $regex: searchTerm, $options: 'i' } });
+      productData = await product.find({
+        name: { $regex: searchTerm, $options: "i" },
+      });
     } else {
       productData = await product.find({});
     }
@@ -27,20 +27,22 @@ const loadProducts = async (req, res) => {
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
 
     // Fetch products for the current page
-    const currentPageProducts = productData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const currentPageProducts = productData.slice(
+      startIndex,
+      startIndex + ITEMS_PER_PAGE
+    );
 
     res.render("products", {
       products: currentPageProducts,
       currentPage: page,
       totalPages: totalPages,
-      searchTerm: searchTerm
+      searchTerm: searchTerm,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
-
 
 const loadAddProducts = async (req, res) => {
   try {
@@ -50,7 +52,6 @@ const loadAddProducts = async (req, res) => {
     console.log(error);
   }
 };
-
 
 const addProducts = async (req, res) => {
   try {
@@ -68,8 +69,8 @@ const addProducts = async (req, res) => {
         date,
       } = req.body;
       const filenames = [];
-      console.log(req.body,"huhhh");
-    
+      console.log(req.body, "huhhh");
+
       const selectedCategory = await Category.findOne({ name: category });
 
       if (req.files.length !== 4) {
@@ -78,7 +79,7 @@ const addProducts = async (req, res) => {
           category: data,
         });
       }
-    
+
       for (let i = 0; i < req.files.length; i++) {
         const imagesPath = path.join(
           __dirname,
@@ -90,7 +91,7 @@ const addProducts = async (req, res) => {
           .toFile(imagesPath);
         filenames.push(req.files[i].filename);
       }
-     
+
       const newProduct = new product({
         name: productName.toUpperCase(),
         description,
@@ -108,7 +109,6 @@ const addProducts = async (req, res) => {
   } catch (error) {}
 };
 
-
 const loadEditProduct = async (req, res) => {
   try {
     const productsId = req.query.productsId;
@@ -121,48 +121,51 @@ const loadEditProduct = async (req, res) => {
   }
 };
 
-
 const editProducts = async (req, res) => {
   try {
-      const id = req.query.productsId;
-      const { productName, description, quantity, price, brand, category } = req.body;    
-      let updatedProduct = await product.findByIdAndUpdate(
-          {_id: id},
-          {
-             name: productName.toUpperCase(),
-              description,
-              quantity,
-              price,
-              brand,
-              category: category, 
-          },
-          {new: true}
-      );
-      if (!updatedProduct) {
-          return res.status(404).send({message: "Product not found"});
+    const id = req.query.productsId;
+    const { productName, description, quantity, price, brand, category } =
+      req.body;
+    let updatedProduct = await product.findByIdAndUpdate(
+      { _id: id },
+      {
+        name: productName.toUpperCase(),
+        description,
+        quantity,
+        price,
+        brand,
+        category: category,
+      },
+      { new: true }
+    );
+    if (!updatedProduct) {
+      return res.status(404).send({ message: "Product not found" });
+    }
+    if (req.files && req.files.length > 0) {
+      for (const newImage of req.files) {
+        const processedImagePath = path.join(
+          __dirname,
+          "../public/images",
+          `${newImage.filename}_processed`
+        );
+        await sharp(newImage.path)
+          .resize(800, 1100, { fit: "fill" })
+          .toFile(processedImagePath);
+        updatedProduct.image.push(`${newImage.filename}_processed`);
       }
-      if (req.files && req.files.length > 0) {
-          for (const newImage of req.files) {
-              const processedImagePath = path.join(__dirname, "../public/images", `${newImage.filename}_processed`)
-              await sharp(newImage.path)
-                  .resize(800, 1100, {fit: "fill"})
-                  .toFile(processedImagePath);
-              updatedProduct.image.push(`${newImage.filename}_processed`);
-          }
-          updatedProduct = await updatedProduct.save();
-      }
-      req.flash("message", "Product updated successfully");
-      res.redirect("/admin/products");
+      updatedProduct = await updatedProduct.save();
+    }
+    req.flash("message", "Product updated successfully");
+    res.redirect("/admin/products");
   } catch (error) {
-      console.log(error);
-      res.status(500).send({message: "Internal Server Error"});
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
   }
 };
 
-
 const deleteImage = async (req, res) => {
   try {
-    const { productId, image } = req.body; 
+    const { productId, image } = req.body;
     console.log(req.body);
     if (!productId) {
       return res
@@ -177,11 +180,14 @@ const deleteImage = async (req, res) => {
     }
     if (!image) {
       return res
-        .status(400) 
+        .status(400)
         .send({ success: false, error: "Image is required." });
     }
     fs.unlink(path.join(__dirname, "../public/images", image), () => {});
-    const aw = await product.updateOne({ _id: productId }, { $pull: { image: image } });
+    const aw = await product.updateOne(
+      { _id: productId },
+      { $pull: { image: image } }
+    );
     console.log(aw);
     res.send({ success: true });
     console.log("The image has been deleted.");
@@ -190,7 +196,6 @@ const deleteImage = async (req, res) => {
     res.status(500).send({ success: false, error: "Failed to delete image." });
   }
 };
-
 
 const deleteProduct = async (req, res) => {
   try {
@@ -202,8 +207,6 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
-
-
 
 const listOrUnlistProduct = async (req, res) => {
   try {
@@ -224,7 +227,6 @@ const listOrUnlistProduct = async (req, res) => {
   }
 };
 
-
 module.exports = {
   loadProducts,
   loadAddProducts,
@@ -233,5 +235,5 @@ module.exports = {
   editProducts,
   deleteProduct,
   deleteImage,
-  listOrUnlistProduct
+  listOrUnlistProduct,
 };

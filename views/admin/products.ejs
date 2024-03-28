@@ -99,19 +99,19 @@
                 class="material-icons md-public"></i></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
               <a class="dropdown-item text-brand" href="#"><img src="imgs/theme/flag-us.png" alt="English" />English</a>
-          
+
             </div>
           </li>
           <li class="dropdown nav-item">
             <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
               <img class="img-xs rounded-circle" src="imgs/people/avatar-2.png" alt="User" /></a>
-              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
 
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="/admin/logout">
-                  <i class="material-icons md-exit_to_app"></i>Logout
-                </a>
-              </div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="/admin/logout">
+                <i class="material-icons md-exit_to_app"></i>Logout
+              </a>
+            </div>
           </li>
         </ul>
       </div>
@@ -155,8 +155,8 @@
                 <% if(products.length> 0) { %>
                   <% for(let i=0; i < products.length; i++) { %>
                     <tr>
-                      <td >
-                   
+                      <td>
+
                         <img src="/images/<%= products[i].image[0] %>" alt="" width="120" height="100">
                       </td>
                       <td>
@@ -173,26 +173,28 @@
                       </td>
                       <td>
                         <span id="status_<%= products[i]._id %>"
-                            class="badge rounded-pill alert-warning <%= products[i].is_listed ? 'status-listed' : 'status-unlisted' %>">
-                            <%= products[i].is_listed ? 'Listed' : 'Unlisted' %>
+                          class="badge rounded-pill alert-warning <%= products[i].is_listed ? 'status-listed' : 'status-unlisted' %>">
+                          <%= products[i].is_listed ? 'Listed' : 'Unlisted' %>
                         </span>
-                    </td>
-                    <td>
-                        <button class="btn product-status <%= products[i].is_listed ? 'btn-success' : 'btn-danger' %> listBtn"
-                            data-product-id="<%= products[i]._id %>"
-                            data-current-status="<%= products[i].is_listed ? 'listed' : 'unlisted' %>">
-                            <%= products[i].is_listed ? 'Unlist' : 'List' %>
+                      </td>
+                      <td>
+                        <button
+                          class="btn product-status <%= products[i].is_listed ? 'btn-success' : 'btn-danger' %> listBtn"
+                          data-product-id="<%= products[i]._id %>"
+                          data-current-status="<%= products[i].is_listed ? 'listed' : 'unlisted' %>">
+                          <%= products[i].is_listed ? 'Unlist' : 'List' %>
                         </button>
-                    </td>
-                    
+                      </td>
+
                       <td>
                         <button class="btn-inverse-primary ">
                           <a href="/admin/editProduct?productsId=<%= products[i]._id %> ">Edit</a>
                         </button>
                       </td>
                       <td>
-                        <button class="deleteBtn btn btn-danger btn-sm" onclick="confirmDelete('<%= products[i]._id %>')">Delete</button>
-                      </td>                      
+                        <button class="deleteBtn btn btn-danger btn-sm"
+                          onclick="confirmDelete('<%= products[i]._id %>')">Delete</button>
+                      </td>
                     </tr>
                     <% } %>
                       <% } %>
@@ -204,49 +206,51 @@
             <div class="pagination-area mt-30 mb-50">
               <nav aria-label="Page navigation example" style="margin-top: 10px;">
                 <ul class="pagination justify-content-start">
-                  <% if (currentPage > 1) { %>
+                  <% if (currentPage> 1) { %>
                     <li class="page-item"><a class="page-link" href="?page=1&search=<%= searchTerm %>">1</a></li>
-                  <% } %>
-                  <% for (let i = 2; i <= totalPages; i++) { %>
-                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                      <a class="page-link" href="?page=<%= i %>&search=<%= searchTerm %>"><%= i %></a>
-                    </li>
-                  <% } %>
-                  <% if (currentPage < totalPages) { %>
-                    <li class="page-item">
-                      <a class="page-link" href="?page=<%= totalPages %>&search=<%= searchTerm %>">
-                        <i class="material-icons md-chevron_right"></i>
-                      </a>
-                    </li>
-                  <% } %>
+                    <% } %>
+                      <% for (let i=2; i <=totalPages; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                          <a class="page-link" href="?page=<%= i %>&search=<%= searchTerm %>">
+                            <%= i %>
+                          </a>
+                        </li>
+                        <% } %>
+                          <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                              <a class="page-link" href="?page=<%= totalPages %>&search=<%= searchTerm %>">
+                                <i class="material-icons md-chevron_right"></i>
+                              </a>
+                            </li>
+                            <% } %>
                 </ul>
               </nav>
             </div>
-            
-          </div>
-        </div>     
-      </div>
-    </section>
-      
 
-      <style>
-        .table thead th {
-          padding: 8px;
-          margin: 0;
-        }
-      </style>
-
-
-      <footer class="main-footer font-xs">
-        <div class="row pb-30 pt-15">
-          <div class="col-sm-6">
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
           </div>
         </div>
-      </footer>
-      </head>
+      </div>
+    </section>
+
+
+    <style>
+      .table thead th {
+        padding: 8px;
+        margin: 0;
+      }
+    </style>
+
+
+    <footer class="main-footer font-xs">
+      <div class="row pb-30 pt-15">
+        <div class="col-sm-6">
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+        </div>
+      </div>
+    </footer>
+    </head>
   </main>
 
   <script src="js/vendors/jquery-3.6.0.min.js"></script>
@@ -259,85 +263,85 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const adminSearchForm = document.getElementById("adminSearchForm");
-    const adminSearchInput = document.getElementById("adminSearchInput");
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const adminSearchForm = document.getElementById("adminSearchForm");
+      const adminSearchInput = document.getElementById("adminSearchInput");
 
-    adminSearchForm.addEventListener("submit", function(event) {
-      event.preventDefault(); 
-      const searchValue = adminSearchInput.value.trim();
-      if (searchValue !== "") { 
-        window.location.href = "/admin/products?search=" + encodeURIComponent(searchValue); 
-      } else {
-        window.location.href = "/admin/products"; 
-      }
-    });
-  });
-</script>
-
-
-<!-- Delete  -->
-<script>
-  function confirmDelete(productId) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You are about to delete this product. This action cannot be undone.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = `/admin/deleteProduct?productsId=${productId}`;
-      }
-    });
-  }
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<script>
- document.addEventListener("DOMContentLoaded", function () {
-  const listOrUnlistButtons = document.querySelectorAll(".listBtn");
-
-  listOrUnlistButtons.forEach((button) => {
-    button.addEventListener("click", async function () {
-      const productId = this.dataset.productId;
-
-      try {
-        const response = await axios.post(`/admin/products/${productId}/list-or-unlist`);
-
-        const updatedProductData = response.data;
-
-        if (updatedProductData.is_listed) {
-          this.textContent = "Unlist";
-          this.classList.remove("btn-danger");
-          this.classList.add("btn-success");
+      adminSearchForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const searchValue = adminSearchInput.value.trim();
+        if (searchValue !== "") {
+          window.location.href = "/admin/products?search=" + encodeURIComponent(searchValue);
         } else {
-          this.textContent = "List";
-          this.classList.remove("btn-success");
-          this.classList.add("btn-danger");
+          window.location.href = "/admin/products";
         }
-
-        const badge = document.getElementById(`status_${productId}`);
-        badge.textContent = updatedProductData.is_listed ? "Listed" : "Unlisted";
-        badge.classList.remove(updatedProductData.is_listed ? "status-unlisted" : "status-listed");
-        badge.classList.add(updatedProductData.is_listed ? "status-listed" : "status-unlisted");
-
-      } catch (error) {
-        console.log(error);
-      }
+      });
     });
-  });
-});
-</script>
+  </script>
+
+
+  <!-- Delete  -->
+  <script>
+    function confirmDelete(productId) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to delete this product. This action cannot be undone.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = `/admin/deleteProduct?productsId=${productId}`;
+        }
+      });
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const listOrUnlistButtons = document.querySelectorAll(".listBtn");
+
+      listOrUnlistButtons.forEach((button) => {
+        button.addEventListener("click", async function () {
+          const productId = this.dataset.productId;
+
+          try {
+            const response = await axios.post(`/admin/products/${productId}/list-or-unlist`);
+
+            const updatedProductData = response.data;
+
+            if (updatedProductData.is_listed) {
+              this.textContent = "Unlist";
+              this.classList.remove("btn-danger");
+              this.classList.add("btn-success");
+            } else {
+              this.textContent = "List";
+              this.classList.remove("btn-success");
+              this.classList.add("btn-danger");
+            }
+
+            const badge = document.getElementById(`status_${productId}`);
+            badge.textContent = updatedProductData.is_listed ? "Listed" : "Unlisted";
+            badge.classList.remove(updatedProductData.is_listed ? "status-unlisted" : "status-listed");
+            badge.classList.add(updatedProductData.is_listed ? "status-listed" : "status-unlisted");
+
+          } catch (error) {
+            console.log(error);
+          }
+        });
+      });
+    });
+  </script>
 
 
   <style>
-    
+
   </style>
 
 </body>

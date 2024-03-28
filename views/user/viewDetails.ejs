@@ -1,5 +1,5 @@
 <%- include('../user/layout/header') %>
-<%- include('../user/layout/nav') %>
+  <%- include('../user/layout/nav') %>
 
     <!DOCTYPE html>
     <html lang="en">
@@ -156,7 +156,7 @@
             </div>
           </div>
         </nav>
-        
+
         <div class="content">
           <div class="container-fluid">
             <div class="row justify-content-center">
@@ -172,15 +172,16 @@
                         <% orders.items.forEach(function(item) { %>
                           <div class="row">
                             <div class="col-md-3">
-                              <% if (item.product_id && item.product_id.image && item.product_id.image.length > 0) { %>
+                              <% if (item.product_id && item.product_id.image && item.product_id.image.length> 0) { %>
                                 <img src="/images/<%=item.product_id.image[0]%>" height="150px" alt="Product Image">
-                              <% } else { %>
-                                <p>No Image Available</p>
-                              <% } %>
+                                <% } else { %>
+                                  <p>No Image Available</p>
+                                  <% } %>
                             </div>
                             <div class="col-md-9">
                               <% if (item.product_id) { %>
-                                <input type="hidden" class="product-id" value="<%=item.product_id._id%>" name="productId">
+                                <input type="hidden" class="product-id" value="<%=item.product_id._id%>"
+                                  name="productId">
                                 <input type="hidden" class="order-id" value="<%=item._id%>">
                                 <span class="line">Order Id: <%= orders.order_id %></span><br>
                                 <span class="line">Item Name: <%= item.product_id.name %></span><br>
@@ -190,46 +191,54 @@
                                   <span class="line" style="color: red;">
                                     <%= item.ordered_status %>
                                   </span><br><br>
-                                <% } else { %>
-                                  <span class="line">Status: <%= item.ordered_status %></span><br><br>
-                                  <!-- INVOICE -->
-                                  <a href="/invoice?orderId=<%= orders._id %>" class="invoice-btn">
-                                    <span style="font-weight: bold; text-decoration: underline;">Download Invoice</span>
-                                  </a>
-                                <% } %>
-                              <% } %>
-                              <% if (item.ordered_status === 'placed' || item.ordered_status === 'pending') { %>
-                                <button type="button" onclick="cancel()" class="btn btn-danger">Cancel</button>
-                              <% } else if (item.ordered_status==='Delivered' ) { %>
-                                <button type="button" onclick="returnOrder()" class="btn btn-danger">Return</button>
-                              <% } else if(item.ordered_status==='Returned' ) { %>
-                                <button type="button" class="btn btn-danger disabled">Returned</button>
-                              <% } else if(item.ordered_status==='Out for Delivery' ) { %>
-                                <button type="button" class="btn btn-success disabled">Out for Delivery</button>
-                              <% } %>
+                                  <% } else { %>
+                                    <span class="line">Status: <%= item.ordered_status %></span><br><br>
+                                    <!-- INVOICE -->
+                                    <a href="/invoice?orderId=<%= orders._id %>" class="invoice-btn">
+                                      <span style="font-weight: bold; text-decoration: underline;">Download
+                                        Invoice</span>
+                                    </a>
+                                    <% } %>
+                                      <% } %>
+                                        <% if (item.ordered_status==='placed' || item.ordered_status==='pending' ) { %>
+                                          <button type="button" onclick="cancel()"
+                                            class="btn btn-danger">Cancel</button>
+                                          <% } else if (item.ordered_status==='Delivered' ) { %>
+                                            <button type="button" onclick="returnOrder()"
+                                              class="btn btn-danger">Return</button>
+                                            <% } else if(item.ordered_status==='Returned' ) { %>
+                                              <button type="button" class="btn btn-danger disabled">Returned</button>
+                                              <% } else if(item.ordered_status==='Out for Delivery' ) { %>
+                                                <button type="button" class="btn btn-success disabled">Out for
+                                                  Delivery</button>
+                                                <% } %>
                             </div>
                           </div>
-                        <% }); %>
+                          <% }); %>
                       </div>
                     </div>
-                    <h5>Customer Address</h5> 
-                  
+                    <h5>Customer Address</h5>
+
                     <td class="custom-info">
-                      <%= orders.delivery_address.name %>,<br> <%= orders.delivery_address.housename %>,<br> <%= orders.delivery_address.city %>, <br><%= orders.delivery_address.state %>,<br> <%= orders.delivery_address.phone %>
+                      <%= orders.delivery_address.name %>,<br>
+                        <%= orders.delivery_address.housename %>,<br>
+                          <%= orders.delivery_address.city %>, <br>
+                            <%= orders.delivery_address.state %>,<br>
+                              <%= orders.delivery_address.phone %>
                     </td>
-                                                  
+
                   </div>
                   <div class="card mb-3">
                     <b>Payment Details</b>
                     <div class="card-body">
-                      <% var subtotal = 0; %>
-                      <% orders.items.forEach(item => { subtotal += item.total_price; }); %>
-                      <% var couponValue = orders.coupon ? (subtotal - orders.total_amount) : 0; %> 
-                      <span class="line">Subtotal: <%= subtotal %></span><br>
-                      <% if (orders.coupon) { %> 
-                        <span class="line">Coupon: <%= couponValue %></span><br>
-                      <% } %>
-                      <span class="line">Estimated Total: <%= orders.total_amount %></span><br>
+                      <% var subtotal=0; %>
+                        <% orders.items.forEach(item=> { subtotal += item.total_price; }); %>
+                          <% var couponValue=orders.coupon ? (subtotal - orders.total_amount) : 0; %>
+                            <span class="line">Subtotal: <%= subtotal %></span><br>
+                            <% if (orders.coupon) { %>
+                              <span class="line">Coupon: <%= couponValue %></span><br>
+                              <% } %>
+                                <span class="line">Estimated Total: <%= orders.total_amount %></span><br>
                     </div>
                   </div>
                 </div>
@@ -237,7 +246,7 @@
             </div>
           </div>
         </div>
-        
+
 
         <footer class="ftco-footer ftco-section">
           <div class="container">
@@ -339,7 +348,8 @@
         <script src="/user/js/jquery.animateNumber.min.js"></script>
         <script src="/user/js/bootstrap-datepicker.js"></script>
         <script src="/user/js/scrollax.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
         <script src="/user/js/google-map.js"></script>
         <script src="/user/js/main.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

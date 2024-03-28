@@ -61,13 +61,15 @@
             <input type="password" id="password" name="password" required>
 
             <button type="submit">Login</button>
-            <% if (typeof message !== "undefined") { %>
-                <span style="color: red; font-size: small; text-align: center;"><%= message %></span>
+            <% if (typeof message !=="undefined" ) { %>
+                <span style="color: red; font-size: small; text-align: center;">
+                    <%= message %>
+                </span>
                 <% } %>
         </form>
-       
-            </p>
-        
+
+        </p>
+
     </div>
 </body>
 
