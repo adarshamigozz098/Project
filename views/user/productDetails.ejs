@@ -234,7 +234,8 @@
 							<div class="additional-images row">
 								<% for (let i=0; i < product.image.length; i++) { %>
 									<div class="col-lg-3 mb-4">
-										<a href="" class="image-popup prod-img-bg">
+										<a href="images/<%= product.image[i] %>" data-lightbox="additional-images"
+											class="image-popup prod-img-bg">
 											<div class="image-overlay">
 												<img src="images/<%= product.image[i] %>"
 													class="img-fluid additional-image" alt="Colorlib Template"
@@ -247,10 +248,7 @@
 						</div>
 					</div>
 
-
-
 				</div>
-
 			</div>
 
 			<div class="row mt-5">
@@ -391,6 +389,12 @@
 		</svg></div>
 
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+
+	<!-- JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+
 	<script src="/user/js/jquery.min.js"></script>
 	<script src="/user/js/jquery-migrate-3.0.1.min.js"></script>
 	<script src="/user/js/popper.min.js"></script>
@@ -521,6 +525,11 @@
 			});
 		});
 	</script>
+
+
+
+
+
 
 
 

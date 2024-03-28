@@ -60,22 +60,23 @@ const verifyLogin = async (req, res) => {
     const userData = await User.findOne({ email: email });
 
     if (!userData) {
-      req.flash("error", "User not Found");
+      req.flash("error", "User not found");
       return res.redirect("/login");
     }
+
     if (userData.isBlocked) {
       req.flash("error", "User is blocked");
       return res.redirect("/login");
     }
+
     const passwordMatch = await bcrypt.compare(password, userData.password);
 
     if (!passwordMatch) {
-      req.flash("message", "Password does not match");
-      console.log("password does not match");
+      req.flash("error", "Incorrect email or password");
       return res.redirect("/login");
     }
+
     req.session.userId = userData._id;
-    console.log(req.session.userId);
     res.redirect("/");
   } catch (error) {
     console.log(error.message);
