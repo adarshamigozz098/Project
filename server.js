@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/project");
+mongoose.connect("mongodb+srv://adarsh:adarsh123@cluster0.bpd2vtg.mongodb.net/");
 
 
 const express = require("express");
