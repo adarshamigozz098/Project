@@ -18,6 +18,32 @@
 </head>
 
 <body>
+
+  <!-- pagination -->
+  <style>
+    .pagination-area {
+  text-align: center;
+}
+
+.pagination-area .page-link {
+  color: #007bff; 
+}
+
+.pagination-area .page-link:hover {
+  color: #0056b3; 
+}
+
+.pagination-area .active .page-link {
+  color: #fff;
+  background-color: #007bff; 
+  border-color: #007bff; 
+}
+
+.pagination-area .material-icons {
+  vertical-align: middle;
+}
+
+  </style>
   <style>
     .card-body {
       -webkit-box-flex: 1;
@@ -226,16 +252,19 @@
                               <% }); %>
                                 <% }); %>
                                   <% } %>
-                    </tbody <!-- Pagination -->
+                    </tbody>
+                // pagination
                     <div class="pagination-area mt-30 mb-50">
-                      <nav aria-label="Page navigation example" style="margin-top: 10px;">
+                      <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
                           <% if (currentPage> 1) { %>
                             <li class="page-item">
-                              <a class="page-link" href="?page=1&search=<%= searchTerm %>">1</a>
+                              <a class="page-link" href="?page=1&search=<%= searchTerm %>">
+                                <i class="material-icons md-first_page"></i>
+                              </a>
                             </li>
                             <% } %>
-                              <% for (let i=2; i <=totalPages; i++) { %>
+                              <% for (let i=1; i <=totalPages; i++) { %>
                                 <li class="page-item <%= currentPage === i ? 'active' : '' %>">
                                   <a class="page-link" href="?page=<%= i %>&search=<%= searchTerm %>">
                                     <%= i %>
@@ -244,14 +273,14 @@
                                 <% } %>
                                   <% if (currentPage < totalPages) { %>
                                     <li class="page-item">
-                                      <a class="page-link" href="?page=<%= totalPages %>&search=<%= searchTerm %>"><i
-                                          class="material-icons md-chevron_right"></i></a>
+                                      <a class="page-link" href="?page=<%= totalPages %>&search=<%= searchTerm %>">
+                                        <i class="material-icons md-last_page"></i>
+                                      </a>
                                     </li>
                                     <% } %>
                         </ul>
                       </nav>
                     </div>
-
 
 
                     <footer class="main-footer font-xs">
