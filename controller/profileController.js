@@ -387,7 +387,6 @@ const viewDetails = async (req, res) => {
         path: "items.product_id",
         model: "product",
       });
-    console.log(orders, "ordersrsrrs");
 
     const user = await User.findById(userId);
 

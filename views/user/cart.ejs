@@ -337,12 +337,10 @@
               const action = this.getAttribute("data-type");
               const quantityInput = this.closest(".quantity").querySelector(".quantity");
               const priceElement = this.closest("tr").querySelector(".price");
-              const totalElement = this.closest("tr").querySelector(".total");
+              const totalElement = this.closest("tr").querySelector(".total p");
               const estimatedTotal = document.getElementById("estimatedTotal")
 
-
               let newQuantity = parseInt(quantityInput.value);
-
               if (action === "minus" && newQuantity > 1) {
                 newQuantity--;
               } else if (action === "plus") {
@@ -408,6 +406,6 @@
           }
         });
       </script>
-  </body>
 
+  </body>
   </html>
