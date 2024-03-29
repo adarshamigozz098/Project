@@ -510,7 +510,6 @@ const loadCheckout = async (req, res) => {
         totalPrice += itemTotal;
       });
     }
-
     let currentUser;
     if (req.session.userId) {
       currentUser = await User.findById(req.session.userId);

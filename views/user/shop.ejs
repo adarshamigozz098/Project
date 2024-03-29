@@ -480,11 +480,11 @@
 									}
 								});
 							} else {
-								console.error('Failed to add to cart:', response.status);
+								console.error('Out Stock', response.status);
 								Swal.fire({
 									icon: 'error',
-									title: 'Oops...',
-									text: 'Product already exist in cart!.'
+									title: 'OUT OF STOCK!',
+									text: 'Sorry This is Product is currently out of stock.'
 								});
 							}
 						} catch (error) {
